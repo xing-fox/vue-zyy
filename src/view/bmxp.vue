@@ -147,7 +147,7 @@
           margin: 0 .2rem;
           position: relative;
           &:after {
-            border-bottom: 1px solid #765d49; 
+            border-bottom: 1px solid #d8b293; 
           }
           .info {
             flex: 1;
@@ -189,7 +189,7 @@
             align-items: center;
             position: relative;
             &:after {
-              border-bottom: 1px solid #c8b7ae; 
+              border-bottom: 1px solid #d8b293; 
             }
             &:last-child:after,
             &:nth-last-child(2):after {
@@ -280,7 +280,7 @@
         height: .9rem;
         position: relative;
         &:after {
-          border-bottom: 1px solid #765d49; 
+          border-bottom: 1px solid #d8b293; 
         }
         .name {
           flex: 1;
@@ -314,6 +314,69 @@
         border-radius: 4px;
       }
     }
+    .data-content {
+      width: 6.5rem;
+      padding: .3rem .25rem;
+      box-sizing: border-box;
+      ul>li {
+        display: flex;
+        align-items: center;
+        color: #513328;
+        font-size: .22rem;
+        width: 100%;
+        height: .7rem;
+        position: relative;
+        &:after {
+          border-bottom: 1px solid #d8b293;
+        }
+      }
+      .sure {
+        color: #e5d8cf;
+        font-size: .26rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 90%;
+        height: .8rem;
+        margin: .2rem auto 0;
+        background: #b5341f;
+        border-radius: 4px;
+      }
+    }
+    .delete-content {
+      width: 5.3rem;
+      padding: .2rem .5rem .45rem;
+      box-sizing: border-box;
+      .tips {
+        color: #513328;
+        font-size: .24rem;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin: .5rem 0;
+      }
+      .button {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        div {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #e5d8cf;
+          font-size: .26rem;
+          width: 2rem;
+          height: .7rem;
+          border-radius: 2px;
+          &.color-1 {
+            background: #866e64;
+          }
+          &.color-2 {
+            background: #b5341f;
+          }
+        }
+      }
+    }
   }
 </style>
 
@@ -321,7 +384,7 @@
   <Cont>
     <div class="wrapper">
       <div class="title">
-        <i class="icon return"></i>
+        <i class="icon return" @click="$router.go(-1)"></i>
         <span>本命星盘</span>
         <i class="icon menu" @click="menuStatus = true"></i>
       </div>
@@ -431,21 +494,51 @@
         </div>
       </div>
       <div class="submit">咨询占卜师</div>
+      <!-- 建档列表 -->
       <van-popup v-model="menuStatus" position="bottom" :style="{ 'max-height': '30%', 'overflow': 'auto' }">
         <div class="menu-content">
           <ul>
             <li class="bor-b">
               <div class="name">白展堂</div>
-              <i class="icon edit"></i>
-              <i class="icon delete"></i>
-            </li>
-            <li class="bor-b">
-              <div class="name">白展堂</div>
-              <i class="icon edit"></i>
-              <i class="icon delete"></i>
+              <i class="icon edit" @click.stop.prevent="dataStatus = true"></i>
+              <i class="icon delete" @click.stop.prevent="deleteStatus = true"></i>
             </li>
           </ul>
           <div class="create" @click="createFunc">新建档案</div>
+        </div>
+      </van-popup>
+      <!-- 个人资料 -->
+      <van-popup v-model="dataStatus" :style="{ 'border-radius': '4px' }">
+        <div class="data-content">
+          <ul>
+            <li class="bor-b">
+              <div>姓名：</div>
+              <div>白展堂</div>
+            </li>
+            <li class="bor-b">
+              <div>性别：</div>
+              <div>男</div>
+            </li>
+            <li class="bor-b">
+              <div>出生日期：</div>
+              <div>1995年4月3月 12时12分</div>
+            </li>
+            <li class="bor-b">
+              <div>出生地点：</div>
+              <div>内蒙古 赤峰市 洪山区</div>
+            </li>
+          </ul>
+          <div class="sure" @click="dataStatus = false">确定</div>
+        </div>
+      </van-popup>
+      <!-- 删除资料 -->
+      <van-popup v-model="deleteStatus" :style="{ 'border-radius': '4px' }">
+        <div class="delete-content">
+          <div class="tips">是否确认删除此档案?</div>
+          <div class="button">
+            <div class="color-1" @click="deleteStatus = false">取消</div>
+            <div class="color-2">确认</div>
+          </div>
         </div>
       </van-popup>
     </div>
@@ -460,7 +553,9 @@ export default {
     return {
       navIndex: 0,
       navList: ['星盘', '报告', '解密', '参数'],
-      menuStatus: false
+      menuStatus: false,
+      dataStatus: false,
+      deleteStatus: false
     }
   },
   components: {
