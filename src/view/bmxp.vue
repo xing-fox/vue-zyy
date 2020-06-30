@@ -270,6 +270,50 @@
         }
       }
     }
+    .menu-content {
+      padding: .3rem .25rem;
+      ul>li {
+        color: #7f665c;
+        font-size: .22rem;
+        display: flex;
+        align-items: center;
+        height: .9rem;
+        position: relative;
+        &:after {
+          border-bottom: 1px solid #765d49; 
+        }
+        .name {
+          flex: 1;
+        }
+        .icon {
+          width: .4rem;
+          height: .4rem;
+          background-size: 100% 100%;
+          background-repeat: no-repeat;
+          &.edit {
+            margin: 0 .1rem 0 0;
+            background-position: left center;
+            background-image: url('../assets/images/edit.jpg');
+          }
+          &.delete {
+            background-position: right center;
+            background-image: url('../assets/images/delete.jpg');
+          }
+        }
+      }
+      .create {
+        color: #e5d8cf;
+        font-size: .26rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: .8rem;
+        margin: .2rem 0 0 0;
+        background: #b5341f;
+        border-radius: 4px;
+      }
+    }
   }
 </style>
 
@@ -279,7 +323,7 @@
       <div class="title">
         <i class="icon return"></i>
         <span>本命星盘</span>
-        <i class="icon menu"></i>
+        <i class="icon menu" @click="menuStatus = true"></i>
       </div>
       <ul class="nav bor-b">
         <li v-for="(item, index) in navList" :key="index" :class="{'active': index == navIndex}" @click="navIndex = index">{{ item }}</li>
@@ -387,6 +431,23 @@
         </div>
       </div>
       <div class="submit">咨询占卜师</div>
+      <van-popup v-model="menuStatus" position="bottom" :style="{ 'max-height': '30%', 'overflow': 'auto' }">
+        <div class="menu-content">
+          <ul>
+            <li class="bor-b">
+              <div class="name">白展堂</div>
+              <i class="icon edit"></i>
+              <i class="icon delete"></i>
+            </li>
+            <li class="bor-b">
+              <div class="name">白展堂</div>
+              <i class="icon edit"></i>
+              <i class="icon delete"></i>
+            </li>
+          </ul>
+          <div class="create" @click="createFunc">新建档案</div>
+        </div>
+      </van-popup>
     </div>
   </Cont>
 </template>
@@ -397,12 +458,20 @@ export default {
   name: 'bmxp',
   data () {
     return {
-      navIndex: 3,
-      navList: ['星盘', '报告', '解密', '参数']
+      navIndex: 0,
+      navList: ['星盘', '报告', '解密', '参数'],
+      menuStatus: false
     }
   },
   components: {
     Cont
+  },
+  methods: {
+    createFunc () {
+      this.$router.push({
+        path: '/createFile'
+      })
+    }
   }
 }
 </script>

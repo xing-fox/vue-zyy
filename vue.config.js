@@ -1,7 +1,17 @@
 const path = require("path")
 const CompressionPlugin = require("compression-webpack-plugin")
+const myTheme = path.resolve(__dirname, "src/style/theme.less")
 
 module.exports = {
+  css: {
+    loaderOptions: {
+      less: {
+        modifyVars: {
+          hack: `true; @import "${myTheme}";`
+        }
+      }
+    }
+  },
   outputDir: "dist",
   assetsDir: "static",
   lintOnSave: false,

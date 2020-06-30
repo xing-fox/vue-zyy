@@ -1,16 +1,23 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
+import moment from 'moment'
 // import Vconsole from 'vconsole'
 import JsBridge from './JsBridge'
-import {Alert, Confirm, Toast, Loading} from 'wc-messagebox'
-import 'wc-messagebox/style.css'
-Vue.use(Alert)
-Vue.use(Confirm)
-Vue.use(Toast)
-Vue.use(Loading)
+import { Form, RadioGroup, Radio, Switch, Icon, DatetimePicker, Picker, Popup, Area } from 'vant'
+import 'vant/lib/index.less'
 
+Vue.use(Icon)
+Vue.use(Form)
+Vue.use(Area)
+Vue.use(Popup)
+Vue.use(RadioGroup)
+Vue.use(Radio)
+Vue.use(Switch)
+Vue.use(Picker)
+Vue.use(DatetimePicker)
 // new Vconsole()
+
 // const getUrlParam = val => {
 //   const url = window.location.href
 //   if (url.indexOf('?') === -1) return false
@@ -24,6 +31,7 @@ Vue.use(Loading)
 
 Vue.config.productionTip = false
 Vue.prototype.$JsBridge = JsBridge
+Vue.prototype.$moment = moment
 // Vue.prototype.$formValue = getUrlParam('from') === 'app' // false --> 微信h5  || true --> app
 
 // 获取token
