@@ -138,7 +138,7 @@
         <i class="icon return" @click="$router.go(-1)"></i>
         <span>占星师</span>
       </div>
-      <div class="content">
+      <van-pull-refresh class="content" v-model="refreshStatus" @refresh="refreshStatus = false">
         <ul>
           <li>
             <img src="../assets/images/user.jpg">
@@ -188,8 +188,56 @@
               </div>
             </div>
           </li>
+          <li>
+            <img src="../assets/images/user.jpg">
+            <div class="intro">
+              <div class="intro-top">
+                <p><span>162</span>粉丝</p>
+                <p class="bor-l bor-r"><span>162</span>评价</p>
+                <p><span>162</span>解答</p>
+              </div>
+              <ul class="intro-middle">
+                <li>爱情判断</li>
+                <li>感情桃花</li>
+                <li>感情发展</li>
+                <li>挽救婚姻</li>
+              </ul>
+              <div class="intro-info bor-b">自媒体人，擅长直觉式分析，5 年专职塔罗咨询经验，年咨询分析案例 5000+，服务数千中外客户。</div>
+              <div class="intro-bottom">
+                <div>特邀占星师</div>
+                <div>
+                  <img src="../assets/images/im.jpg">
+                  <span>[在线]咨询</span>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <img src="../assets/images/user.jpg">
+            <div class="intro">
+              <div class="intro-top">
+                <p><span>162</span>粉丝</p>
+                <p class="bor-l bor-r"><span>162</span>评价</p>
+                <p><span>162</span>解答</p>
+              </div>
+              <ul class="intro-middle">
+                <li>爱情判断</li>
+                <li>感情桃花</li>
+                <li>感情发展</li>
+                <li>挽救婚姻</li>
+              </ul>
+              <div class="intro-info bor-b">自媒体人，擅长直觉式分析，5 年专职塔罗咨询经验，年咨询分析案例 5000+，服务数千中外客户，年咨询分析案例 5000+，服务数千中外客户。</div>
+              <div class="intro-bottom">
+                <div>特邀占星师</div>
+                <div>
+                  <img src="../assets/images/im.jpg">
+                  <span>[在线]咨询</span>
+                </div>
+              </div>
+            </div>
+          </li>
         </ul>
-      </div>
+      </van-pull-refresh>
     </div>
   </Cont>  
 </template>
@@ -198,6 +246,11 @@
 import Cont from './content'
 export default {
   name: 'worker',
+  data () {
+    return {
+      refreshStatus: false
+    }
+  },
   components: {
     Cont
   }

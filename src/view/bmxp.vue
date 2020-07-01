@@ -394,26 +394,28 @@
       <div class="main">
         <div class="item item-1" v-if="navIndex == 0"></div>
         <div class="item item-2" v-if="navIndex == 1">
-          <div class="list list-1">
-            <div class="lock">
-              <img src="../assets/images/lock_2.jpg">
+          <van-pull-refresh v-model="itemSecondStatus" @refresh="itemSecondStatus = false">
+            <div class="list list-1">
+              <div class="lock">
+                <img src="../assets/images/lock_2.jpg">
+              </div>
             </div>
-          </div>
-          <div class="list list-2">
-            <div class="lock">
-              <img src="../assets/images/lock_2.jpg">
+            <div class="list list-2">
+              <div class="lock">
+                <img src="../assets/images/lock_2.jpg">
+              </div>
             </div>
-          </div>
-          <div class="list list-3">
-            <div class="lock">
-              <img src="../assets/images/lock_2.jpg">
+            <div class="list list-3">
+              <div class="lock">
+                <img src="../assets/images/lock_2.jpg">
+              </div>
             </div>
-          </div>
-          <div class="list list-4">
-            <div class="lock">
-              <img src="../assets/images/lock_2.jpg">
+            <div class="list list-4">
+              <div class="lock">
+                <img src="../assets/images/lock_2.jpg">
+              </div>
             </div>
-          </div>
+          </van-pull-refresh>
         </div>
         <div class="item item-3" v-if="navIndex == 2">
           <div class="list bor-b">
@@ -493,7 +495,7 @@
           </div>
         </div>
       </div>
-      <div class="submit">咨询占卜师</div>
+      <div class="submit" @click="divineFunc">咨询占卜师</div>
       <!-- 建档列表 -->
       <van-popup v-model="menuStatus" position="bottom" :style="{ 'max-height': '30%', 'overflow': 'auto' }">
         <div class="menu-content">
@@ -555,7 +557,8 @@ export default {
       navList: ['星盘', '报告', '解密', '参数'],
       menuStatus: false,
       dataStatus: false,
-      deleteStatus: false
+      deleteStatus: false,
+      itemSecondStatus: false
     }
   },
   components: {
@@ -565,6 +568,11 @@ export default {
     createFunc () {
       this.$router.push({
         path: '/createFile'
+      })
+    },
+    divineFunc () {
+      this.$router.push({
+        path: '/worker'
       })
     }
   }
