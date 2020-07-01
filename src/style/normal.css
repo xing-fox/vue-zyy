@@ -131,7 +131,7 @@ a {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-.bor-l:after {
+.bor-l:before {
   content: '';
   position: absolute;
   left: 0; 
@@ -140,7 +140,6 @@ a {
   width: 0;
   height: 100%;
   pointer-events: none;
-  border-left: 1px solid #ddd;
   overflow: hidden;
   -webkit-transform-origin: 0 0;
   -moz-transform-origin: 0 0;
@@ -164,7 +163,6 @@ a {
   width: 0;
   height: 100%;
   pointer-events: none;
-  border-right: 1px solid #ddd;
   overflow: hidden;
   -webkit-transform-origin: 0 0;
   -moz-transform-origin: 0 0;

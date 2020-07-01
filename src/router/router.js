@@ -14,6 +14,13 @@ export default [
       title: '新建档案'
     }
   }, {
+    path: '/worker',
+    name: 'worker',
+    component: resolve => require(['@/view/worker'], resolve),
+    meta: {
+      title: '占星师'
+    }
+  }, {
     path: '/privatePolicy',
     name: 'privatepolicy',
     component: resolve => require(['@/view/private-policy'], resolve),
