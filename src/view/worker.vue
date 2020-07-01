@@ -1,7 +1,7 @@
 <style lang="less" scoped>
   .wrapper {
+    font-size: 0;
     width: 100%;
-    line-height: 1;
     position: relative;
     .title {
       display: flex;
@@ -43,6 +43,7 @@
         align-items: center;
         width: 100%;
         height: 2.9rem;
+        margin: 0 0 .2rem 0;
         img {
           width: 2.1rem;
           height: 2.9rem;
@@ -51,8 +52,9 @@
         .intro {
           flex: 1;
           height: 2.6rem;
-          padding: .15rem 0 .15rem .2rem;
+          padding: .15rem .2rem;
           border-radius: 0 .1rem .1rem 0;
+          box-sizing: border-box;
           background: #e8dad2;
           .intro-top {
             display: flex;
@@ -72,8 +74,55 @@
               }
               span {
                 color: rgba(81, 51, 40, 1);
-                margin: 0 .1rem 0;
+                margin: 0 .1rem 0 0;
               }
+            }
+          }
+          .intro-middle {
+            display: flex;
+            margin: .2rem 0 0 0;
+            li {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              color:rgba(81, 51, 40, .65);
+              font-size: .18rem;
+              font-weight: bold;
+              width: .96rem;
+              height: .32rem;
+              margin: 0 .05rem 0 0;
+              border-radius: .16rem;
+              background: #f1e8e3;
+              &:last-child {
+                margin: 0;
+              }
+            }
+          }
+          .intro-info {
+            display: flex;
+            align-items: center;
+            color: rgba(81, 51, 40, .65);
+            font-size: .18rem;
+            width: 100%;
+            height: 1rem;
+            line-height: .3rem;
+            position: relative;
+            &:after {
+              border-bottom: 1px solid rgba(81, 51, 40, .45);
+            }
+          }
+          .intro-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #b83824;
+            font-size: .26rem;
+            width: 100%;
+            height: .6rem;
+            img {
+              width: .3rem;
+              height: .3rem;
+              margin: 0 .05rem 0 0;
             }
           }
         }
@@ -98,6 +147,44 @@
                 <p><span>162</span>粉丝</p>
                 <p class="bor-l bor-r"><span>162</span>评价</p>
                 <p><span>162</span>解答</p>
+              </div>
+              <ul class="intro-middle">
+                <li>爱情判断</li>
+                <li>感情桃花</li>
+                <li>感情发展</li>
+                <li>挽救婚姻</li>
+              </ul>
+              <div class="intro-info bor-b">自媒体人，擅长直觉式分析，5 年专职塔罗咨询经验，年咨询分析案例 5000+，服务数千中外客户。</div>
+              <div class="intro-bottom">
+                <div>特邀占星师</div>
+                <div>
+                  <img src="../assets/images/im.jpg">
+                  <span>[在线]咨询</span>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <img src="../assets/images/user.jpg">
+            <div class="intro">
+              <div class="intro-top">
+                <p><span>162</span>粉丝</p>
+                <p class="bor-l bor-r"><span>162</span>评价</p>
+                <p><span>162</span>解答</p>
+              </div>
+              <ul class="intro-middle">
+                <li>爱情判断</li>
+                <li>感情桃花</li>
+                <li>感情发展</li>
+                <li>挽救婚姻</li>
+              </ul>
+              <div class="intro-info bor-b">自媒体人，擅长直觉式分析，5 年专职塔罗咨询经验，年咨询分析案例 5000+，服务数千中外客户，年咨询分析案例 5000+，服务数千中外客户。</div>
+              <div class="intro-bottom">
+                <div>特邀占星师</div>
+                <div>
+                  <img src="../assets/images/im.jpg">
+                  <span>[在线]咨询</span>
+                </div>
               </div>
             </div>
           </li>

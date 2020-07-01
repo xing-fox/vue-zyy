@@ -4,7 +4,7 @@ export default [
     name: 'bmxp',
     component: resolve => require(['@/view/bmxp'], resolve),
     meta: {
-      title: 'bmxp'
+      title: '本命星盘'
     }
   }, {
     path: '/createFile',
@@ -19,6 +19,13 @@ export default [
     component: resolve => require(['@/view/worker'], resolve),
     meta: {
       title: '占星师'
+    }
+  }, {
+    path: '/bmxpDetails',
+    name: 'bmxpDetails',
+    component: resolve => require(['@/view/bmxp-details'], resolve),
+    meta: {
+      title: '本命星盘'
     }
   }, {
     path: '/privatePolicy',
