@@ -1,6 +1,8 @@
 const path = require("path")
+// const WebpackAliyunOss = require("webpack-aliyun-oss")
 const CompressionPlugin = require("compression-webpack-plugin")
 const myTheme = path.resolve(__dirname, "src/style/theme.less")
+// const Oss = require('./oss')
 
 module.exports = {
   css: {
@@ -29,6 +31,26 @@ module.exports = {
   },
   productionSourceMap: false,
   configureWebpack: config => {
+    // let webpackAliyunOss = [
+    //   new WebpackAliyunOss({
+    //     from: "./dist/**",
+    //     region: Oss.region,
+    //     accessKeyId: Oss.accessKeyId,
+    //     accessKeySecret: Oss.accessKeySecret,
+    //     bucket: Oss.bucket,
+    //     setOssPath: filePath => {
+    //       let index = filePath.lastIndexOf("dist")
+    //       let Path = filePath.substring(index + 4, filePath.length)
+    //       return Path.replace(/\\/g, "/")
+    //     },
+    //     setHeaders: filePath => {
+    //       return {
+    //         "Cache-Control": "max-age=31536000"
+    //       }
+    //     }
+    //   })
+    // ]
+    // config.plugins = [ ...config.plugins, ...webpackAliyunOss ]
     if (process.env.NODE_ENV === "production") {
       return {
         plugins: [new CompressionPlugin({

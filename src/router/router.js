@@ -27,12 +27,5 @@ export default [
     meta: {
       title: '本命星盘'
     }
-  }, {
-    path: '/privatePolicy',
-    name: 'privatepolicy',
-    component: resolve => require(['@/view/private-policy'], resolve),
-    meta: {
-      title: '隐私政策'
-    }
   }
 ]

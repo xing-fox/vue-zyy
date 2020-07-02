@@ -33,7 +33,8 @@
     "qs": "^6.9.1",
     "vconsole": "^3.3.4",
     "vue-template-compiler": "^2.6.10",
-    "vue-wechat-title": "^2.0.5"
+    "vue-wechat-title": "^2.0.5",
+    "webpack-aliyun-oss": "^0.2.6"
   },
   "eslintConfig": {
     "root": true,
