@@ -15,6 +15,7 @@ module.exports = {
   outputDir: "dist",
   assetsDir: "static",
   lintOnSave: false,
+  publicPath: '/bmxp/',
   devServer: {
     proxy: {
       '/api': {
