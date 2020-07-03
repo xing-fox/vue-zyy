@@ -44,10 +44,19 @@
         width: 100%;
         height: 2.9rem;
         margin: 0 0 .2rem 0;
-        img {
+        .img-photo {
+          display: flex;
+          align-items: center;
+          justify-content: center;
           width: 2.1rem;
           height: 2.9rem;
           border-radius: 4px;
+          overflow: hidden;
+          background: #fff;
+          img {
+            // min-width: 2.1rem;
+            height: 2.9rem;
+          }
         }
         .intro {
           flex: 1;
@@ -88,9 +97,10 @@
               color:rgba(81, 51, 40, .65);
               font-size: .18rem;
               font-weight: bold;
-              width: .96rem;
+              width: inherit;
               height: .32rem;
-              margin: 0 .05rem 0 0;
+              margin: 0 .1rem 0 0;
+              padding: 0 .2rem;
               border-radius: .16rem;
               background: #f1e8e3;
               &:last-child {
@@ -145,7 +155,9 @@
       <van-pull-refresh class="content" v-model="refreshStatus" @refresh="refreshStatus = false">
         <ul>
           <li v-for="item in data" :key="item.id">
-            <img :src="item.face" @click="showBigImg(item.face)">
+            <div class="img-photo">
+              <img :src="item.face">
+            </div>
             <div class="intro">
               <div class="intro-top">
                 <p><span>{{ item.fensi }}</span>粉丝</p>
@@ -153,12 +165,11 @@
                 <p><span>{{ item.jieda }}</span>解答</p>
               </div>
               <ul class="intro-middle">
-                <li>爱情判断</li>
-                <li>感情桃花</li>
-                <li>感情发展</li>
-                <li>挽救婚姻</li>
+                <li v-for="(list, eq) in item.shanchang" :key="eq" v-show="eq < 3">
+                  {{ list }}
+                </li>
               </ul>
-              <div class="intro-info bor-b" v-html="item.jingli"></div>
+              <div class="intro-info bor-b" v-html="item.jieshao"></div>
               <div class="intro-bottom">
                 <div>特邀占星师</div>
                 <div>
@@ -176,7 +187,6 @@
 
 <script>
 import { getDiviner } from '@/fetch/api'
-import { ImagePreview } from 'vant'
 import Cont from './content'
 export default {
   name: 'worker',
@@ -187,21 +197,18 @@ export default {
     }
   },
   components: {
-    Cont,
-    [ImagePreview.Component.name]: ImagePreview.Component
+    Cont
   },
   methods: {
     getData () {
       getDiviner({
         leibie: 3
       }).then(res => {
-        console.log(res)
+        res.infos.map(item => {
+          item.shanchang = item.shanchang.split('#')
+        })
         this.data = res.infos
-        console.log(this.data)
       })
-    },
-    showBigImg (url) {
-      ImagePreview([url])
     }
   },
   created () {
