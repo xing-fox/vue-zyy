@@ -27,5 +27,9 @@ export default [
     meta: {
       title: '本命星盘'
     }
+  },
+  {
+    path: '*',
+    redirect: '/bmxp'
   }
 ]

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import qs from 'qs'
+import store from '@/store'
 
 // axios 配置
 axios.defaults.timeout = 50000
@@ -7,15 +8,14 @@ axios.defaults.baseURL = '/api'
 axios.defaults.withCredentials = true
 
 axios.interceptors.request.use(config => {
-  // const token = window.localStorage.getItem('token')
-  const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtb2JpbGUiOiIxODIyNjYyNjczMSIsImlkIjoiNjEiLCJleHAiOjE1ODA4Nzg0ODB9.RyOH_qmwo_F31HWTl7NJhp1ZIEp2Wb2B23kJAhU4nDI'
-  if (token) config.headers.Authorization = token
+  store.commit('CHANGE_LOADINGSTATUS', true)
   return config
 }, error => {
   return Promise.reject(error)
 })
 
 axios.interceptors.response.use(response => {
+  store.commit('CHANGE_LOADINGSTATUS', false)
   return response
 }, error => {
   return Promise.resolve(error.response)

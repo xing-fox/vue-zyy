@@ -6,7 +6,7 @@ Vue.use(Router)
 Vue.use(require('vue-wechat-title'))
 
 const router = new Router({
-  base: '/bmxp/',
+  // base: '/bmxp/',
   mode: 'hash',
   routes: routes
 })

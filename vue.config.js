@@ -17,11 +17,11 @@ module.exports = {
   outputDir: "dist",
   assetsDir: "static",
   lintOnSave: false,
-  publicPath: '/bmxp/',
+  // publicPath: '/bmxp/',
   devServer: {
     proxy: {
       '/api': {
-        target: 'http://39.96.62.114:10086/', // API服务器的地址
+        target: 'http://newos.glassmarket.cn/', // API服务器的地址
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''

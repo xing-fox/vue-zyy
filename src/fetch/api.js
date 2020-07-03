@@ -3,43 +3,27 @@ import {
 } from './axios.js'
 
 /**
- * @param 查询课程详情页
+ * @param 星盘数据 
+ * actiontype：1，表示新建星盘
+ * userid：用户id
+ * name：昵称
+ * sex：性别0->女，1->男
+ * cityname：城市名称
+ * cityid：城市id
+ * y：出生年
+ * m：出生月
+ * d：出生日
+ * h：出生小时（0-23）
+ * mi：出生分钟（0-59）
+ * dst：是否采用夏时令，0->否 1->是
  */
-export const courseDetail = (param) => {
-  return Post('/course/detail', param)
+export const getData_XP = (param) => {
+  return Post('/index.php?main_page=xingpan_handler', param)
 }
 
 /**
- * @param 用户查询自己领取的优惠券列表（需要登录）
+ * @param 占星师
  */
-export const getMyCouponList = (param) => {
-  return Post('/customer/getMyCouponList', param)
-}
-
-/**
- * @param 查询我的订单
- */
-export const getMyOrderList = (param) => {
-  return Post('/customer/getMyOrderList', param)
-}
-
-/**
- * @param 意见反馈（需登录）
- */
-export const optionCreate = (param) => {
-  return Post('/feedBack/create', param)
-}
-
-/**
- * @param 获取文件上传签名
- */
-export const getToken = (param) => {
-  return Post('/upload/getToken', param)
-}
-
-/**
- * @param 用户申请导师，提交资料（需登录）
- */
-export const applyTutor = (param) => {
-  return Post('/customer/applyTutor', param)
+export const getDiviner = (param) => {
+  return Post('/index.php?main_page=expert_list', param)
 }

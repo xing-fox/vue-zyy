@@ -548,6 +548,7 @@
 </template>
 
 <script>
+import { getData_XP } from '@/fetch/api'
 import Cont from './content'
 export default {
   name: 'bmxp',
@@ -564,6 +565,7 @@ export default {
   components: {
     Cont
   },
+  mounted () {},
   methods: {
     createFunc () {
       this.$router.push({
