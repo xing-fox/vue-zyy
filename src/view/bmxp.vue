@@ -78,6 +78,7 @@
     .main {
       height: calc(100vh - 3.8rem);
       margin: .3rem .4rem 0;
+      border-radius: .1rem;
       box-sizing: border-box;
       overflow: auto;
       .item-1 {
@@ -143,7 +144,6 @@
       }
       .item-3 {
         min-height: 100%;
-        border-radius: .1rem;
         background: #e5d8cf;
         .list {
           display: flex;
