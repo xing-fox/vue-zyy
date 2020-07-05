@@ -81,9 +81,15 @@
       box-sizing: border-box;
       overflow: auto;
       .item-1 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         min-height: 100%;
         border-radius: .1rem;
-        background: #e5d8cf;
+        background: #000;
+        img {
+          width: 80%;
+        }
       }
       .item-2 {
         .list {
@@ -271,14 +277,18 @@
       }
     }
     .menu-content {
-      padding: .3rem .25rem;
+      padding: .3rem 0;
       ul>li {
         color: #7f665c;
         font-size: .22rem;
         display: flex;
         align-items: center;
         height: .9rem;
+        padding: 0 .25rem;
         position: relative;
+        &.active {
+          background: #d9cdc5;
+        }
         &:after {
           border-bottom: 1px solid #d8b293; 
         }
@@ -293,11 +303,11 @@
           &.edit {
             margin: 0 .1rem 0 0;
             background-position: left center;
-            background-image: url('../assets/images/edit.jpg');
+            background-image: url('../assets/images/edit.png');
           }
           &.delete {
             background-position: right center;
-            background-image: url('../assets/images/delete.jpg');
+            background-image: url('../assets/images/delete.png');
           }
         }
       }
@@ -307,9 +317,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 100%;
         height: .8rem;
-        margin: .2rem 0 0 0;
+        margin: .2rem .25rem 0;
         background: #b5341f;
         border-radius: 4px;
       }
@@ -386,13 +395,15 @@
       <div class="title">
         <i class="icon return" @click="$router.go(-1)"></i>
         <span>本命星盘</span>
-        <i class="icon menu" @click="menuStatus = true"></i>
+        <i class="icon menu" @click="getXpList"></i>
       </div>
       <ul class="nav bor-b">
         <li v-for="(item, index) in navList" :key="index" :class="{'active': index == navIndex}" @click="navIndex = index">{{ item }}</li>
       </ul>
       <div class="main">
-        <div class="item item-1" v-if="navIndex == 0"></div>
+        <div class="item item-1" v-if="navIndex == 0">
+          <img :src="totalData.xingpanpic">
+        </div>
         <div class="item item-2" v-if="navIndex == 1">
           <van-pull-refresh v-model="itemSecondStatus" @refresh="itemSecondStatus = false">
             <div class="list list-1">
@@ -500,10 +511,10 @@
       <van-popup v-model="menuStatus" position="bottom" :style="{ 'max-height': '30%', 'overflow': 'auto' }">
         <div class="menu-content">
           <ul>
-            <li class="bor-b">
-              <div class="name">白展堂</div>
-              <i class="icon edit" @click.stop.prevent="dataStatus = true"></i>
-              <i class="icon delete" @click.stop.prevent="deleteStatus = true"></i>
+            <li v-for="item in listData" :key="item.xpid" @click="choiseXp(item.xpid)" :class="['bor-b', {'active': item.xpid == activeXpId}]">
+              <div class="name">{{ item.name }}</div>
+              <i class="icon edit" @click.stop.prevent="listDetails(item.content)"></i>
+              <i class="icon delete" @click.stop.prevent="deleteStatus = true; deleteXpId = item.xpid"></i>
             </li>
           </ul>
           <div class="create" @click="createFunc">新建档案</div>
@@ -513,11 +524,10 @@
       <van-popup v-model="dataStatus" :style="{ 'border-radius': '4px' }">
         <div class="data-content">
           <ul>
-            <li class="bor-b">
-              <div>姓名：</div>
-              <div>白展堂</div>
+            <li class="bor-b" v-for="(item, index) in listDetailData" :key="index">
+              <div>{{ item }}</div>
             </li>
-            <li class="bor-b">
+            <!-- <li class="bor-b">
               <div>性别：</div>
               <div>男</div>
             </li>
@@ -528,7 +538,7 @@
             <li class="bor-b">
               <div>出生地点：</div>
               <div>内蒙古 赤峰市 洪山区</div>
-            </li>
+            </li> -->
           </ul>
           <div class="sure" @click="dataStatus = false">确定</div>
         </div>
@@ -539,7 +549,7 @@
           <div class="tips">是否确认删除此档案?</div>
           <div class="button">
             <div class="color-1" @click="deleteStatus = false">取消</div>
-            <div class="color-2">确认</div>
+            <div class="color-2" @click="deleteData">确认</div>
           </div>
         </div>
       </van-popup>
@@ -559,22 +569,90 @@ export default {
       menuStatus: false,
       dataStatus: false,
       deleteStatus: false,
-      itemSecondStatus: false
+      itemSecondStatus: false,
+      activeXpId: '', // 当前星盘id
+      deleteXpId: '', // 删除当前星盘id
+      totalData: {}, // 当前星盘数据
+      listData: [], // 星盘记录
+      listDetailData: [] // 当前星盘个人信息
     }
   },
   components: {
     Cont
   },
-  mounted () {},
+  mounted () {
+    this.getXpData()
+  },
   methods: {
+    /**
+     * 创建星盘
+     */
     createFunc () {
       this.$router.push({
         path: '/createFile'
       })
     },
+    /**
+     * 跳转占星师
+     */
     divineFunc () {
       this.$router.push({
         path: '/worker'
+      })
+    },
+    /**
+     * 获取星盘数据
+     */
+    getXpData () {
+      getData_XP({
+        userid: 1,
+        actiontype: 5
+      }).then(res => {
+        this.totalData = res.infos
+        this.activeXpId = res.infos.xpid
+      })
+    },
+    /**
+     * 获取报告数据
+     */
+    getReportData () {
+      getData_XP({
+        userid: 1,
+        actiontype: 3
+      }).then(res => {
+        console.log(res)
+      })
+    },
+    /**
+     * 获取星盘记录
+     */
+    getXpList () {
+      this.menuStatus = true
+      getData_XP({
+        userid: 1,
+        actiontype: 3
+      }).then(res => {
+        this.listData = res.infos
+      })
+    },
+    /**
+     * 记录详情
+     */
+    listDetails (data) {
+      this.dataStatus = true
+      this.listDetailData = data.split('<br>')
+    },
+    /**
+     * 删除星盘记录
+     */
+    deleteData () {
+      this.deleteStatus = true
+      getData_XP({
+        xpid: this.deleteXpId,
+        userid: 1,
+        actiontype: 6
+      }).then(res => {
+        Toast('删除成功！')
       })
     }
   }

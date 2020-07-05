@@ -100,7 +100,7 @@
           <div class="info">
             <van-radio-group v-model="formData.sex" direction="horizontal">
               <van-radio :name="1" icon-size="16px">男</van-radio>
-              <van-radio :name="2" icon-size="16px">女</van-radio>
+              <van-radio :name="0" icon-size="16px">女</van-radio>
             </van-radio-group>
           </div>
         </div>
@@ -125,10 +125,12 @@
           </div>
         </div>
       </div>
-      <div class="submit">完成</div>
+      <div class="submit" @click="submitFunc">完成</div>
+      <!-- 日期选择 -->
       <van-popup v-model="showDatePicker" position="bottom">
         <van-datetime-picker v-model="currentDate" type="datetime" title="请选择日期" @cancel="showDatePicker = false" @confirm="confirmDate" />
       </van-popup>
+      <!-- 城市选择 -->
       <van-popup v-model="showCityPicker" position="bottom">
         <van-area title="请选择" :area-list="areaList" :columns-placeholder="addrCityPlaceholder" @cancel="showCityPicker = false" @confirm="confirmCity" />
       </van-popup>
@@ -161,15 +163,42 @@ export default {
     Cont
   },
   methods: {
+    /**
+     * 日期选取
+     */
     confirmDate (data) {
       this.showDatePicker = false
       this.currentDate = data
       this.formData.date = this.$moment(data).format('YYYY-MM-DD HH:mm')
     },
+    /**
+     * 城市选取
+     */
     confirmCity (data) {
       this.showCityPicker = false
       this.addrCityPlaceholder = data.map(item => item.name)
       this.formData.addr = data.map(item => item.name).join('-')
+    },
+    /**
+     * 提交
+     */
+    submitFunc () {
+      getData_XP({
+        userid: 1,
+        actiontype: 1,
+        name: this.formData.name,
+        sex: this.formData.sex,
+        // cityname: this.formData.addr,
+        // cityid: '',
+        y: this.$moment(this.formData.date).format('YYYY'),
+        m: this.$moment(this.formData.date).format('MM'),
+        d: this.$moment(this.formData.date).format('DD'),
+        h: this.$moment(this.formData.date).format('HH'),
+        mi: this.$moment(this.formData.date).format('mm'),
+        dst: this.formData.checked ? 1 : 0
+      }).then(res => {
+        Toast('删除成功！')
+      })
     }
   }
 }

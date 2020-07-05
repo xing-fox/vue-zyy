@@ -51,9 +51,9 @@ export function Fetch (url, param) {
 
 export function Post (url, params) {
   return new Promise((resolve, reject) => {
-    axios.post(url, params, {
+    axios.post(url, qs.stringify(params), {
       headers: {
-        'Content-Type': 'application/json;charset=utf-8'
+        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
       }
     }).then(response => {
         resolve(response.data)

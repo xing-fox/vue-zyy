@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="loading" v-show="loadingStatus">
-      <van-loading size="30px" type="spinner" color="#1989fa" />
+      <van-loading size="30px" type="spinner" color="#fff" />
     </div>
     <router-view v-wechat-title="$route.meta.title"/>
   </div>

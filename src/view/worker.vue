@@ -53,8 +53,46 @@
           border-radius: 4px;
           overflow: hidden;
           background: #fff;
+          position: relative;
+          .t-intro {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 1.2rem;
+            padding: 0 0 0 .2rem;
+            box-sizing: border-box;
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+            background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+            .name {
+              color: #fff;
+              font-size: .3rem;
+              font-weight: bold;
+            }
+            .star {
+              display: flex;
+              align-items: center;
+              margin: .15rem 0 0 0;
+              i {
+                display: inline-block;
+                width: .2rem;
+                height: .2rem;
+                background-image: url('../assets/icon/star.png');
+                background-size: 100% 100%;
+                background-repeat: no-repeat;
+              }
+              span {
+                color: #fff;
+                font-size: .24rem;
+                font-weight: bold;
+                margin: 0 0 0 .1rem;
+              }
+            }
+          }
           img {
-            // min-width: 2.1rem;
             height: 2.9rem;
           }
         }
@@ -100,7 +138,7 @@
               width: inherit;
               height: .32rem;
               margin: 0 .1rem 0 0;
-              padding: 0 .2rem;
+              padding: 0 .12rem;
               border-radius: .16rem;
               background: #f1e8e3;
               &:last-child {
@@ -156,6 +194,17 @@
         <ul>
           <li v-for="item in data" :key="item.id">
             <div class="img-photo">
+              <div class="t-intro">
+                <div class="name">{{ item.name }}</div>
+                <div class="star">
+                  <i></i>
+                  <i></i>
+                  <i></i>
+                  <i></i>
+                  <i></i>
+                  <span>{{ item.star }}</span>
+                </div>
+              </div>
               <img :src="item.face">
             </div>
             <div class="intro">
@@ -206,6 +255,7 @@ export default {
       }).then(res => {
         res.infos.map(item => {
           item.shanchang = item.shanchang.split('#')
+          // item.jieshao = item.jieshao.replace('\t', word => '')
         })
         this.data = res.infos
       })
