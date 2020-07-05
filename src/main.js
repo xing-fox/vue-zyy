@@ -12,7 +12,7 @@ Vue.use(Icon)
 Vue.use(Form)
 Vue.use(Area)
 Vue.use(Popup)
-Vue.use(Toast)
+// Vue.use(Toast)
 Vue.use(PullRefresh)
 Vue.use(RadioGroup)
 Vue.use(Radio)
@@ -36,6 +36,7 @@ const getUrlParam = val => {
 window.localStorage.setItem('userId', getUrlParam('userid'))
 
 Vue.config.productionTip = false
+Vue.prototype.$Toast = Toast
 Vue.prototype.$moment = moment
 Vue.prototype.$JsBridge = JsBridge
  

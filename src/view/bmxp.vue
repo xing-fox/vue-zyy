@@ -429,27 +429,15 @@
           </van-pull-refresh>
         </div>
         <div class="item item-3" v-if="navIndex == 2">
-          <div class="list bor-b">
-            <div class="info">
-              <div class="info-title">爱情-月亮/金星/合/爱情</div>
-              <div class="intro">感情中不明不白的暧昧会让你自食恶果吗？</div>
+          <van-pull-refresh v-model="itemSecondStatus" @refresh="itemSecondStatus = false">
+            <div v-for="(list, eq) in totalData.timus" :key="list.jmid" class="list bor-b">
+              <div class="info">
+                <div class="info-title">{{ list.keywords }}</div>
+                <div class="intro">{{ list.timu }}</div>
+              </div>
+              <div class="status"></div>
             </div>
-            <div class="status"></div>
-          </div>
-          <div class="list bor-b">
-            <div class="info">
-              <div class="info-title">爱情-月亮/金星/合/爱情</div>
-              <div class="intro">感情中不明不白的暧昧会让你自食恶果吗？</div>
-            </div>
-            <div class="status"></div>
-          </div>
-          <div class="list bor-b">
-            <div class="info">
-              <div class="info-title">爱情-月亮/金星/合/爱情</div>
-              <div class="intro">感情中不明不白的暧昧会让你自食恶果吗？</div>
-            </div>
-            <div class="status"></div>
-          </div>
+          </van-pull-refresh>
         </div>
         <div class="item item-4" v-if="navIndex == 3">
           <div class="list">
@@ -508,7 +496,7 @@
       </div>
       <div class="submit" @click="divineFunc">咨询占卜师</div>
       <!-- 建档列表 -->
-      <van-popup v-model="menuStatus" position="bottom" :style="{ 'max-height': '30%', 'overflow': 'auto' }">
+      <van-popup v-model="menuStatus" position="bottom">
         <div class="menu-content">
           <ul>
             <li v-for="item in listData" :key="item.xpid" @click="choiseXp(item.xpid)" :class="['bor-b', {'active': item.xpid == activeXpId}]">
@@ -560,6 +548,7 @@
 <script>
 import { getData_XP } from '@/fetch/api'
 import Cont from './content'
+import { setTimeout } from 'timers';
 export default {
   name: 'bmxp',
   data () {
@@ -588,6 +577,7 @@ export default {
      * 创建星盘
      */
     createFunc () {
+      if (this.listData.length === 5) return this.$Toast('最多创建5个星盘，请删除后再次创建')
       this.$router.push({
         path: '/createFile'
       })
@@ -608,8 +598,17 @@ export default {
         userid: 1,
         actiontype: 5
       }).then(res => {
-        this.totalData = res.infos
-        this.activeXpId = res.infos.xpid
+        if (res.result == 1) {
+          this.totalData = res.infos
+          this.activeXpId = res.infos.xpid
+        } else {
+          this.$Toast('您还没有星盘，请先创建星盘')
+          setTimeout(() => {
+            this.$router.push({
+              path: '/createFile'
+            })
+          }, 1000)
+        }
       })
     },
     /**
@@ -652,7 +651,26 @@ export default {
         userid: 1,
         actiontype: 6
       }).then(res => {
-        Toast('删除成功！')
+        this.$Toast('删除成功！')
+        this.deleteStatus = false
+        this.listData = this.listData.filter(item => item.xpid !== this.deleteXpId)
+        if (this.listData.length) {
+          getData_XP({
+            xpid: this.listData[0].xpid,
+            userid: 1,
+            actiontype: 4
+          }).then(res => {
+            this.totalData = res.infos
+            this.activeXpId = res.infos.xpid
+          })
+        } else {
+          this.$Toast('暂无星盘，请先创建星盘')
+          setTimeout(() => {
+            this.$router.push({
+              path: '/createFile'
+            })
+          }, 1000)
+        }
       })
     }
   }

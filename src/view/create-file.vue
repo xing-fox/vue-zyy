@@ -128,11 +128,11 @@
       <div class="submit" @click="submitFunc">完成</div>
       <!-- 日期选择 -->
       <van-popup v-model="showDatePicker" position="bottom">
-        <van-datetime-picker v-model="currentDate" type="datetime" title="请选择日期" @cancel="showDatePicker = false" @confirm="confirmDate" />
+        <van-datetime-picker v-model="currentDate" type="datetime" title="请选择日期" :min-date="minDate" @cancel="showDatePicker = false" @confirm="confirmDate" />
       </van-popup>
       <!-- 城市选择 -->
       <van-popup v-model="showCityPicker" position="bottom">
-        <van-area title="请选择" :area-list="areaList" :columns-placeholder="addrCityPlaceholder" @cancel="showCityPicker = false" @confirm="confirmCity" />
+        <van-area title="请选择" :area-list="areaList" :value="cityid" @cancel="showCityPicker = false" @confirm="confirmCity" />
       </van-popup>
     </div>
   </Cont>
@@ -141,13 +141,16 @@
 <script>
 import Cont from './content'
 import Area from '@/assets/json/area'
+import { getData_XP } from '@/fetch/api'
+import { setTimeout } from 'timers';
 export default {
   name: 'createfile',
   data () {
     return {
+      minDate: new Date(1950, 0, 1),
       currentDate: new Date(),
       showDatePicker: false,
-      addrCityPlaceholder: [],
+      cityid: '',
       showCityPicker: false,
       areaList: Area,
       formData: {
@@ -176,20 +179,21 @@ export default {
      */
     confirmCity (data) {
       this.showCityPicker = false
-      this.addrCityPlaceholder = data.map(item => item.name)
+      this.cityid = data[data.length - 1]['code']
       this.formData.addr = data.map(item => item.name).join('-')
     },
     /**
      * 提交
      */
     submitFunc () {
+      if (!this.formData.name || !this.formData.addr || !this.formData.date) return this.$Toast('请先完善信息')
       getData_XP({
         userid: 1,
         actiontype: 1,
-        name: this.formData.name,
         sex: this.formData.sex,
-        // cityname: this.formData.addr,
-        // cityid: '',
+        name: this.formData.name,
+        cityid: this.cityid,
+        cityname: this.formData.addr,
         y: this.$moment(this.formData.date).format('YYYY'),
         m: this.$moment(this.formData.date).format('MM'),
         d: this.$moment(this.formData.date).format('DD'),
@@ -197,7 +201,10 @@ export default {
         mi: this.$moment(this.formData.date).format('mm'),
         dst: this.formData.checked ? 1 : 0
       }).then(res => {
-        Toast('删除成功！')
+        if (res.result == 1) {
+          this.$Toast('创建成功')
+          setTimeout(() => {this.$router.go(-1)}, 1000)
+        }
       })
     }
   }
