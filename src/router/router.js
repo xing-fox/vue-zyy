@@ -5,7 +5,24 @@ export default [
     component: resolve => require(['@/view/bmxp'], resolve),
     meta: {
       title: '本命星盘'
-    }
+    },
+    children: [
+      {
+        path: 'reportDetail',
+        name: 'reportDetail',
+        component: resolve => require(['@/view/report-detail'], resolve),
+        meta: {
+          title: '报告解析'
+        }
+      }, {
+        path: 'secretDetail',
+        name: 'secretDetail',
+        component: resolve => require(['@/view/secret-detail'], resolve),
+        meta: {
+          title: '星盘解密'
+        }
+      }
+    ]
   }, {
     path: '/createFile',
     name: 'createfile',
@@ -21,14 +38,6 @@ export default [
       title: '占星师'
     }
   }, {
-    path: '/bmxpDetails',
-    name: 'bmxpDetails',
-    component: resolve => require(['@/view/bmxp-details'], resolve),
-    meta: {
-      title: '本命星盘'
-    }
-  },
-  {
     path: '*',
     redirect: '/bmxp'
   }

@@ -3,6 +3,7 @@
     font-size: 0;
     width: 100%;
     line-height: 1;
+    position: relative;
     .title {
       display: flex;
       align-items: center;
@@ -144,6 +145,8 @@
       }
       .item-3 {
         min-height: 100%;
+        padding: .2rem 0 0 0;
+        box-sizing: border-box;
         background: #e5d8cf;
         .list {
           display: flex;
@@ -154,6 +157,9 @@
           position: relative;
           &:after {
             border-bottom: 1px solid #d8b293; 
+          }
+          &:last-child {
+            border-bottom: none;
           }
           .info {
             flex: 1;
@@ -167,11 +173,13 @@
             }
             .intro {
               color: #513328;
+              line-height: .3rem;
             }
           }
           .status {
             width: .4rem;
             height: .4rem;
+            margin: 0 0 0 .2rem;
             background-image: url('../assets/images/lock_1.jpg');
             background-size: 100% 100%;
             background-repeat: no-repeat;
@@ -392,155 +400,131 @@
 <template>
   <Cont>
     <div class="wrapper">
-      <div class="title">
-        <i class="icon return" @click="$router.go(-1)"></i>
-        <span>本命星盘</span>
-        <i class="icon menu" @click="getXpList"></i>
-      </div>
-      <ul class="nav bor-b">
-        <li v-for="(item, index) in navList" :key="index" :class="{'active': index == navIndex}" @click="navIndex = index">{{ item }}</li>
-      </ul>
-      <div class="main">
-        <div class="item item-1" v-if="navIndex == 0">
-          <img :src="totalData.xingpanpic">
+      <template>
+        <div class="title">
+          <i class="icon return" @click="$router.go(-1)"></i>
+          <span>本命星盘</span>
+          <i class="icon menu" @click="getXpList"></i>
         </div>
-        <div class="item item-2" v-if="navIndex == 1">
-          <van-pull-refresh v-model="itemSecondStatus" @refresh="itemSecondStatus = false">
-            <div class="list list-1">
-              <div class="lock">
-                <img src="../assets/images/lock_2.jpg">
+        <ul class="nav bor-b">
+          <li v-for="(item, index) in navList" :key="index" :class="{'active': index == navIndex}" @click="navIndex = index">{{ item }}</li>
+        </ul>
+        <div class="main">
+          <div class="item item-1" v-if="navIndex == 0">
+            <img :src="totalData.xingpanpic">
+          </div>
+          <div class="item item-2" v-if="navIndex == 1">
+            <van-pull-refresh v-model="itemSecondStatus" @refresh="itemSecondStatus = false">
+              <div v-for="item in reportData" :key="item" :class="['list', `list-${item}`]" @click="reportDetailFunc(item)">
+                <!-- <div class="lock">
+                  <img src="../assets/images/lock_2.jpg">
+                </div> -->
               </div>
-            </div>
-            <div class="list list-2">
-              <div class="lock">
-                <img src="../assets/images/lock_2.jpg">
-              </div>
-            </div>
-            <div class="list list-3">
-              <div class="lock">
-                <img src="../assets/images/lock_2.jpg">
-              </div>
-            </div>
-            <div class="list list-4">
-              <div class="lock">
-                <img src="../assets/images/lock_2.jpg">
-              </div>
-            </div>
-          </van-pull-refresh>
-        </div>
-        <div class="item item-3" v-if="navIndex == 2">
-          <van-pull-refresh v-model="itemSecondStatus" @refresh="itemSecondStatus = false">
-            <div v-for="(list, eq) in totalData.timus" :key="list.jmid" class="list bor-b">
-              <div class="info">
-                <div class="info-title">{{ list.keywords }}</div>
-                <div class="intro">{{ list.timu }}</div>
-              </div>
-              <div class="status"></div>
-            </div>
-          </van-pull-refresh>
-        </div>
-        <div class="item item-4" v-if="navIndex == 3">
-          <div class="list">
-            <div class="list-title">行星信息</div>
-            <div class="intro-1 bor-b">
-              <div class="icon">@</div>
-              <div class="info">
-                <div class="name">太阳</div>
-                <div class="info-cont">射手座12宫</div>
-              </div>
-              <div class="time">16.10</div>
-            </div>
-            <div class="intro-1 bor-b">
-              <div class="icon">@</div>
-              <div class="info">
-                <div class="name">太阳</div>
-                <div class="info-cont">射手座12宫</div>
-              </div>
-              <div class="time">16.10</div>
-            </div>
-            <div class="intro-2">
-              <div class="intro-2-list bor-b">
-                <div class="list-info">
-                  <span>火</span>
-                  <div class="info-num">5</div>
+            </van-pull-refresh>
+          </div>
+          <div class="item item-3" v-if="navIndex == 2">
+            <van-pull-refresh v-model="itemSecondStatus" @refresh="itemSecondStatus = false">
+              <div v-for="(list, eq) in totalData.timus" :key="list.jmid" class="list bor-b" @click="secretDetailFunc(list.jmid)">
+                <div class="info">
+                  <div class="info-title">{{ list.keywords }}</div>
+                  <div class="intro">{{ list.timu }}</div>
                 </div>
-                <div class="list-info">
-                  <span>火</span>
-                  <div class="info-num">5</div>
+                <div class="status"></div>
+              </div>
+            </van-pull-refresh>
+          </div>
+          <div class="item item-4" v-if="navIndex == 3">
+            <div class="list">
+              <div class="list-title">行星信息</div>
+              <div class="intro-1 bor-b">
+                <div class="icon">@</div>
+                <div class="info">
+                  <div class="name">太阳</div>
+                  <div class="info-cont">射手座12宫</div>
+                </div>
+                <div class="time">16.10</div>
+              </div>
+              <div class="intro-1 bor-b">
+                <div class="icon">@</div>
+                <div class="info">
+                  <div class="name">太阳</div>
+                  <div class="info-cont">射手座12宫</div>
+                </div>
+                <div class="time">16.10</div>
+              </div>
+              <div class="intro-2">
+                <div class="intro-2-list bor-b">
+                  <div class="list-info">
+                    <span>火</span>
+                    <div class="info-num">5</div>
+                  </div>
+                  <div class="list-info">
+                    <span>火</span>
+                    <div class="info-num">5</div>
+                  </div>
+                </div>
+                <div class="intro-2-list bor-b">
+                  <div class="list-info">
+                    <span>火</span>
+                    <div class="info-num">5</div>
+                  </div>
+                  <div class="list-info">
+                    <span>火</span>
+                    <div class="info-num">5</div>
+                  </div>
                 </div>
               </div>
-              <div class="intro-2-list bor-b">
-                <div class="list-info">
-                  <span>火</span>
-                  <div class="info-num">5</div>
+            </div>
+            <div class="list">
+              <div class="list-title">行星信息</div>
+              <div class="intro-1 bor-b">
+                <div class="icon">@</div>
+                <div class="info">
+                  <div class="name">太阳</div>
+                  <div class="info-cont">射手座12宫</div>
                 </div>
-                <div class="list-info">
-                  <span>火</span>
-                  <div class="info-num">5</div>
-                </div>
+                <div class="time">16.10</div>
               </div>
             </div>
           </div>
-          <div class="list">
-            <div class="list-title">行星信息</div>
-            <div class="intro-1 bor-b">
-              <div class="icon">@</div>
-              <div class="info">
-                <div class="name">太阳</div>
-                <div class="info-cont">射手座12宫</div>
-              </div>
-              <div class="time">16.10</div>
+        </div>
+        <div class="submit" @click="divineFunc">咨询占卜师</div>
+        <!-- 建档列表 -->
+        <van-popup v-model="menuStatus" position="bottom">
+          <div class="menu-content">
+            <ul>
+              <li v-for="item in listData" :key="item.xpid" @click="choiseXp(item.xpid)" :class="['bor-b', {'active': item.xpid == activeXpId}]">
+                <div class="name">{{ item.name }}</div>
+                <i class="icon edit" @click.stop.prevent="listDetails(item.content)"></i>
+                <i class="icon delete" @click.stop.prevent="deleteStatus = true; deleteXpId = item.xpid"></i>
+              </li>
+            </ul>
+            <div class="create" @click="createFunc">新建档案</div>
+          </div>
+        </van-popup>
+        <!-- 个人资料 -->
+        <van-popup v-model="dataStatus" :style="{ 'border-radius': '4px' }">
+          <div class="data-content">
+            <ul>
+              <li class="bor-b" v-for="(item, index) in listDetailData" :key="index">
+                <div>{{ item }}</div>
+              </li>
+            </ul>
+            <div class="sure" @click="dataStatus = false">确定</div>
+          </div>
+        </van-popup>
+        <!-- 删除资料 -->
+        <van-popup v-model="deleteStatus" :style="{ 'border-radius': '4px' }">
+          <div class="delete-content">
+            <div class="tips">是否确认删除此档案?</div>
+            <div class="button">
+              <div class="color-1" @click="deleteStatus = false">取消</div>
+              <div class="color-2" @click="deleteData">确认</div>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="submit" @click="divineFunc">咨询占卜师</div>
-      <!-- 建档列表 -->
-      <van-popup v-model="menuStatus" position="bottom">
-        <div class="menu-content">
-          <ul>
-            <li v-for="item in listData" :key="item.xpid" @click="choiseXp(item.xpid)" :class="['bor-b', {'active': item.xpid == activeXpId}]">
-              <div class="name">{{ item.name }}</div>
-              <i class="icon edit" @click.stop.prevent="listDetails(item.content)"></i>
-              <i class="icon delete" @click.stop.prevent="deleteStatus = true; deleteXpId = item.xpid"></i>
-            </li>
-          </ul>
-          <div class="create" @click="createFunc">新建档案</div>
-        </div>
-      </van-popup>
-      <!-- 个人资料 -->
-      <van-popup v-model="dataStatus" :style="{ 'border-radius': '4px' }">
-        <div class="data-content">
-          <ul>
-            <li class="bor-b" v-for="(item, index) in listDetailData" :key="index">
-              <div>{{ item }}</div>
-            </li>
-            <!-- <li class="bor-b">
-              <div>性别：</div>
-              <div>男</div>
-            </li>
-            <li class="bor-b">
-              <div>出生日期：</div>
-              <div>1995年4月3月 12时12分</div>
-            </li>
-            <li class="bor-b">
-              <div>出生地点：</div>
-              <div>内蒙古 赤峰市 洪山区</div>
-            </li> -->
-          </ul>
-          <div class="sure" @click="dataStatus = false">确定</div>
-        </div>
-      </van-popup>
-      <!-- 删除资料 -->
-      <van-popup v-model="deleteStatus" :style="{ 'border-radius': '4px' }">
-        <div class="delete-content">
-          <div class="tips">是否确认删除此档案?</div>
-          <div class="button">
-            <div class="color-1" @click="deleteStatus = false">取消</div>
-            <div class="color-2" @click="deleteData">确认</div>
-          </div>
-        </div>
-      </van-popup>
+        </van-popup>
+      </template>
+      <router-view />
     </div>
   </Cont>
 </template>
@@ -563,6 +547,7 @@ export default {
       deleteXpId: '', // 删除当前星盘id
       totalData: {}, // 当前星盘数据
       listData: [], // 星盘记录
+      reportData: [1, 2, 3, 4], // 报告数据
       listDetailData: [] // 当前星盘个人信息
     }
   },
@@ -583,15 +568,7 @@ export default {
       })
     },
     /**
-     * 跳转占星师
-     */
-    divineFunc () {
-      this.$router.push({
-        path: '/worker'
-      })
-    },
-    /**
-     * 获取星盘数据
+     * 星盘数据
      */
     getXpData () {
       getData_XP({
@@ -612,18 +589,7 @@ export default {
       })
     },
     /**
-     * 获取报告数据
-     */
-    getReportData () {
-      getData_XP({
-        userid: 1,
-        actiontype: 3
-      }).then(res => {
-        console.log(res)
-      })
-    },
-    /**
-     * 获取星盘记录
+     * 星盘记录
      */
     getXpList () {
       this.menuStatus = true
@@ -635,7 +601,7 @@ export default {
       })
     },
     /**
-     * 记录详情
+     * 星盘记录详情
      */
     listDetails (data) {
       this.dataStatus = true
@@ -670,6 +636,37 @@ export default {
               path: '/createFile'
             })
           }, 1000)
+        }
+      })
+    },
+    /**
+     * 跳转占星师
+     */
+    divineFunc () {
+      this.$router.push({
+        path: '/worker'
+      })
+    },
+    /**
+     * 跳转报告详情页
+     */
+    reportDetailFunc (id) {
+      this.$router.push({
+        path: 'bmxp/reportDetail',
+        query: {
+          xpid: this.activeXpId,
+          itemid: id
+        }
+      })
+    },
+    /**
+     * 跳转星盘解密页
+     */
+    secretDetailFunc (id) {
+      this.$router.push({
+        path: 'bmxp/secretDetail',
+        query: {
+          itemid: id
         }
       })
     }

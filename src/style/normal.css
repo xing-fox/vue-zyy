@@ -15,31 +15,31 @@ table,
 td,
 img,
 div {
-    margin: 0;
-    padding: 0;
-    border: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
 
 body {
-    font-size: 12px;
-    font-family: Microsoft YaHei, "微软雅黑", "宋体", "Arial Narrow";
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-size: 12px;
+  font-family: Microsoft YaHei, "微软雅黑", "宋体", "Arial Narrow";
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 ul,
 ol {
-    list-style-type: none;
+  list-style-type: none;
 }
 
 select,
 input,
 img,
 select {
-    vertical-align: middle;
+  vertical-align: middle;
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .submit {
@@ -47,21 +47,46 @@ a {
   align-items: center;
   justify-content: center;
   color: #e5d8cf;
-  font-size: .26rem;
+  font-size: 0.26rem;
   width: 6.7rem;
-  height: .8rem;
-  border-radius: .4rem;
+  height: 0.8rem;
+  border-radius: 0.4rem;
   background: #b5341f;
   position: fixed;
   left: 0;
   right: 0;
-  bottom: .3rem;
+  bottom: 0.3rem;
   margin: 0 auto;
 }
 
+@font-face {
+  font-family: fontAppleChancery;
+  src: url("../assets/font/font_apple_chancery.ttf"); /* IE9 */
+}
+
+@font-face {
+  font-family: fontDinpro;
+  src: url("../assets/font/font_dinpro.ttf"); /* IE9 */
+}
+
+@font-face {
+  font-family: fontFangSong;
+  src: url("../assets/font/font_fangsong.ttf"); /* IE9 */
+}
+
+@font-face {
+  font-family: fontItalics;
+  src: url("../assets/font/font_italics.ttf"); /* IE9 */
+}
+
+@font-face {
+  font-family: fontMini;
+  src: url("../assets/font/font_mini.ttf"); /* IE9 */
+}
+
 .animated {
-  -webkit-animation-duration: .5s;
-  animation-duration: .5s;
+  -webkit-animation-duration: 0.5s;
+  animation-duration: 0.5s;
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both;
 }
@@ -94,7 +119,7 @@ a {
   animation-name: fadeInUp;
 }
 .bor-t:before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 0;
@@ -115,9 +140,9 @@ a {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-} 
+}
 .bor-b:after {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   bottom: 0;
@@ -132,9 +157,9 @@ a {
   box-sizing: border-box;
 }
 .bor-l:before {
-  content: '';
+  content: "";
   position: absolute;
-  left: 0; 
+  left: 0;
   top: 0;
   bottom: 0;
   width: 0;
@@ -155,7 +180,7 @@ a {
   box-sizing: border-box;
 }
 .bor-r:after {
-  content: '';
+  content: "";
   position: absolute;
   right: 0;
   top: 0;
