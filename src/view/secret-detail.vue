@@ -84,7 +84,7 @@
           <div class="info-detail" v-html="totalData.content"></div>
         </div>
       </div>
-      <div class="submit">咨询占星师</div>
+      <div class="submit" @click="divineFunc">咨询占星师</div>
     </div>
   </Cont>
 </template>
@@ -114,6 +114,14 @@ export default {
         this.totalData = Object.assign(res.infos, {
           content: `【解答】${res.infos.content}`
         })
+      })
+    },
+    /**
+     * 跳转占星师
+     */
+    divineFunc () {
+      this.$router.push({
+        path: '/worker'
       })
     }
   }

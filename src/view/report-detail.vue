@@ -104,7 +104,7 @@
           </li>
         </ul>
       </div>
-      <div class="submit">咨询占星师</div>
+      <div class="submit" @click="divineFunc">咨询占星师</div>
     </div>
   </Cont>
 </template>
@@ -143,6 +143,14 @@ export default {
         })
         titleinfos = titleinfos.filter(list => list.contentText.content)
         this.totalData = titleinfos
+      })
+    },
+    /**
+     * 跳转占星师
+     */
+    divineFunc () {
+      this.$router.push({
+        path: '/worker'
       })
     }
   }

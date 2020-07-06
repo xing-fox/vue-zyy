@@ -59,7 +59,6 @@
             flex-direction: column;
             justify-content: center;
             height: 1.2rem;
-            padding: 0 0 0 .2rem;
             box-sizing: border-box;
             position: absolute;
             left: 0;
@@ -70,12 +69,13 @@
             .name {
               color: #fff;
               font-size: .3rem;
-              font-weight: bold;
+              // font-family: fontMini;
+              margin: 0 0 0 .15rem;
             }
             .star {
               display: flex;
               align-items: center;
-              margin: .15rem 0 0 0;
+              margin: .1rem 0 0 .2rem;
               i {
                 display: inline-block;
                 width: .2rem;
@@ -107,6 +107,7 @@
             display: flex;
             color: rgba(81, 51, 40, .45);
             font-size: .22rem;
+            // font-family: fontMini;
             p {
               &:nth-child(2) {
                 margin: 0 .2rem;
@@ -135,6 +136,7 @@
               color:rgba(81, 51, 40, .65);
               font-size: .18rem;
               font-weight: bold;
+              // font-family: fontMini;
               width: inherit;
               height: .32rem;
               margin: 0 .1rem 0 0;
@@ -169,6 +171,7 @@
             justify-content: space-between;
             color: #b83824;
             font-size: .26rem;
+            // font-family: fontMini;
             width: 100%;
             height: .6rem;
             img {
@@ -255,7 +258,6 @@ export default {
       }).then(res => {
         res.infos.map(item => {
           item.shanchang = item.shanchang.split('#')
-          // item.jieshao = item.jieshao.replace('\t', word => '')
         })
         this.data = res.infos
       })

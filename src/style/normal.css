@@ -22,7 +22,7 @@ div {
 
 body {
   font-size: 12px;
-  font-family: Microsoft YaHei, "微软雅黑", "宋体", "Arial Narrow";
+  font-family: "微软雅黑", "宋体", "Arial Narrow";
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
@@ -59,30 +59,30 @@ a {
   margin: 0 auto;
 }
 
-@font-face {
+/* @font-face {
   font-family: fontAppleChancery;
-  src: url("../assets/font/font_apple_chancery.ttf"); /* IE9 */
+  src: url("../assets/font/font_apple_chancery.ttf");
 }
 
 @font-face {
   font-family: fontDinpro;
-  src: url("../assets/font/font_dinpro.ttf"); /* IE9 */
+  src: url("../assets/font/font_dinpro.ttf");
 }
 
 @font-face {
   font-family: fontFangSong;
-  src: url("../assets/font/font_fangsong.ttf"); /* IE9 */
+  src: url("../assets/font/font_fangsong.ttf");
 }
 
 @font-face {
   font-family: fontItalics;
-  src: url("../assets/font/font_italics.ttf"); /* IE9 */
+  src: url("../assets/font/font_italics.ttf");
 }
 
 @font-face {
   font-family: fontMini;
-  src: url("../assets/font/font_mini.ttf"); /* IE9 */
-}
+  src: url("../assets/font/font_mini.ttf");
+} */
 
 .animated {
   -webkit-animation-duration: 0.5s;

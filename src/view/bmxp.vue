@@ -429,7 +429,7 @@
                   <div class="info-title">{{ list.keywords }}</div>
                   <div class="intro">{{ list.timu }}</div>
                 </div>
-                <div class="status"></div>
+                <!-- <div class="status"></div> -->
               </div>
             </van-pull-refresh>
           </div>
