@@ -59,6 +59,11 @@ a {
   margin: 0 auto;
 }
 
+@font-face {
+  font-family: fontXp;
+  src: url("../assets/font/font_xp.ttf");
+}
+
 /* @font-face {
   font-family: fontAppleChancery;
   src: url("../assets/font/font_apple_chancery.ttf");
