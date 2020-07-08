@@ -4,9 +4,9 @@ import store from '@/store'
 
 // axios 配置
 axios.defaults.timeout = 50000
-axios.defaults.baseURL = '/api'
-// axios.defaults.baseURL = 'http://newos.glassmarket.cn/'
-axios.defaults.withCredentials = true
+// axios.defaults.baseURL = '/api'
+axios.defaults.baseURL = 'http://newos.glassmarket.cn'
+// axios.defaults.withCredentials = true
 
 axios.interceptors.request.use(config => {
   store.commit('CHANGE_LOADINGSTATUS', true)

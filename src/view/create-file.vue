@@ -182,6 +182,7 @@ export default {
     confirmCity (data) {
       this.showCityPicker = false
       this.cityid = data[data.length - 1]['code']
+      this.formData.cityid = compareData[this.cityid]
       this.formData.addr = data.map(item => item.name).join('-')
     },
     /**
