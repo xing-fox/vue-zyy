@@ -48,8 +48,17 @@
         padding: .3rem;
         box-sizing: border-box;
         .info-title {
+          display: flex;
+          align-items: center;
           color: rgba(81, 51, 40, .65);
           margin: 0 0 .1rem 0;
+          i {
+            display: inline-block;
+            font-size: .24rem;
+            font-weight: bold;
+            font-family: fontXp;
+            margin: 0 .1rem 0 0;
+          }
         }
         .intro {
           color: rgba(81, 51, 40, .65);
@@ -79,7 +88,9 @@
       </div>
       <div class="main-secret">
         <div class="info">
-          <div class="info-title">{{ totalData.keywords }}</div>
+          <div class="info-title">
+            <i>{{ totalData.font }}</i>
+            {{ totalData.keywords }}</div>
           <div class="intro">{{ totalData.timu }}</div>
           <div class="info-detail" v-html="totalData.content"></div>
         </div>
@@ -92,6 +103,9 @@
 <script>
 import Cont from './content'
 import { getData_XP } from '@/fetch/api'
+import {
+  BaseInfoData_1
+} from '@/assets/json/xp'
 export default {
   name: 'secretDetail',
   data () {
@@ -111,6 +125,9 @@ export default {
         itemid: this.$route.query.itemid,
         actiontype: 7
       }).then(res => {
+        BaseInfoData_1.map(item => {
+          if (item.name === res.infos.flag) return res.infos.font = item.flag
+        })
         this.totalData = Object.assign(res.infos, {
           content: `【解答】${res.infos.content}`
         })

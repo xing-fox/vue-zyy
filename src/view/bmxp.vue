@@ -225,10 +225,10 @@
               color: #fff;
               font-size: .3rem;
               font-family: fontXp;
-              width: .7rem;
-              height: .7rem;
-              border-radius: .35rem;
-              // background: #f7a2a8;
+              width: .64rem;
+              height: .64rem;
+              border-radius: .32rem;
+              background: #ac927f;
             }
             .info {
               flex: 1;
@@ -287,6 +287,18 @@
                   margin: 0 0 0 .1rem;
                   border-radius: .2rem;
                   background: #ac927f;
+                  &.color-1 {
+                    background: #fe5756;
+                  }
+                  &.color-2 {
+                    background: #f1a81b;
+                  }
+                  &.color-3 {
+                    background: #47ba55;
+                  }
+                  &.color-4 {
+                    background: #2194ca;
+                  }
                 }
               }
             }
@@ -461,31 +473,83 @@
                 <div class="intro-2-list bor-b">
                   <div class="list-info">
                     <span>火</span>
-                    <div class="info-num">5</div>
+                    <div class="info-num color-1">{{ totalData.others.fir }}</div>
+                  </div>
+                  <div class="list-info">
+                    <span>土</span>
+                    <div class="info-num color-2">{{ totalData.others.ear }}</div>
+                  </div>
+                  <div class="list-info">
+                    <span>风</span>
+                    <div class="info-num color-3">{{ totalData.others.air }}</div>
+                  </div>
+                  <div class="list-info">
+                    <span>水</span>
+                    <div class="info-num color-4">{{ totalData.others.wat }}</div>
+                  </div>
+                </div>
+              </div>
+              <div class="intro-2">
+                <div class="intro-2-list bor-b">
+                  <div class="list-info">
+                    <span>基本</span>
+                    <div class="info-num">{{ totalData.others.d }}</div>
+                  </div>
+                  <div class="list-info">
+                    <span>固定</span>
+                    <div class="info-num">{{ totalData.others.fix }}</div>
+                  </div>
+                  <div class="list-info">
+                    <span>变动</span>
+                    <div class="info-num">{{ totalData.others.mut }}</div>
+                  </div>
+                </div>
+              </div>
+              <div class="intro-2">
+                <div class="intro-2-list bor-b">
+                  <div class="list-info">
+                    <span>东半球</span>
+                    <div class="info-num">{{ totalData.others.m }}</div>
+                  </div>
+                  <div class="list-info">
+                    <span>西半球</span>
+                    <div class="info-num">{{ totalData.others.n }}</div>
+                  </div>
+                </div>
+              </div>
+              <div class="intro-2">
+                <div class="intro-2-list bor-b">
+                  <div class="list-info">
+                    <span>南半球</span>
+                    <div class="info-num">{{ totalData.others.a }}</div>
+                  </div>
+                  <div class="list-info">
+                    <span>北半球</span>
+                    <div class="info-num">{{ totalData.others.car }}</div>
                   </div>
                 </div>
               </div>
             </div>
             <div class="list">
               <div class="list-title">相位信息</div>
-              <div class="intro-1 bor-b">
-                <div class="icon">@</div>
+              <div class="intro-1 bor-b" v-for="(item, index) in totalData.xiangweis" :key="index">
+                <div class="icon" :style="{'background': item.color}">{{ item.flag }}</div>
                 <div class="info">
-                  <div class="name">太阳</div>
-                  <div class="info-cont">射手座12宫</div>
+                  <div class="name">{{ item.xingxing01_name }}</div>
+                  <div class="info-cont">{{ item.xingxing02_name }}</div>
                 </div>
-                <div class="time">16.10</div>
+                <div class="time">{{ item.xiangwei_name }}</div>
               </div>
             </div>
             <div class="list">
               <div class="list-title">宫位信息</div>
-              <div class="intro-1 bor-b">
-                <div class="icon">@</div>
+              <div class="intro-1 bor-b" v-for="(item, index) in totalData.gongweis" :key="index">
+                <div class="icon" :style="{'background': item.color}">{{ item.flag }}</div>
                 <div class="info">
-                  <div class="name">太阳</div>
-                  <div class="info-cont">射手座12宫</div>
+                  <div class="name">{{ item.gongtou }}宫</div>
+                  <div class="info-cont">{{ item.name }}</div>
                 </div>
-                <div class="time">16.10</div>
+                <div class="time">{{ `${item.gongweiList[0]}:${item.gongweiList[2]}'` }}</div>
               </div>
             </div>
           </div>
@@ -532,171 +596,14 @@
 </template>
 
 <script>
-const BaseInfoData = [
-  {
-    name: 'Ari',
-    value: '白羊座'
-  }, {
-    name: 'Tau',
-    value: '金牛座'
-  }, {
-    name: 'Gem',
-    value: '双子座'
-  }, {
-    name: 'Can',
-    value: '巨蟹座'
-  }, {
-    name: 'Leo',
-    value: '狮子座'
-  }, {
-    name: 'Vir',
-    value: '处女座'
-  }, {
-    name: 'Lib',
-    value: '天秤座'
-  }, {
-    name: 'Sco',
-    value: '天蝎座'
-  }, {
-    name: 'Sag',
-    value: '射手座'
-  }, {
-    name: 'Cap',
-    value: '摩羯座'
-  }, {
-    name: 'Aqu',
-    value: '水瓶座'
-  }, {
-    name: 'Pis',
-    value: '双鱼座'
-  }
-]
-const BaseInfoData_1 = [
-  {
-    name: 'Sun',
-    value: '太阳',
-    color: '#ff5656',
-    flag: 'Q'
-  }, {
-    name: 'Moon',
-    value: '月亮',
-    color: '#139ccd',
-    flag: 'W'
-  }, {
-    name: 'Mercury',
-    value: '水星',
-    color: '#55e669',
-    flag: 'E'
-  }, {
-    name: 'Venus',
-    value: '金星',
-    color: '#f6c71d',
-    flag: 'R'
-  }, {
-    name: 'Mars',
-    value: '火星',
-    color: '#ff5656',
-    flag: 'T'
-  }, {
-    name: 'Jupiter',
-    value: '木星',
-    color: '#ff5656',
-    flag: 'Y'
-  }, {
-    name: 'Saturn',
-    value: '土星',
-    color: '#f6c71d',
-    flag: 'U'
-  }, {
-    name: 'Uranus',
-    value: '天王星',
-    color: '#55e669',
-    flag: 'I'
-  }, {
-    name: 'Neptune',
-    value: '海王星',
-    color: '#139ccd',
-    flag: 'O'
-  }, {
-    name: 'Pluto',
-    value: '冥王星',
-    color: '#139ccd',
-    flag: 'P'
-  }, {
-    name: 'Chiron',
-    value: '凯龙星',
-    color: '#ff729d',
-    flag: 'M'
-  }, {
-    name: 'Juno',
-    value: '婚神星',
-    color: '#ff729d',
-    flag: 'B'
-  }, {
-    name: 'North Node',
-    value: '北交点',
-    color: '#529263',
-    flag: 'v'
-  }, {
-    name: 'North N',
-    value: '北交点',
-    color: '#529263',
-    flag: 'v'
-  }, {
-    name: 'Fortune',
-    value: '福点',
-    color: '#529263',
-    flag: '&lt;'
-  }, {
-    name: 'Midheaven',
-    value: '中天',
-    color: '#139ccd',
-    flag: '@'
-  }, {
-    name: 'Ascendant',
-    value: '上升点',
-    color: '#ff5656',
-    flag: 'Z'
-  }, {
-    name: 'Lilith',
-    value: '莉莉丝',
-    color: '#139ccd',
-    flag: 'D'
-  }, {
-    name: 'Vesta',
-    value: '灶神星',
-    color: '#139ccd',
-    flag: 'N'
-  }, {
-    name: 'Pallas',
-    value: '智神星',
-    color: '#f6c71d',
-    flag: 'V'
-  }, {
-    name: 'Ceres',
-    value: '谷神星',
-    color: '#55e669',
-    flag: 'C'
-  }, {
-    name: 'IC',
-    value: '天底',
-    color: '#139ccd',
-    flag: '@'
-  }, {
-    name: 'Descendant',
-    value: '下降点',
-    color: '#55e669',
-    flag: '?'
-  }, {
-    name: 'Ascenda',
-    value: '上升点',
-    color: '#ff5656',
-    flag: 'Z'
-  }
-]
-import { getData_XP } from '@/fetch/api'
 import Cont from './content'
-import { setTimeout } from 'timers';
+import { getData_XP } from '@/fetch/api'
+import {
+  BaseInfoData,
+  BaseInfoData_1,
+  BaseInfoData_2,
+  BaseInfoData_3
+} from '@/assets/json/xp'
 export default {
   name: 'bmxp',
   data () {
@@ -740,6 +647,9 @@ export default {
         actiontype: 5
       }).then(res => {
         if (res.result == 1) {
+          /**
+           * 基本数据
+           */
           res.infos.baseinfos.map(item => {
             item.zodic = item.zodic.split('-')[1]
             for (let list of BaseInfoData) {
@@ -749,9 +659,41 @@ export default {
               if (item.name === list.name) item.spec_1 = list
             }
           })
+          /**
+           * 解密信息
+           */
           res.infos.timus.map(item => {
             for (let list of BaseInfoData_1) {
               if (item.flag === list.name) item.flag = list.flag
+            }
+          })
+          /**
+           * 相位信息
+           */
+          res.infos.xiangweis.map(item => {
+            for (let list of BaseInfoData_1) {
+              if (item.xingxing01 === list.name) {
+                item.flag = list.flag
+                item.color = list.color
+                item.xingxing01_name = list.value
+              }
+              if (item.xingxing02 === list.name) item.xingxing02_name = list.value
+            }
+            for (let list of BaseInfoData_2) {
+              if (item.xiangwei === list.name) item.xiangwei_name = list.value
+            }
+          })
+          /**
+           * 宫位信息
+           */
+          res.infos.gongweis.map(item => {
+            item.gongweiList = item.gongwei.split('-')
+            for (let data of BaseInfoData) {
+              if (item.gongweiList[1] === data.name) {
+                item.flag = data.flag
+                item.name = data.value
+                item.color = data.color
+              }
             }
           })
           this.totalData = res.infos

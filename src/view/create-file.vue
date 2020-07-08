@@ -140,9 +140,10 @@
 
 <script>
 import Cont from './content'
-import Area from '@/assets/json/area'
+// import Area from '@/assets/json/area'
+import Area from '@/assets/json/areav2'
+import compareData from '@/assets/json/compare'
 import { getData_XP } from '@/fetch/api'
-import { setTimeout } from 'timers';
 export default {
   name: 'createfile',
   data () {
@@ -157,6 +158,7 @@ export default {
         addr: '',
         date: '',
         name: '',
+        cityid: '',
         sex: 1,
         checked: false
       }
@@ -192,7 +194,7 @@ export default {
         actiontype: 1,
         sex: this.formData.sex,
         name: this.formData.name,
-        cityid: this.cityid,
+        cityid: this.formData.cityid,
         cityname: this.formData.addr,
         y: this.$moment(this.formData.date).format('YYYY'),
         m: this.$moment(this.formData.date).format('MM'),
