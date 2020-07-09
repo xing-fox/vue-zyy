@@ -50,7 +50,7 @@
         .info-title {
           display: flex;
           align-items: center;
-          color: rgba(81, 51, 40, .65);
+          color: rgba(81, 51, 40, .8);
           margin: 0 0 .1rem 0;
           i {
             display: inline-block;
@@ -61,15 +61,13 @@
           }
         }
         .intro {
-          color: rgba(81, 51, 40, .65);
+          color: rgba(81, 51, 40, .8);
           font-size: .22rem;
-          font-weight: bold;
           line-height: .3rem;
         }
         .info-detail {
           color: #513328;
           font-size: .24rem;
-          font-weight: bold;
           line-height: .3rem;
           text-indent: 1em; 
           margin: .1rem 0 0 0;
@@ -95,7 +93,9 @@
           <div class="info-detail" v-html="totalData.content"></div>
         </div>
       </div>
-      <div class="submit" @click="divineFunc">咨询占星师</div>
+      <div class="submit" @click="divineFunc">
+        <span>咨询占星师</span>
+      </div>
     </div>
   </Cont>
 </template>

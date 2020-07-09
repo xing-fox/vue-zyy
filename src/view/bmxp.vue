@@ -88,9 +88,37 @@
         justify-content: center;
         min-height: 100%;
         border-radius: .1rem;
-        background: #000;
+        background: #e5d8cf;
+        position: relative;
+        .item-1-title {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          color: #48291E;
+          font-size: .26rem;
+          text-align: center;
+          position: absolute;
+          top: .7rem;
+          span {
+            margin: 0 0 .2rem;
+            &:first-child {
+              font-weight: bold;
+            }
+          }
+        }
         img {
           width: 80%;
+          border-radius: 50%;
+        }
+        .tab {
+          width: .97rem;
+          height: .35rem;
+          background-image: url('../assets/images/canshu.jpg');
+          background-size: 100% 100%;
+          background-repeat: no-repeat;
+          position: absolute;
+          right: .35rem;
+          bottom: .5rem;
         }
       }
       .item-2 {
@@ -166,7 +194,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            font-size: .2rem;
+            font-size: .23rem;
             .info-title {
               display: flex;
               align-items: center;
@@ -236,7 +264,7 @@
               .name {
                 color: #513328;
                 font-size: .22rem;
-                font-weight: bold;
+                font-weight: 500;
                 margin: 0 0 .1rem 0;
               }
               .info-cont {
@@ -248,7 +276,6 @@
             .time {
               color: #513328;
               font-size: .28rem;
-              font-weight: bold;
             }
           }
           .intro-2 {
@@ -276,16 +303,19 @@
                 font-size: .22rem;
                 font-weight: bold;
                 margin: 0 .4rem 0 0;
+                span {
+                  flex: 1;
+                }
                 .info-num {
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
                   color: #fff;
-                  font-size: .28rem;
+                  font-size: .24rem;
                   width: .4rem;
                   height: .4rem;
+                  line-height: .42rem;
                   margin: 0 0 0 .1rem;
-                  border-radius: .2rem;
+                  border-radius: 50%;
+                  text-align: center;
+                  box-sizing: border-box;
                   background: #ac927f;
                   &.color-1 {
                     background: #fe5756;
@@ -433,7 +463,12 @@
         </ul>
         <div class="main">
           <div class="item item-1" v-if="navIndex == 0">
+            <div class="item-1-title">
+              <span>现代星盘</span>
+              <span>Placidus</span>
+            </div>
             <img :src="totalData.xingpanpic">
+            <i class="tab" @click="navIndex = 3"></i>
           </div>
           <div class="item item-2" v-if="navIndex == 1">
             <van-pull-refresh v-model="itemSecondStatus" @refresh="itemSecondStatus = false">
@@ -459,102 +494,106 @@
             </van-pull-refresh>
           </div>
           <div class="item item-4" v-if="navIndex == 3">
-            <div class="list">
-              <div class="list-title">行星信息</div>
-              <div class="intro-1 bor-b" v-for="(item, index) in totalData.baseinfos" :key="index" v-show="item.lati !== ' '">
-                <div class="icon" :style="{'background': item.spec_1.color}">{{ item.spec_1.flag }}</div>
-                <div class="info">
-                  <div class="name">{{ item.spec_1.value }}</div>
-                  <div class="info-cont">{{ item.spec.value }}{{ item.house }}宫</div>
+            <van-pull-refresh v-model="itemSecondStatus" @refresh="itemSecondStatus = false">
+              <div class="list">
+                <div class="list-title">行星信息</div>
+                <div class="intro-1 bor-b" v-for="(item, index) in totalData.baseinfos" :key="index" v-show="item.lati !== ' '">
+                  <div class="icon" :style="{'background': item.spec_1.color}">{{ item.spec_1.flag }}</div>
+                  <div class="info">
+                    <div class="name">{{ item.spec_1.value }}</div>
+                    <div class="info-cont">{{ item.spec.value }}{{ item.house }}宫</div>
+                  </div>
+                  <div class="time">{{ `${item.weidu[0]}°${item.weidu[2]}′` }}</div>
                 </div>
-                <div class="time">{{ item.lati }}</div>
-              </div>
-              <div class="intro-2">
-                <div class="intro-2-list bor-b">
-                  <div class="list-info">
-                    <span>火</span>
-                    <div class="info-num color-1">{{ totalData.others.fir }}</div>
-                  </div>
-                  <div class="list-info">
-                    <span>土</span>
-                    <div class="info-num color-2">{{ totalData.others.ear }}</div>
-                  </div>
-                  <div class="list-info">
-                    <span>风</span>
-                    <div class="info-num color-3">{{ totalData.others.air }}</div>
-                  </div>
-                  <div class="list-info">
-                    <span>水</span>
-                    <div class="info-num color-4">{{ totalData.others.wat }}</div>
-                  </div>
-                </div>
-              </div>
-              <div class="intro-2">
-                <div class="intro-2-list bor-b">
-                  <div class="list-info">
-                    <span>基本</span>
-                    <div class="info-num">{{ totalData.others.d }}</div>
-                  </div>
-                  <div class="list-info">
-                    <span>固定</span>
-                    <div class="info-num">{{ totalData.others.fix }}</div>
-                  </div>
-                  <div class="list-info">
-                    <span>变动</span>
-                    <div class="info-num">{{ totalData.others.mut }}</div>
+                <div class="intro-2">
+                  <div class="intro-2-list bor-b">
+                    <div class="list-info">
+                      <span>火</span>
+                      <div class="info-num color-1">{{ totalData.others.fir }}</div>
+                    </div>
+                    <div class="list-info">
+                      <span>土</span>
+                      <div class="info-num color-2">{{ totalData.others.ear }}</div>
+                    </div>
+                    <div class="list-info">
+                      <span>风</span>
+                      <div class="info-num color-3">{{ totalData.others.air }}</div>
+                    </div>
+                    <div class="list-info">
+                      <span>水</span>
+                      <div class="info-num color-4">{{ totalData.others.wat }}</div>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="intro-2">
-                <div class="intro-2-list bor-b">
-                  <div class="list-info">
-                    <span>东半球</span>
-                    <div class="info-num">{{ totalData.others.m }}</div>
+                <div class="intro-2">
+                  <div class="intro-2-list bor-b">
+                    <div class="list-info">
+                      <span>基本</span>
+                      <div class="info-num">{{ totalData.others.d }}</div>
+                    </div>
+                    <div class="list-info">
+                      <span>固定</span>
+                      <div class="info-num">{{ totalData.others.fix }}</div>
+                    </div>
+                    <div class="list-info">
+                      <span>变动</span>
+                      <div class="info-num">{{ totalData.others.mut }}</div>
+                    </div>
                   </div>
-                  <div class="list-info">
-                    <span>西半球</span>
-                    <div class="info-num">{{ totalData.others.n }}</div>
+                </div>
+                <div class="intro-2">
+                  <div class="intro-2-list bor-b">
+                    <div class="list-info">
+                      <span>东半球</span>
+                      <div class="info-num">{{ totalData.others.m }}</div>
+                    </div>
+                    <div class="list-info">
+                      <span>西半球</span>
+                      <div class="info-num">{{ totalData.others.n }}</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="intro-2">
+                  <div class="intro-2-list bor-b">
+                    <div class="list-info">
+                      <span>南半球</span>
+                      <div class="info-num">{{ totalData.others.a }}</div>
+                    </div>
+                    <div class="list-info">
+                      <span>北半球</span>
+                      <div class="info-num">{{ totalData.others.car }}</div>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="intro-2">
-                <div class="intro-2-list bor-b">
-                  <div class="list-info">
-                    <span>南半球</span>
-                    <div class="info-num">{{ totalData.others.a }}</div>
+              <div class="list">
+                <div class="list-title">相位信息</div>
+                <div class="intro-1 bor-b" v-for="(item, index) in totalData.xiangweis" :key="index">
+                  <div class="icon" :style="{'background': item.color}">{{ item.flag }}</div>
+                  <div class="info">
+                    <div class="name">{{ item.xingxing01_name }}</div>
+                    <div class="info-cont">{{ item.xingxing02_name }}</div>
                   </div>
-                  <div class="list-info">
-                    <span>北半球</span>
-                    <div class="info-num">{{ totalData.others.car }}</div>
+                  <div class="time">{{ item.xiangwei_name }}</div>
+                </div>
+              </div>
+              <div class="list">
+                <div class="list-title">宫位信息</div>
+                <div class="intro-1 bor-b" v-for="(item, index) in totalData.gongweis" :key="index">
+                  <div class="icon" :style="{'background': item.color}">{{ item.flag }}</div>
+                  <div class="info">
+                    <div class="name">{{ item.gongtou }}宫</div>
+                    <div class="info-cont">{{ item.name }}</div>
                   </div>
+                  <div class="time">{{ `${item.gongweiList[0]}°${item.gongweiList[2]}′` }}</div>
                 </div>
               </div>
-            </div>
-            <div class="list">
-              <div class="list-title">相位信息</div>
-              <div class="intro-1 bor-b" v-for="(item, index) in totalData.xiangweis" :key="index">
-                <div class="icon" :style="{'background': item.color}">{{ item.flag }}</div>
-                <div class="info">
-                  <div class="name">{{ item.xingxing01_name }}</div>
-                  <div class="info-cont">{{ item.xingxing02_name }}</div>
-                </div>
-                <div class="time">{{ item.xiangwei_name }}</div>
-              </div>
-            </div>
-            <div class="list">
-              <div class="list-title">宫位信息</div>
-              <div class="intro-1 bor-b" v-for="(item, index) in totalData.gongweis" :key="index">
-                <div class="icon" :style="{'background': item.color}">{{ item.flag }}</div>
-                <div class="info">
-                  <div class="name">{{ item.gongtou }}宫</div>
-                  <div class="info-cont">{{ item.name }}</div>
-                </div>
-                <div class="time">{{ `${item.gongweiList[0]}:${item.gongweiList[2]}'` }}</div>
-              </div>
-            </div>
+            </van-pull-refresh>
           </div>
         </div>
-        <div class="submit" @click="divineFunc">咨询占卜师</div>
+        <div class="submit" @click="divineFunc">
+          <span>咨询占卜师</span>
+        </div>
         <!-- 建档列表 -->
         <van-popup v-model="menuStatus" position="bottom">
           <div class="menu-content">
@@ -651,6 +690,7 @@ export default {
            * 基本数据
            */
           res.infos.baseinfos.map(item => {
+            item.weidu = item.zodic.split('-')
             item.zodic = item.zodic.split('-')[1]
             for (let list of BaseInfoData) {
               if (item.zodic === list.name) item.spec = list
@@ -699,12 +739,10 @@ export default {
           this.totalData = res.infos
           this.activeXpId = res.infos.xpid
         } else {
-          this.$Toast('您还没有星盘，请先创建星盘')
-          setTimeout(() => {
-            this.$router.push({
-              path: '/createFile'
-            })
-          }, 1000)
+          // this.$Toast('您还没有星盘，请先创建星盘')
+          this.$router.push({
+            path: '/createFile'
+          })
         }
       })
     },
@@ -718,6 +756,70 @@ export default {
         actiontype: 3
       }).then(res => {
         this.listData = res.infos
+      })
+    },
+    /**
+     * 切换星盘
+     */
+    choiseXp (id) {
+      getData_XP({
+        xpid: id,
+        userid: 1,
+        actiontype: 4
+      }).then(res => {
+        this.menuStatus = false
+        /**
+           * 基本数据
+           */
+          res.infos.baseinfos.map(item => {
+            item.weidu = item.zodic.split('-')
+            item.zodic = item.zodic.split('-')[1]
+            for (let list of BaseInfoData) {
+              if (item.zodic === list.name) item.spec = list
+            }
+            for (let list of BaseInfoData_1) {
+              if (item.name === list.name) item.spec_1 = list
+            }
+          })
+          /**
+           * 解密信息
+           */
+          res.infos.timus.map(item => {
+            for (let list of BaseInfoData_1) {
+              if (item.flag === list.name) item.flag = list.flag
+            }
+          })
+          /**
+           * 相位信息
+           */
+          res.infos.xiangweis.map(item => {
+            for (let list of BaseInfoData_1) {
+              if (item.xingxing01 === list.name) {
+                item.flag = list.flag
+                item.color = list.color
+                item.xingxing01_name = list.value
+              }
+              if (item.xingxing02 === list.name) item.xingxing02_name = list.value
+            }
+            for (let list of BaseInfoData_2) {
+              if (item.xiangwei === list.name) item.xiangwei_name = list.value
+            }
+          })
+          /**
+           * 宫位信息
+           */
+          res.infos.gongweis.map(item => {
+            item.gongweiList = item.gongwei.split('-')
+            for (let data of BaseInfoData) {
+              if (item.gongweiList[1] === data.name) {
+                item.flag = data.flag
+                item.name = data.value
+                item.color = data.color
+              }
+            }
+          })
+          this.totalData = res.infos
+          this.activeXpId = res.infos.xpid
       })
     },
     /**
@@ -741,14 +843,7 @@ export default {
         this.deleteStatus = false
         this.listData = this.listData.filter(item => item.xpid !== this.deleteXpId)
         if (this.listData.length) {
-          getData_XP({
-            xpid: this.listData[0].xpid,
-            userid: 1,
-            actiontype: 4
-          }).then(res => {
-            this.totalData = res.infos
-            this.activeXpId = res.infos.xpid
-          })
+          this.choiseXp(this.listData[0].xpid)
         } else {
           this.$Toast('暂无星盘，请先创建星盘')
           setTimeout(() => {

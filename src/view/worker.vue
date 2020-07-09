@@ -158,6 +158,7 @@
             height: 1rem;
             line-height: .3rem;
             padding: .1rem 0;
+            text-indent: 2em;
             box-sizing: border-box;
             overflow: hidden;
             position: relative;
@@ -258,6 +259,7 @@ export default {
       }).then(res => {
         res.infos.map(item => {
           item.shanchang = item.shanchang.split('#')
+          item.jieshao = item.jieshao.replace('\\t\\t\\t', '')
         })
         this.data = res.infos
       })

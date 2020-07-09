@@ -125,7 +125,9 @@
           </div>
         </div>
       </div>
-      <div class="submit" @click="submitFunc">完成</div>
+      <div class="submit" @click="submitFunc">
+        <span>完成</span>
+      </div>
       <!-- 日期选择 -->
       <van-popup v-model="showDatePicker" position="bottom">
         <van-datetime-picker v-model="currentDate" type="datetime" title="请选择日期" :min-date="minDate" @cancel="showDatePicker = false" @confirm="confirmDate" />

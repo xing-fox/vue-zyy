@@ -46,17 +46,23 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100vw;
+  height: 1.4rem;
+  position: fixed;
+  bottom: 0;
+  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+}
+
+.submit span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: #e5d8cf;
   font-size: 0.26rem;
   width: 6.7rem;
   height: 0.8rem;
   border-radius: 0.4rem;
   background: #b5341f;
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0.3rem;
-  margin: 0 auto;
 }
 
 @font-face {

@@ -104,7 +104,9 @@
           </li>
         </ul>
       </div>
-      <div class="submit" @click="divineFunc">咨询占星师</div>
+      <div class="submit" @click="divineFunc">
+        <span>咨询占星师</span>
+      </div>
     </div>
   </Cont>
 </template>
