@@ -27,3 +27,10 @@ export const getData_XP = (param) => {
 export const getDiviner = (param) => {
   return Post('/index.php?main_page=expert_list', param)
 }
+
+/**
+ * @param 意见反馈
+ */
+export const getBack = (param, data) => {
+  return Post(`/index.php?main_page=xingpan_handler&${data}`, param)
+}

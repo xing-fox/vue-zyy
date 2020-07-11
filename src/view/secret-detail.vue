@@ -138,7 +138,7 @@ export default {
      */
     divineFunc () {
       this.$router.push({
-        path: '/worker'
+        path: '/worker?from=app'
       })
     }
   }

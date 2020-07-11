@@ -161,7 +161,7 @@ export const BaseInfoData_1 = [
     name: "Fortune",
     value: "福点",
     color: "#529263",
-    flag: "&lt;"
+    flag: "<"
   },
   {
     name: "Midheaven",

@@ -3,7 +3,7 @@ import App from './App.vue'
 import store from '@/store'
 import router from './router'
 import moment from 'moment'
-// import Vconsole from 'vconsole'
+import Vconsole from 'vconsole'
 import JsBridge from './JsBridge'
 import { Form, RadioGroup, Radio, Switch, Icon, DatetimePicker, Picker, Popup, Area, PullRefresh, Loading, Toast } from 'vant'
 import 'vant/lib/index.less'
@@ -12,7 +12,6 @@ Vue.use(Icon)
 Vue.use(Form)
 Vue.use(Area)
 Vue.use(Popup)
-// Vue.use(Toast)
 Vue.use(PullRefresh)
 Vue.use(RadioGroup)
 Vue.use(Radio)
@@ -20,7 +19,7 @@ Vue.use(Switch)
 Vue.use(Picker)
 Vue.use(Loading)
 Vue.use(DatetimePicker)
-// new Vconsole()
+new Vconsole()
 
 const getUrlParam = val => {
   const url = window.location.href
@@ -33,13 +32,18 @@ const getUrlParam = val => {
   return false
 }
 
-window.localStorage.setItem('userId', getUrlParam('userid'))
-
 Vue.config.productionTip = false
 Vue.prototype.$Toast = Toast
 Vue.prototype.$moment = moment
 Vue.prototype.$JsBridge = JsBridge
- 
+
+Vue.prototype.$userId = getUrlParam('userid')
+
+if (getUrlParam('appflag') == 3) {
+  require(['./assets/app.js'], function(ios) {
+    console.log('app.js load complete')
+  })
+}
 new Vue({
   store,
   router,

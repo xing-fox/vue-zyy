@@ -2,7 +2,7 @@
   .wrapper {
     font-size: 0;
     width: 100%;
-    line-height: 1;
+    line-height: initial;
     position: relative;
     .title {
       display: flex;
@@ -107,7 +107,7 @@
           }
         }
         img {
-          width: 80%;
+          width: 90%;
           border-radius: 50%;
         }
         .tab {
@@ -454,7 +454,7 @@
     <div class="wrapper">
       <template>
         <div class="title">
-          <i class="icon return" @click="$router.go(-1)"></i>
+          <i class="icon return" @click="routeBack"></i>
           <span>本命星盘</span>
           <i class="icon menu" @click="getXpList"></i>
         </div>
@@ -497,7 +497,7 @@
             <van-pull-refresh v-model="itemSecondStatus" @refresh="itemSecondStatus = false">
               <div class="list">
                 <div class="list-title">行星信息</div>
-                <div class="intro-1 bor-b" v-for="(item, index) in totalData.baseinfos" :key="index" v-show="item.lati !== ' '">
+                <div class="intro-1 bor-b" v-for="(item, index) in totalData.baseinfos" :key="index" v-show="(item.lati !== ' ') && item.weidu[0] != 0">
                   <div class="icon" :style="{'background': item.spec_1.color}">{{ item.spec_1.flag }}</div>
                   <div class="info">
                     <div class="name">{{ item.spec_1.value }}</div>
@@ -674,7 +674,7 @@ export default {
     createFunc () {
       if (this.listData.length === 5) return this.$Toast('最多创建5个星盘，请删除后再次创建')
       this.$router.push({
-        path: '/createFile'
+        path: '/createFile?from=app'
       })
     },
     /**
@@ -682,7 +682,7 @@ export default {
      */
     getXpData () {
       getData_XP({
-        userid: 1,
+        userid: this.$userId,
         actiontype: 5
       }).then(res => {
         if (res.result == 1) {
@@ -739,7 +739,6 @@ export default {
           this.totalData = res.infos
           this.activeXpId = res.infos.xpid
         } else {
-          // this.$Toast('您还没有星盘，请先创建星盘')
           this.$router.push({
             path: '/createFile'
           })
@@ -752,7 +751,7 @@ export default {
     getXpList () {
       this.menuStatus = true
       getData_XP({
-        userid: 1,
+        userid: this.$userId,
         actiontype: 3
       }).then(res => {
         this.listData = res.infos
@@ -764,7 +763,7 @@ export default {
     choiseXp (id) {
       getData_XP({
         xpid: id,
-        userid: 1,
+        userid: this.$userId,
         actiontype: 4
       }).then(res => {
         this.menuStatus = false
@@ -836,7 +835,7 @@ export default {
       this.deleteStatus = true
       getData_XP({
         xpid: this.deleteXpId,
-        userid: 1,
+        userid: this.$userId,
         actiontype: 6
       }).then(res => {
         this.$Toast('删除成功！')
@@ -859,7 +858,7 @@ export default {
      */
     divineFunc () {
       this.$router.push({
-        path: '/worker'
+        path: '/worker?from=app'
       })
     },
     /**
@@ -884,6 +883,12 @@ export default {
           itemid: id
         }
       })
+    },
+    /**
+     * 返回
+     */
+    routeBack () {
+      window.fortune.closepage
     }
   }
 }

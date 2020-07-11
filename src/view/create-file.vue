@@ -85,7 +85,7 @@
   <Cont>
     <div class="wrapper">
       <div class="title">
-        <i class="icon return" @click="$router.go(-1)"></i>
+        <i class="icon return" @click="routeBack"></i>
         <span>新建档案</span>
       </div>
       <div class="content">
@@ -150,6 +150,7 @@ export default {
   name: 'createfile',
   data () {
     return {
+      from: this.$route.query.from,
       minDate: new Date(1950, 0, 1),
       currentDate: new Date(),
       showDatePicker: false,
@@ -188,12 +189,19 @@ export default {
       this.formData.addr = data.map(item => item.name).join('-')
     },
     /**
+     * 返回
+     */
+    routeBack () {
+      if (this.form == 'app') return window.fortune.closepage
+      return this.$router.go(-1)
+    },
+    /**
      * 提交
      */
     submitFunc () {
       if (!this.formData.name || !this.formData.addr || !this.formData.date) return this.$Toast('请先完善信息')
       getData_XP({
-        userid: 1,
+        userid: this.$userId,
         actiontype: 1,
         sex: this.formData.sex,
         name: this.formData.name,

@@ -191,7 +191,7 @@
   <Cont>
     <div class="wrapper">
       <div class="title">
-        <i class="icon return" @click="$router.go(-1)"></i>
+        <i class="icon return" @click="routeBack"></i>
         <span>占星师</span>
       </div>
       <van-pull-refresh class="content" v-model="refreshStatus" @refresh="refreshStatus = false">
@@ -245,6 +245,7 @@ export default {
   name: 'worker',
   data () {
     return {
+      from: this.$route.query.from, // app 内页跳转
       data: [],
       refreshStatus: false
     }
@@ -263,6 +264,10 @@ export default {
         })
         this.data = res.infos
       })
+    },
+    routeBack () {
+      if (this.from == 'app') return this.$router.go(-1)
+      return window.fortune.closepage
     }
   },
   created () {

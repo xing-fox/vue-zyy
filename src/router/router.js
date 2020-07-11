@@ -38,6 +38,13 @@ export default [
       title: '占星师'
     }
   }, {
+    path: '/feedBack',
+    name: 'feedBack',
+    component: resolve => require(['@/view/feed-back'], resolve),
+    meta: {
+      title: '反馈意见'
+    }
+  }, {
     path: '*',
     redirect: '/bmxp'
   }
