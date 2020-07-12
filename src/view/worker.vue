@@ -196,7 +196,7 @@
       </div>
       <van-pull-refresh class="content" v-model="refreshStatus" @refresh="refreshStatus = false">
         <ul>
-          <li v-for="item in data" :key="item.id">
+          <li v-for="item in data" :key="item.id" @click="routeChange(item.userid)">
             <div class="img-photo">
               <div class="t-intro">
                 <div class="name">{{ item.name }}</div>
@@ -256,7 +256,8 @@ export default {
   methods: {
     getData () {
       getDiviner({
-        leibie: 3
+        leibie: -2,
+        expertway: this.getUrlParam('expertway') || 3
       }).then(res => {
         res.infos.map(item => {
           item.shanchang = item.shanchang.split('#')
@@ -265,10 +266,23 @@ export default {
         this.data = res.infos
       })
     },
+     getUrlParam (val) {
+      const url = window.location.href
+      if (url.indexOf('?') === -1) return false
+      const vars = url.split('?')[1].split('&')
+      for (let i = 0; i < vars.length; i++) {
+        let pair = vars[i].split('=')
+        if (pair[0] == val) return pair[1]
+      }
+      return false
+    },
     routeBack () {
       if (this.from == 'app') return this.$router.go(-1)
-      return window.fortune.closepage
-    }
+      return window.fortune.closepage()
+    },
+    routeChange (id) {
+      window.fortune.openactivity('com.fairytale.fortunetarot.controller.ExpertDetailActivity', '0', '', `expertuserid#${id}`)
+    } 
   },
   created () {
     this.getData()

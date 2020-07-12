@@ -112,18 +112,23 @@ export default {
     }
   },
   methods: {
+    getUrlParam () {
+      const url = window.location.href
+      if (url.indexOf('?') === -1) return null
+      return url.split('?')[1]
+    },
     submit () {
       if (!this.textarea) return this.$Toast('您还没有写上您的反馈意见')
       getBack({
         actiontype: 8,
         userinfo: this.input,
         content: this.textarea
-      }).then(res => {
-        if (res.result == 1) return window.fortune.closepage
+      }, this.getUrlParam()).then(res => {
+        if (res.result == 1) return this.$Toast('反馈成功！')
       })
     },
     routeBack () {
-      return window.fortune.closepage
+      return window.fortune.closepage()
     }
   }
 }

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import qs from 'qs'
 import store from '@/store'
+import { Toast } from 'vant'
 
 // axios 配置
 axios.defaults.timeout = 50000
@@ -19,7 +20,7 @@ axios.interceptors.response.use(response => {
   store.commit('CHANGE_LOADINGSTATUS', false)
   return response
 }, error => {
-  return Promise.resolve(error.response)
+  return Toast('网络错误，请稍后再试~')
 })
 
 export function Get (url, param, headers) {

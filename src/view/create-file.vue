@@ -192,7 +192,7 @@ export default {
      * 返回
      */
     routeBack () {
-      if (this.form == 'app') return window.fortune.closepage
+      if (this.from == 'app') return window.fortune.closepage()
       return this.$router.go(-1)
     },
     /**

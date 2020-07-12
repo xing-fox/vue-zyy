@@ -674,7 +674,7 @@ export default {
     createFunc () {
       if (this.listData.length === 5) return this.$Toast('最多创建5个星盘，请删除后再次创建')
       this.$router.push({
-        path: '/createFile?from=app'
+        path: '/createFile'
       })
     },
     /**
@@ -740,7 +740,10 @@ export default {
           this.activeXpId = res.infos.xpid
         } else {
           this.$router.push({
-            path: '/createFile'
+            path: '/createFile',
+            query: {
+              from: 'app'
+            }
           })
         }
       })
@@ -847,7 +850,10 @@ export default {
           this.$Toast('暂无星盘，请先创建星盘')
           setTimeout(() => {
             this.$router.push({
-              path: '/createFile'
+              path: '/createFile',
+              query: {
+                from: 'app'
+              }
             })
           }, 1000)
         }
@@ -858,7 +864,10 @@ export default {
      */
     divineFunc () {
       this.$router.push({
-        path: '/worker?from=app'
+        path: '/worker',
+        query: {
+          from: 'app'
+        }
       })
     },
     /**
@@ -888,7 +897,7 @@ export default {
      * 返回
      */
     routeBack () {
-      window.fortune.closepage
+      window.fortune.closepage()
     }
   }
 }
