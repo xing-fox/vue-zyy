@@ -24,7 +24,8 @@ Vue.use(DatetimePicker)
 const getUrlParam = val => {
   const url = window.location.href
   if (url.indexOf('?') === -1) return false
-  const vars = url.split('?')[1].split('&')
+  const newArr = url.split('?').shift()
+  const vars = newArr.join('&').split('&')
   for (let i = 0; i < vars.length; i++) {
     let pair = vars[i].split('=')
     if (pair[0] == val) return pair[1]
