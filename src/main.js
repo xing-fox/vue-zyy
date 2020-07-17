@@ -35,9 +35,11 @@ const getUrlParam = val => {
 }
 
 Vue.config.productionTip = false
+
 Vue.prototype.$Toast = Toast
 Vue.prototype.$moment = moment
 Vue.prototype.$JsBridge = JsBridge
+Vue.prototype.$Url = window.location.href
 
 Vue.prototype.$userId = getUrlParam('userid')
 

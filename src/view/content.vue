@@ -14,13 +14,19 @@
 </style>
 
 <template>
-  <div class="xp-content">
+  <div class="xp-content" :style="{'z-index': zIndex}">
     <slot></slot>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'xp-content'
+  name: 'xp-content',
+  props: {
+    zIndex: {
+      type: Number,
+      default: 1
+    }
+  }
 }
 </script>
