@@ -136,7 +136,10 @@ export default {
         content: this.textarea
       }, this.getUrlParam()).then(res => {
         this.loading = false
-        if (res.result == 1) return this.$Toast('反馈成功！')
+        if (res.result == 1) {
+          this.textarea = ''
+          return this.$Toast('反馈成功！')
+        }
       })
     },
     routeBack () {
