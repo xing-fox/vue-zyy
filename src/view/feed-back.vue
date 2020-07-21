@@ -80,6 +80,10 @@
         margin: .4rem 0 0 0;
         border-radius: .1rem;
         background: #2ea4ed;
+        &.active {
+          cursor: not-allowed;
+          pointer-events: none;
+        }
       }
     }
   }
@@ -102,7 +106,7 @@
         <input v-model="input" type="text" placeholder="请填写您的QQ，邮箱或者微信，方便我们再次联系您">
         <textarea v-model="textarea" placeholder="请写上您的意见和建议"></textarea>
       </div>
-      <div class="cont-submit" @click="submit">
+      <div :class="['cont-submit', {'active': loading}]" @click="submit">
         <span v-if="!loading">提交</span>
         <van-loading v-else type="spinner" size="20px">提交中...</van-loading>
       </div>
