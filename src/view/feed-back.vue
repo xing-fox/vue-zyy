@@ -94,7 +94,6 @@
 }
 </style>
 
-
 <template>
   <div class="feed-back">
     <div class="title">

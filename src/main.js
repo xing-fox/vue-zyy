@@ -48,6 +48,7 @@ if (getUrlParam('appflag') == 3) {
     console.log('app.js load complete')
   })
 }
+
 new Vue({
   store,
   router,
