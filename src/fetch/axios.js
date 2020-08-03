@@ -20,7 +20,8 @@ axios.interceptors.response.use(response => {
   store.commit('CHANGE_LOADINGSTATUS', false)
   return response
 }, error => {
-  return Toast('网络错误，请稍后再试~')
+  store.commit('CHANGE_LOADINGSTATUS', false)
+  return store.commit('CHANGE_NETWORKSTATUS', true)
 })
 
 export function Get (url, param, headers) {

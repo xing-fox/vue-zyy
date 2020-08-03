@@ -24,7 +24,9 @@ Vue.use(DatetimePicker)
 const getUrlParam = val => {
   const url = window.location.href
   if (url.indexOf('?') === -1) return false
-  const vars = url.split('?')[1].split('&')
+  const newArr = url.split('?')
+  newArr.shift()
+  const vars = newArr.join('&').split('&')
   for (let i = 0; i < vars.length; i++) {
     let pair = vars[i].split('=')
     if (pair[0] == val) return pair[1]
@@ -33,9 +35,11 @@ const getUrlParam = val => {
 }
 
 Vue.config.productionTip = false
+
 Vue.prototype.$Toast = Toast
 Vue.prototype.$moment = moment
 Vue.prototype.$JsBridge = JsBridge
+Vue.prototype.$Url = window.location.href
 
 if (process.env.NODE_ENV === "production") {
   Vue.prototype.$userId = getUrlParam('userid')
@@ -48,6 +52,7 @@ if (getUrlParam('appflag') == 3) {
     console.log('app.js load complete')
   })
 }
+
 new Vue({
   store,
   router,

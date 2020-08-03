@@ -80,9 +80,18 @@
         margin: .4rem 0 0 0;
         border-radius: .1rem;
         background: #2ea4ed;
+        &.active {
+          cursor: not-allowed;
+          pointer-events: none;
+        }
       }
     }
   }
+</style>
+<style scoped>
+.van-loading__text {
+  color: #fff;
+}
 </style>
 
 <template>
@@ -96,7 +105,10 @@
         <input v-model="input" type="text" placeholder="请填写您的QQ，邮箱或者微信，方便我们再次联系您">
         <textarea v-model="textarea" placeholder="请写上您的意见和建议"></textarea>
       </div>
-      <div class="cont-submit" @click="submit">提交</div>
+      <div :class="['cont-submit', {'active': loading}]" @click="submit">
+        <span v-if="!loading">提交</span>
+        <van-loading v-else type="spinner" size="20px">提交中...</van-loading>
+      </div>
     </div>
   </div>
 </template>
@@ -108,7 +120,8 @@ export default {
   data () {
     return {
       input: '',
-      textarea: ''
+      textarea: '',
+      loading: false
     }
   },
   methods: {
@@ -118,13 +131,18 @@ export default {
       return url.split('?')[1]
     },
     submit () {
+      if (this.loading) return false
       if (!this.textarea) return this.$Toast('您还没有写上您的反馈意见')
       getBack({
         actiontype: 8,
         userinfo: this.input,
         content: this.textarea
       }, this.getUrlParam()).then(res => {
-        if (res.result == 1) return this.$Toast('反馈成功！')
+        this.loading = false
+        if (res.result == 1) {
+          this.textarea = ''
+          return this.$Toast('反馈成功！')
+        }
       })
     },
     routeBack () {

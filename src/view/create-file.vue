@@ -151,7 +151,7 @@ export default {
   data () {
     return {
       from: this.$route.query.from,
-      minDate: new Date(1950, 0, 1),
+      minDate: new Date(1970, 0, 1),
       currentDate: new Date(),
       showDatePicker: false,
       cityid: '',

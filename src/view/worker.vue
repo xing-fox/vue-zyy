@@ -224,7 +224,7 @@
               </ul>
               <div class="intro-info bor-b" v-html="item.jieshao"></div>
               <div class="intro-bottom">
-                <div>特邀占星师</div>
+                <div>{{ item.titletip }}</div>
                 <div>
                   <img src="../assets/images/im.jpg">
                   <span>[在线]咨询</span>
@@ -256,7 +256,7 @@ export default {
   methods: {
     getData () {
       getDiviner({
-        leibie: -2,
+        leibie: 3,
         expertway: this.getUrlParam('expertway') || 3
       }).then(res => {
         res.infos.map(item => {
