@@ -37,7 +37,11 @@ Vue.prototype.$Toast = Toast
 Vue.prototype.$moment = moment
 Vue.prototype.$JsBridge = JsBridge
 
-Vue.prototype.$userId = getUrlParam('userid')
+if (process.env.NODE_ENV === "production") {
+  Vue.prototype.$userId = getUrlParam('userid')
+} else {
+  Vue.prototype.$userId = 1
+}
 
 if (getUrlParam('appflag') == 3) {
   require(['./assets/app.js'], function(ios) {
