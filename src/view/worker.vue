@@ -2,6 +2,7 @@
   .wrapper {
     font-size: 0;
     width: 100%;
+    line-height: initial;
     position: relative;
     .title {
       display: flex;
@@ -192,7 +193,7 @@
     <div class="wrapper">
       <div class="title">
         <i class="icon return" @click="routeBack"></i>
-        <span>占星师</span>
+        <span>咨询师</span>
       </div>
       <van-pull-refresh class="content" v-model="refreshStatus" @refresh="refreshStatus = false">
         <ul>
@@ -281,7 +282,10 @@ export default {
       return window.fortune.closepage()
     },
     routeChange (id) {
-      window.fortune.openactivity('com.fairytale.fortunetarot.controller.ExpertDetailActivity', '0', '', `expertuserid#${id}`)
+      this.$router.push({
+        path: '/tarot'
+      })
+      // window.fortune.openactivity('com.fairytale.fortunetarot.controller.ExpertDetailActivity', '0', '', `expertuserid#${id}`)
     } 
   },
   created () {

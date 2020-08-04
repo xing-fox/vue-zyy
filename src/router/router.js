@@ -30,12 +30,19 @@ export default [
     meta: {
       title: '新建档案'
     }
+  },{
+    path: '/tarot',
+    name: 'tarot',
+    component: resolve => require(['@/view/tarot'], resolve),
+    meta: {
+      title: ''
+    }
   }, {
     path: '/worker',
     name: 'worker',
     component: resolve => require(['@/view/worker'], resolve),
     meta: {
-      title: '占星师'
+      title: '咨询师'
     }
   }, {
     path: '/feedBack',

@@ -1,15 +1,496 @@
 <style lang="less" scoped>
-  .tarot-wrapper {
-    width: 100%;
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
   }
+
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+.animate__fadeIn {
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+}
+.tarot-wrapper {
+  font-size: 0;
+  width: 100vw;
+  height: 100vh;
+  padding: 1.2rem 0 0 0;
+  line-height: initial;
+  box-sizing: border-box;
+  overflow: auto;
+  position: relative;
+  background-image: url("../assets/images/bg_tarot.jpg");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  .title {
+    display: flex;
+    align-items: center;
+    color: #fffaf1;
+    font-size: 0.36rem;
+    height: 1.2rem;
+    padding: 0 0 0 1.2rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    &.active {
+      background: #402721;
+    }
+    i {
+      display: inline-block;
+      width: 0.8rem;
+      height: 0.8rem;
+      background-size: 50% 50%;
+      background-repeat: no-repeat;
+      position: absolute;
+      top: 0;
+      left: 0.4rem;
+      bottom: 0;
+      margin: auto auto;
+      &.return {
+        background-position: left center;
+        background-image: url("../assets/icon/icon_return.png");
+      }
+    }
+    img {
+      width: 0.9rem;
+      height: 0.9rem;
+      border-radius: 50%;
+    }
+    .content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin: 0 0 0 0.3rem;
+      span {
+        color: #fff;
+        font-size: 0.28rem;
+        &:last-child {
+          font-size: 0.24rem;
+        }
+      }
+    }
+  }
+  .header {
+    margin: 0.2rem 0 0.2rem 0.6rem;
+    .h-img {
+      display: flex;
+      align-items: center;
+      img {
+        width: 1.2rem;
+        height: 1.2rem;
+        border-radius: 50%;
+        border: 0.04rem solid #886853;
+        // box-sizing: border-box;
+      }
+      span {
+        color: #fffaf1;
+        font-size: 0.36rem;
+        margin: 0 0 0 0.2rem;
+      }
+    }
+    .h-star {
+      display: flex;
+      align-items: center;
+      color: #ffc495;
+      font-size: 0.24rem;
+      font-weight: bold;
+      margin: 0.3rem 0 0.2rem;
+      i {
+        width: 0.18rem;
+        height: 0.18rem;
+        margin: 0 0.01rem 0 0;
+        background-image: url("../assets/icon/tarot_star.png");
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+      }
+      span {
+        margin: 0 0 0 0.1rem;
+      }
+    }
+    .h-year {
+      display: flex;
+      align-items: center;
+      color: #d6c5b8;
+      font-size: 0.2rem;
+      margin: 0.2rem 0;
+      span {
+        color: #fffaf1;
+        font-size: 0.24rem;
+        font-weight: bold;
+        margin: 0 0.05rem 0 0;
+      }
+    }
+    .h-tip {
+      display: flex;
+      align-items: center;
+      color: #d6c5b8;
+      font-size: 0.2rem;
+      margin: 0.2rem 0;
+      span {
+        margin: 0 0.2rem 0 0;
+      }
+    }
+  }
+  .content-info {
+    margin: 0.5rem 0 0.5rem 0;
+    .item {
+      display: flex;
+      align-items: center;
+      color: #d6c5b8;
+      font-size: 0.18rem;
+      margin: 0 0 0.25rem 0.6rem;
+      line-height: 0.25rem;
+      .list {
+        display: flex;
+        align-items: center;
+        padding: 0 0.2rem;
+        height: 0.25rem;
+        line-height: 0.25rem;
+        &:first-child {
+          padding: 0 0.2rem 0 0;
+        }
+        &:nth-child(2) {
+          border-left: 1px solid #765d49;
+          border-right: 1px solid #765d49;
+        }
+      }
+      img {
+        width: 0.22rem;
+        height: 0.22rem;
+      }
+      span {
+        display: inline-block;
+        height: 0.25rem;
+        &.color-1 {
+          font-size: 0.22rem;
+          margin: 0 0.3rem 0 0.1rem;
+        }
+        &.color-2 {
+          color: #e7e3db;
+          font-size: 0.18rem;
+          margin: 0 0.05rem 0 0;
+        }
+      }
+    }
+    .intro {
+      margin: 0.6rem 0.25rem 0 0.3rem;
+      .i-title {
+        color: #d6c5b8;
+        font-size: 0.32rem;
+        font-weight: 400;
+        margin: 0 0 0.3rem 0;
+      }
+      .i-content {
+        color: rgba(201, 183, 170, 0.7);
+        font-size: 0.2rem;
+        line-height: 0.34rem;
+        text-indent: 2em;
+      }
+      img {
+        float: left;
+        width: 2rem;
+        height: 2.4rem;
+        margin: 0 0.2rem 0.2rem 0;
+        border-radius: 0.1rem;
+      }
+      .i-time {
+        padding: 0 0 0 0.3rem;
+        .i-time-list {
+          display: flex;
+          flex-direction: column;
+          padding: 0 0 0.7rem;
+          position: relative;
+          &:last-child {
+            padding: 0;
+          }
+          &:last-child:after {
+            content: none;
+          }
+          &:before {
+            content: "";
+            width: 0.1rem;
+            height: 0.1rem;
+            border-radius: 50%;
+            background: #bd9467;
+            position: absolute;
+            top: 0.1rem;
+            left: -0.3rem;
+          }
+          &:after {
+            content: "";
+            width: 0.04rem;
+            height: 70%;
+            background: #bd9467;
+            position: absolute;
+            top: 0.2rem;
+            left: -0.26rem;
+            bottom: -0.1rem;
+            margin: auto 0;
+          }
+          span {
+            color: rgba(201, 183, 170, 1);
+            font-size: 0.22rem;
+            &:first-child {
+              color: rgba(201, 183, 170, 0.45);
+            }
+          }
+        }
+      }
+      .i-data {
+        display: flex;
+        align-items: center;
+        color: #513328;
+        font-size: 0.26rem;
+        font-weight: bold;
+        width: 6.3rem;
+        height: 0.6rem;
+        padding: 0 0 0 0.7rem;
+        box-sizing: border-box;
+        background-image: url("../assets/icon/tarot_title.png");
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+      }
+      .i-data-num {
+        display: flex;
+        align-items: center;
+        color: #c9b7aa;
+        font-size: 0.22rem;
+        margin: 0.4rem 0 0 0;
+        span {
+          display: flex;
+          justify-content: center;
+          color: #b83824;
+          font-size: 0.3rem;
+          width: 0.3rem;
+          height: 0.4rem;
+          line-height: 0.4rem;
+          margin: 0 0.02rem 0 0;
+          background: rgba(204, 181, 159, 1);
+          position: relative;
+          &:first-child {
+            margin: 0 0.02rem 0 0.2rem;
+          }
+          &:last-child {
+            margin: 0 0.2rem 0 0;
+          }
+          &:before {
+            width: 100%;
+            height: 1px;
+            background: #000;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            margin: auto 0;
+          }
+        }
+      }
+      .i-list {
+        display: flex;
+        flex-direction: column;
+        color: rgba(201, 183, 170, 1);
+        font-size: 0.22rem;
+        line-height: 0.4rem;
+        margin: 0 0 0.4rem 0;
+        .i-list-content {
+          padding: 0 0 0 0.15rem;
+          text-indent: 2em;
+        }
+      }
+    }
+    .arrow {
+      width: 0.46rem;
+      height: 0.4rem;
+      margin: 0.4rem auto 0;
+      background-image: url("../assets/icon/arrow_up.png");
+      background-size: 80% 80%;
+      background-repeat: no-repeat;
+      background-position: center center;
+    }
+  }
+  .content-platform {
+    margin: 0.5rem 0 0.5rem 0;
+    .detail {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color:rgba(214, 197, 184, .5);
+      font-size: .2rem;
+      margin: 0 0 .4rem 0;
+      img {
+        width: .16rem;
+        height: .14rem;
+        margin: 0 .1rem 0 0;
+      }
+    }
+    .content {
+      padding: .5rem .3rem;
+      border-top-left-radius: .3rem;
+      border-top-right-radius: .3rem;
+      background: #E5D8CF;
+      .item {
+        width: 100%;
+        .i-title {
+          color: #513328;
+          font-size: .32rem;
+          font-weight: bold;
+          margin: 0 0 .3rem 0;
+        }
+        .i-content {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          img {
+            width: .33rem;
+            height: .25rem;
+          }
+          span {
+            color: #3B2520;
+            font-size: .22rem;
+            line-height: .42rem;
+          }
+        }
+      }
+    }
+  }
+}
 </style>
 
 <template>
-  <div class="tarot-wrapper"></div>
+  <div class="tarot-wrapper">
+    <div class="title" :class="['title', { active: titleActive }]">
+      <i class="return" @click="$router.go(-1)" />
+      <img v-if="titleActive" src="../assets/images/user.jpg" />
+      <div v-if="titleActive" class="content">
+        <span>塔罗师悟空</span>
+        <span>9年 从业年限</span>
+      </div>
+    </div>
+    <div class="header">
+      <div class="h-img">
+        <img src="../assets/images/user.jpg" />
+        <span>塔罗师悟空</span>
+      </div>
+      <div class="h-star">
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+        <span>5.0</span>
+      </div>
+      <div class="h-year"><span>9</span>年 从业年限</div>
+      <div class="h-tip">
+        <span>#事业分析</span>
+        <span>#爱情策略</span>
+        <span>#生活解困</span>
+      </div>
+    </div>
+    <!-- 个人介绍 -->
+    <div class="content-info" v-if="contentSattus">
+      <div class="item">
+        <img src="../assets/icon/success.png" />
+        <span class="color-1">平台认证</span>
+        <img src="../assets/icon/money.png" />
+        <span class="color-1">交易担保</span>
+      </div>
+      <div class="item">
+        <div class="list"><span class="color-2">162</span>粉丝</div>
+        <div class="list"><span class="color-2">162</span>评价</div>
+        <div class="list"><span class="color-2">162</span>解答</div>
+      </div>
+      <div class="intro">
+        <div class="i-title">个人介绍</div>
+        <div class="i-content">
+          <img src="../assets/images/user.jpg" class="i-photo" border="0" />
+          占星学是用天体的相对位置和相对运动（尤其是太阳系内的行星的位置）来解释或预言人的和行为的系统。是太阳系内的行星的位置）来解释或预言人的和行为的系统。是太阳系内的行星的位置）来解释或预言人的和行为的系统。占星师是遵循占星学原理，利用人的出生地、出生时间绘制星盘，借此来解释人的性格和命运的人。
+          占星学是用天体的相对位置和相对运动（尤其是太阳系内的行星的位置）来解释或预言人的和行为的系统。占星师是遵循占星学原理，利用人的出生地、出生时间绘制星盘，借此来解释人的性格和命运的人。
+        </div>
+      </div>
+      <div class="intro">
+        <div class="i-title">培训学习经历</div>
+        <div class="i-time">
+          <div class="i-time-list">
+            <span>2013年 - 2014年</span>
+            <span>初步认识塔罗牌并自学</span>
+          </div>
+          <div class="i-time-list">
+            <span>2013年 - 2014年</span>
+            <span>初步认识塔罗牌并自学</span>
+          </div>
+          <div class="i-time-list">
+            <span>2013年 - 2014年</span>
+            <span>初步认识塔罗牌并自学</span>
+          </div>
+        </div>
+      </div>
+      <div class="intro">
+        <div class="i-title">服务案例</div>
+        <div class="i-data">服务案例数</div>
+        <div class="i-data-num">
+          截止目前，共累计服务用户超过 <span>2</span><span>0</span><span>0</span
+          ><span>0</span> 名。
+        </div>
+      </div>
+      <div class="intro">
+        <div class="i-title">预测精准实例</div>
+        <div class="i-list">
+          <div class="i-list-name">【案例一】</div>
+          <div class="i-list-content">
+            一位女客户找到我，与其男友交往3年有余，期间觉得男友不太有上进心，但却有点放不下，所以想要知道未来感情的发展。后分析出结果改男友性格上有点极端，并叮嘱女客户尽量分手，千万不要与男友有正面冲突。
+          </div>
+        </div>
+        <div class="i-list">
+          <div class="i-list-name">【案例一】</div>
+          <div class="i-list-content">
+            一位女客户找到我，与其男友交往3年有余，期间觉得男友不太有上进心，但却有点放不下，所以想要知道未来感情的发展。后分析出结果改男友性格上有点极端，并叮嘱女客户尽量分手，千万不要与男友有正面冲突。
+          </div>
+        </div>
+      </div>
+      <div
+        class="arrow animate__animated animate__infinite animate__fadeIn"
+      ></div>
+    </div>
+    <!-- 平台 -->
+    <div class="content-platform">
+      <div class="detail">
+        <img src="../assets/icon/arrow_down.png">详细资料
+      </div>
+      <div class="content">
+        <div class="item">
+          <div class="i-title">平台寄语</div>
+          <div class="i-content">
+            <img src="../assets/icon/syh.png">
+            <span>这里是编辑对塔罗师的介绍语录这里是编辑对塔罗师的介绍语录这里是编辑对塔罗师的介绍语录这里是编辑对塔罗师的介绍语录这里是编辑对塔罗师的介绍语录这里是编辑对塔罗师的介绍语录</span>
+            <img src="../assets/icon/xyh.png">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'tarot'
+  name: "tarot",
+  data() {
+    return {
+      titleActive: false,
+      contentSattus: false
+    }
+  }
 }
 </script>
