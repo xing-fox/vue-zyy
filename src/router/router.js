@@ -24,6 +24,13 @@ export default [
       }
     ]
   }, {
+    path: '/yfhp',
+    name: 'yfhp',
+    component: resolve => require(['@/view/yfhp'], resolve),
+    meta: {
+      title: '缘分合盘'
+    }
+  }, {
     path: '/createFile',
     name: 'createfile',
     component: resolve => require(['@/view/create-file'], resolve),
