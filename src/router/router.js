@@ -31,6 +31,13 @@ export default [
       title: '缘分合盘'
     }
   }, {
+    path: '/bjp',
+    name: 'bjp',
+    component: resolve => require(['@/view/bjp'], resolve),
+    meta: {
+      title: '比较盘'
+    }
+  }, {
     path: '/createFile',
     name: 'createfile',
     component: resolve => require(['@/view/create-file'], resolve),
