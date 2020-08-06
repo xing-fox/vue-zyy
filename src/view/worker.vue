@@ -283,7 +283,10 @@ export default {
     },
     routeChange (id) {
       this.$router.push({
-        path: '/tarot'
+        path: '/tarot',
+        query: {
+          id: id
+        }
       })
       // window.fortune.openactivity('com.fairytale.fortunetarot.controller.ExpertDetailActivity', '0', '', `expertuserid#${id}`)
     } 
