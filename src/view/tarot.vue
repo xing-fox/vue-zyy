@@ -72,7 +72,6 @@
         height: 1.2rem;
         border-radius: 50%;
         border: 0.04rem solid #886853;
-        // box-sizing: border-box;
       }
       span {
         color: #fffaf1;
@@ -180,13 +179,21 @@
           font-size: 0.2rem;
           line-height: 0.34rem;
           text-indent: 2em;
-        }
-        img {
-          float: left;
-          width: 2rem;
-          height: 2.4rem;
-          margin: 0 0.2rem 0.2rem 0;
-          border-radius: 0.1rem;
+          .content-image-show {
+            float: left;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2rem;
+            height: 2.4rem;
+            margin: 0 0.2rem 0.2rem 0;
+            border-radius: 0.1rem;
+            overflow: hidden;
+            img {
+              height: 100%;
+              max-height: 2.4rem;
+            }
+          }
         }
         .i-time {
           padding: 0 0 0 0.3rem;
@@ -501,9 +508,6 @@
             overflow-x: auto;
             overflow-y: hidden;
             margin: .25rem 0 .3rem 0;
-            // &::-webkit-scrollbar {
-            //   display: none;
-            // }
             .i-swiper-list {
               display: inline-block;
               vertical-align: top;
@@ -613,12 +617,19 @@
                   flex-wrap: wrap;
                   width: 100%;
                   margin: .2rem 0 0 0;
-                  img {
+                  .image-box {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
                     width: 1.8rem;
                     height: 1.8rem;
                     margin: 0 .15rem .15rem 0;
+                    overflow: hidden;
                     &:nth-child(3n) {
                       margin: 0 0 .15rem 0;
+                    }
+                    img {
+                      width: 100%;
                     }
                   }
                 }
@@ -635,7 +646,7 @@
     justify-content: center;
     width: 100%;
     height: 1.5rem;
-    background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, .9));
+    background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
     position: fixed;
     bottom: 0;
     img {
@@ -796,7 +807,9 @@
         <div class="intro">
           <div class="i-title">个人介绍</div>
           <div class="i-content">
-            <img :src="Data.jieshaopic" class="i-photo" border="0" />
+            <div class="content-image-show">
+              <img :src="Data.jieshaopic" class="i-photo" border="0" />
+            </div>
             {{ Data.jieshao }}
           </div>
         </div>
@@ -827,7 +840,7 @@
         <div class="arrow animate__animated animate__infinite animate__fadeIn" @click="arrowUpFunc"></div>
       </div>
       <!-- 平台 -->
-      <div v-if="Data" class="content-platform" :class="{'animate__fadeOutDown animate__animated': ClassStatus, 'fadeInUp animate__animated': !ClassStatus}" v-show="platFormStatus">
+      <div class="content-platform" :class="[upDataClass, {'animate__fadeOutDown animate__animated': ClassStatus}]" v-show="platFormStatus">
         <div class="detail" @click="detailFunc">
           <img src="../assets/icon/arrow_down.png">详细资料
         </div>
@@ -947,7 +960,9 @@
                 <div class="wechat-content">
                   <span>{{ item.content }}</span>
                   <div class="wechat-c-image">
-                    <img v-for="(list, eq) in item.allpics" :key="eq" v-show="eq < 9" :src="list" @click="ImagePreview(item.allpics, eq)">
+                    <div class="image-box" v-for="(list, eq) in item.allpics" :key="eq" v-show="eq < 9">
+                      <img :src="list" @click="ImagePreview(item.allpics, eq)">
+                    </div>
                   </div>
                 </div>
               </div>
@@ -956,9 +971,9 @@
         </div>
       </div>
     </div>
-    <div class="buy" v-if="platFormStatus" @click="payStatus = true">
-      <img src="../assets/icon/follow.png">
-      <div class="buy-button">购买TA的服务</div>
+    <div :class="['buy', {'fadeInUp animate__animated': platFormStatus}]" v-if="platFormStatus">
+      <img v-if="!followStatus" src="../assets/icon/follow.png" @click="followFunc(1)">
+      <div class="buy-button" @click="payStatus = true">购买TA的服务</div>
     </div>
     <!-- 购买服务 -->
     <van-popup v-model="payStatus" position="bottom">
@@ -1009,13 +1024,15 @@ export default {
       Data: Object,
       buyActive: 0, // 购买的序列号
       payOrderId: '', // 支付订单id
+      followStatus: false, // 关注状态
       payStatus: false, // 购买服务状态
       orderStatus: false, // 订单状态
       unOrderStatus: false, // 未支付状态
       titleActive: false,
       ClassStatus: false, // 动画状态
       introStatus: false, // 介绍状态
-      platFormStatus: true // 平台状态
+      platFormStatus: true, // 平台状态
+      upDataClass: ''
     }
   },
   methods: {
@@ -1025,6 +1042,7 @@ export default {
     detailFunc () {
       this.ClassStatus = true
       this.introStatus = true
+      this.upDataClass = 'fadeInUp animate__animated'
       setTimeout(() => {
         this.platFormStatus = false
       }, 300)
@@ -1070,9 +1088,7 @@ export default {
         if (res.result == 1) {
           this.payOrderId = res.infos.orderid
           window.fortune.openactivity('com.fairytale.fortunetarot.controller.ExpertOrderDetailActivity', '0', '', `orderid#${res.infos.orderid}`)
-          setTimeout(() => {
-            this.orderStatus = true
-          }, 500)
+          this.orderStatus = true
         }
       })
     },
@@ -1100,6 +1116,21 @@ export default {
           window.fortune.openactivity('startprivatechat', '0', '1', `userid#${Data.userid}@username#${Data.name}`)
         } else {
           this.unOrderStatus = true
+        }
+      })
+    },
+    /**
+     * 关注
+     */
+    followFunc (type) {
+      payOrder({
+        actiontype: type, //  1 关注 | 2 取消关注
+        expertid: this.Data.id,
+        userid: this.Data.userid
+      }).then(res => {
+        if (res.result == 1) {
+          type == 1 ? this.$Toast('关注成功') : this.$Toast('取消关注')
+          this.followStatus = true
         }
       })
     }
