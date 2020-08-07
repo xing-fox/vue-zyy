@@ -34,3 +34,10 @@ export const getDiviner = (param) => {
 export const getBack = (param, data) => {
   return Post(`/index.php?main_page=xingpan_handler&${data}`, param)
 }
+
+/**
+ * @param 订单
+ */
+export const payOrder = (param) => {
+  return Post(`index.php?main_page=expert_handler`, param)
+}

@@ -5,7 +5,7 @@ import router from './router'
 import moment from 'moment'
 // import Vconsole from 'vconsole'
 import JsBridge from './JsBridge'
-import { Form, RadioGroup, Radio, Switch, Icon, DatetimePicker, Picker, Popup, Area, PullRefresh, Loading, Toast } from 'vant'
+import { Form, RadioGroup, Radio, Switch, Icon, DatetimePicker, Picker, Popup, Area, PullRefresh, Loading, Toast, ImagePreview } from 'vant'
 import 'vant/lib/index.less'
 
 Vue.use(Icon)
@@ -39,6 +39,7 @@ Vue.config.productionTip = false
 Vue.prototype.$Toast = Toast
 Vue.prototype.$moment = moment
 Vue.prototype.$JsBridge = JsBridge
+Vue.prototype.$ImagePreview = ImagePreview
 Vue.prototype.$Url = window.location.href
 
 if (process.env.NODE_ENV === "production") {

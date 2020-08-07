@@ -403,13 +403,9 @@
                 height: .5rem;
                 background: rgba(185, 56, 37, 1);
                 border-radius: .06rem;
-                i {
-                  display: inline-block;
+                img {
                   width: .27rem;
                   height: .27rem;
-                  background-image: url('../assets/icon/bmxp.png');
-                  background-size: 100% 100%;
-                  background-repeat: no-repeat;
                 }
               }
               .t-name {
@@ -510,6 +506,7 @@
             // }
             .i-swiper-list {
               display: inline-block;
+              vertical-align: top;
               width: 5rem;
               height: 2.75rem;
               margin: 0 .2rem 0 0;
@@ -588,7 +585,7 @@
           }
           .i-wechat {
             width: 100%;
-            padding: 0 0 1rem 0;
+            padding: 0 0 .6rem 0;
             .i-wechat-list {
               display: flex;
               width: 100%;
@@ -608,6 +605,7 @@
                 span {
                   color: #513328;
                   font-size: .28rem;
+                  width: 100%;
                   line-height: .4rem;
                 }
                 .wechat-c-image {
@@ -629,35 +627,127 @@
           }
         }
       }
-      .buy {
+    }
+  }
+  .buy {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 1.5rem;
+    background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, .9));
+    position: fixed;
+    bottom: 0;
+    img {
+      width: .4rem;
+      height: .62rem;
+      margin: 0 .35rem 0 0;
+    }
+    .buy-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #E5D8CF;
+      font-size: .26rem;
+      font-weight: bold;
+      width: 5.6rem;
+      height: .7rem;
+      border-radius: .35rem;
+      background: rgba(181, 52, 31, .9);
+    }
+  }
+  .pay-content {
+    width: 100%;
+    padding: .3rem 0 .4rem;
+    background: rgba(229, 216, 207, 1);
+    .pay-content-title {
+      display: flex;
+      justify-content: center;
+      color: #513328;
+      font-size: .32rem;
+      font-weight: 600;
+      margin: 0 0 .5rem 0;
+    }
+    ul {
+      width: 100%;
+      max-height: 50vh;
+      overflow: auto;
+      li {
         display: flex;
         align-items: center;
-        justify-content: center;
-        width: 100%;
-        height: 1.8rem;
-        background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, .9));
-        position: absolute;
-        bottom: 0;
-        img {
-          width: .4rem;
-          height: .62rem;
-          margin: 0 .35rem 0 0;
+        justify-content: space-between;
+        height: .9rem;
+        padding: 0 .3rem;
+        position: relative;
+        &:after {
+          border-bottom: 1px solid rgba(85, 51, 40, .2) !important;
         }
-        .buy-button {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #E5D8CF;
-          font-size: .26rem;
-          font-weight: bold;
-          width: 5.6rem;
-          height: .7rem;
-          border-radius: .35rem;
-          background: rgba(181, 52, 31, .9);
+        .color {
+          color: #7F665C;
+          font-size: .22rem;
+        }
+        .color-1 {
+          color: #B83824;
+          font-size: .28rem;
+        }
+        &.active {
+          background: #c7beb7;
+          &:after {
+            content: none;
+          }
+          .color {
+            color: #513328;
+            font-size: .22rem;
+          }
         }
       }
     }
+    .createOrder {
+      color: #e5d8cf;
+      font-size: .26rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: .8rem;
+      margin: .2rem .25rem 0;
+      background: #b5341f;
+      border-radius: 4px;
+    }
   }
+  .order-content {
+      width: 5.3rem;
+      padding: .2rem .5rem .45rem;
+      box-sizing: border-box;
+      .tips {
+        color: #513328;
+        font-size: .24rem;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin: .5rem 0;
+      }
+      .button {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        div {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #e5d8cf;
+          font-size: .26rem;
+          width: 2rem;
+          height: .7rem;
+          border-radius: 2px;
+          &.color-1 {
+            background: #866e64;
+          }
+          &.color-2 {
+            background: #b5341f;
+          }
+        }
+      }
+    }
 }
 </style>
 
@@ -665,16 +755,16 @@
   <div class="tarot-wrapper" @scroll="scrollFunc">
     <div class="title" :class="['title', { 'active animate__fadeIn animate__animated': titleActive }]">
       <i class="return" @click="$router.go(-1)" />
-      <img v-if="titleActive" src="../assets/images/user.jpg" />
+      <img v-if="titleActive" :src="Data.face" />
       <div v-if="titleActive" class="content">
-        <span>塔罗师悟空</span>
-        <span>9年 从业年限</span>
+        <span>{{ Data.name }}</span>
+        <span>{{ Data.nianxian }}年 从业年限</span>
       </div>
     </div>
     <div class="header">
       <div class="h-img">
-        <img src="../assets/images/user.jpg" />
-        <span>塔罗师悟空</span>
+        <img :src="Data.face" />
+        <span>{{ Data.name }}</span>
       </div>
       <div class="h-star">
         <i></i>
@@ -684,11 +774,9 @@
         <i></i>
         <span>5.0</span>
       </div>
-      <div class="h-year"><span>9</span>年 从业年限</div>
+      <div class="h-year"><span>{{ Data.nianxian }}</span>年 从业年限</div>
       <div class="h-tip">
-        <span>#事业分析</span>
-        <span>#爱情策略</span>
-        <span>#生活解困</span>
+        <span v-for="(list, eq) in Data.shanchang" :key="eq">{{ list }}</span>
       </div>
     </div>
     <div class="wrapper-content">
@@ -701,32 +789,23 @@
           <span class="color-1">交易担保</span>
         </div>
         <div class="item">
-          <div class="list"><span class="color-2">162</span>粉丝</div>
-          <div class="list"><span class="color-2">162</span>评价</div>
-          <div class="list"><span class="color-2">162</span>解答</div>
+          <div class="list"><span class="color-2">{{ Data.fensi }}</span>粉丝</div>
+          <div class="list"><span class="color-2">{{ Data.pingjia }}</span>评价</div>
+          <div class="list"><span class="color-2">{{ Data.jieda }}</span>解答</div>
         </div>
         <div class="intro">
           <div class="i-title">个人介绍</div>
           <div class="i-content">
-            <img src="../assets/images/user.jpg" class="i-photo" border="0" />
-            占星学是用天体的相对位置和相对运动（尤其是太阳系内的行星的位置）来解释或预言人的和行为的系统。是太阳系内的行星的位置）来解释或预言人的和行为的系统。是太阳系内的行星的位置）来解释或预言人的和行为的系统。占星师是遵循占星学原理，利用人的出生地、出生时间绘制星盘，借此来解释人的性格和命运的人。
-            占星学是用天体的相对位置和相对运动（尤其是太阳系内的行星的位置）来解释或预言人的和行为的系统。占星师是遵循占星学原理，利用人的出生地、出生时间绘制星盘，借此来解释人的性格和命运的人。
+            <img :src="Data.jieshaopic" class="i-photo" border="0" />
+            {{ Data.jieshao }}
           </div>
         </div>
         <div class="intro">
           <div class="i-title">培训学习经历</div>
           <div class="i-time">
-            <div class="i-time-list">
-              <span>2013年 - 2014年</span>
-              <span>初步认识塔罗牌并自学</span>
-            </div>
-            <div class="i-time-list">
-              <span>2013年 - 2014年</span>
-              <span>初步认识塔罗牌并自学</span>
-            </div>
-            <div class="i-time-list">
-              <span>2013年 - 2014年</span>
-              <span>初步认识塔罗牌并自学</span>
+            <div class="i-time-list" v-for="(list, eq) in Data.jingLiData" :key="eq">
+              <span>{{ list.year }}</span>
+              <span>{{ list.intro }}</span>
             </div>
           </div>
         </div>
@@ -734,29 +813,21 @@
           <div class="i-title">服务案例</div>
           <div class="i-data">服务案例数</div>
           <div class="i-data-num">
-            截止目前，共累计服务用户超过 <span>2</span><span>0</span><span>0</span
-            ><span>0</span> 名。
+            截止目前，共累计服务用户超过 
+            <span v-for="(list, eq) in Data.anli" :key="eq">{{ list }}</span> 名。
           </div>
         </div>
         <div class="intro">
           <div class="i-title">预测精准实例</div>
-          <div class="i-list">
-            <div class="i-list-name">【案例一】</div>
-            <div class="i-list-content">
-              一位女客户找到我，与其男友交往3年有余，期间觉得男友不太有上进心，但却有点放不下，所以想要知道未来感情的发展。后分析出结果改男友性格上有点极端，并叮嘱女客户尽量分手，千万不要与男友有正面冲突。
-            </div>
-          </div>
-          <div class="i-list">
-            <div class="i-list-name">【案例一】</div>
-            <div class="i-list-content">
-              一位女客户找到我，与其男友交往3年有余，期间觉得男友不太有上进心，但却有点放不下，所以想要知道未来感情的发展。后分析出结果改男友性格上有点极端，并叮嘱女客户尽量分手，千万不要与男友有正面冲突。
-            </div>
+          <div class="i-list" v-for="(list, eq) in Data.shiliData" :key="eq">
+            <div class="i-list-name">{{ list.title }}</div>
+            <div class="i-list-content">{{ list.intro }}</div>
           </div>
         </div>
         <div class="arrow animate__animated animate__infinite animate__fadeIn" @click="arrowUpFunc"></div>
       </div>
       <!-- 平台 -->
-      <div class="content-platform" :class="{'animate__fadeOutDown animate__animated': ClassStatus, 'fadeInUp animate__animated': !ClassStatus}" v-show="platFormStatus">
+      <div v-if="Data" class="content-platform" :class="{'animate__fadeOutDown animate__animated': ClassStatus, 'fadeInUp animate__animated': !ClassStatus}" v-show="platFormStatus">
         <div class="detail" @click="detailFunc">
           <img src="../assets/icon/arrow_down.png">详细资料
         </div>
@@ -765,7 +836,7 @@
             <div class="i-title">平台寄语</div>
             <div class="i-content">
               <img src="../assets/icon/syh.png">
-              <span>这里是编辑对塔罗师的介绍语录这里是编辑对塔罗师的介绍语录这里是编辑对塔罗师的介绍语录这里是编辑对塔罗师的介绍语录这里是编辑对塔罗师的介绍语录这里是编辑对塔罗师的介绍语录</span>
+              <span>{{ Data.qianming }}</span>
               <img class="img-right" src="../assets/icon/xyh.png">
             </div>
             <div class="i-plan">
@@ -779,60 +850,18 @@
               <span>*支持文字、语音、通话</span>
               <span>*私人订制咨询方案</span>
             </div>
-            <div class="i-box">
+            <div class="i-box" v-for="item in Data.xmitems" :key="item.id">
               <div class="i-box-title">
                 <div class="t-icon">
-                  <i></i>
+                  <img :src="item.xmicon || require('../assets/icon/bmxp.png')">
                 </div>
-                <div class="t-name">本名星盘</div>
-                <div class="t-price">￥88</div>
-                <div class="t-oldPrice">￥500</div>
+                <div class="t-name">{{ item.name }}</div>
+                <div class="t-price">￥{{ item.priceval }}</div>
+                <div class="t-oldPrice">{{ item.pricevaltip }}</div>
               </div>
               <div class="i-box-main">
                 <p>本案例分析包括但不限于：</p>
-                <p>·个人性格</p>
-                <p>·适合什么样的职业</p>
-                <p>·拥有怎样的财运</p>
-                <p>·婚姻如何</p>
-                <p>·父母以及个人或者伴侣的健康如何</p>
-              </div>
-              <div class="i-box-button">立即咨询</div>
-            </div>
-            <div class="i-box">
-              <div class="i-box-title">
-                <div class="t-icon">
-                  <i></i>
-                </div>
-                <div class="t-name">本名星盘</div>
-                <div class="t-price">￥88</div>
-                <div class="t-oldPrice">￥500</div>
-              </div>
-              <div class="i-box-main">
-                <p>本案例分析包括但不限于：</p>
-                <p>·个人性格</p>
-                <p>·适合什么样的职业</p>
-                <p>·拥有怎样的财运</p>
-                <p>·婚姻如何</p>
-                <p>·父母以及个人或者伴侣的健康如何</p>
-              </div>
-              <div class="i-box-button">立即咨询</div>
-            </div>
-            <div class="i-box">
-              <div class="i-box-title">
-                <div class="t-icon">
-                  <i></i>
-                </div>
-                <div class="t-name">本名星盘</div>
-                <div class="t-price">￥88</div>
-                <div class="t-oldPrice">￥500</div>
-              </div>
-              <div class="i-box-main">
-                <p>本案例分析包括但不限于：</p>
-                <p>·个人性格</p>
-                <p>·适合什么样的职业</p>
-                <p>·拥有怎样的财运</p>
-                <p>·婚姻如何</p>
-                <p>·父母以及个人或者伴侣的健康如何</p>
+                <p v-for="(list, eq) in item.jieshao" :key="eq">·{{ list }}</p>
               </div>
               <div class="i-box-button">立即咨询</div>
             </div>
@@ -840,11 +869,11 @@
           <div class="item">
             <div class="i-title">
               评价反馈
-              <span>查看546名用户真实评价</span>
+              <span>查看{{ Data.pingjia }}名用户真实评价</span>
             </div>
             <div class="i-evaluate">
               <div class="e-left">
-                <span>4.9</span>
+                <span>5.0</span>
                 <div class="e-star">
                   <i></i>
                   <i></i>
@@ -889,97 +918,100 @@
               </div>
             </div>
             <div class="i-swiper">
-              <div class="i-swiper-list">
+              <div class="i-swiper-list" v-for="item in Data.pjitems" :key="item.id">
                 <div class="list-top">
                   <div class="top-userinfo">
-                    <img src="../assets/icon/photo.png">
-                    <span>182****5656</span>
+                    <img :src="item.yonghuface || require('../assets/icon/photo.png')">
+                    <span>{{ item.yonghuname }}</span>
                   </div>
                   <div class="top-buyType">
                     <span>已购买</span>
-                    <span class="color">[婚恋感情]</span>
+                    <span class="color">{{ item.ordername }}</span>
                   </div>
                 </div>
                 <div class="list-tips">
-                  <p>专业技术厉害</p>
-                  <p>良师益友</p>
-                  <p>细致耐心</p>
+                  <p v-for="(list, eq) in item.biaoqian" :key="eq" v-show="eq < 3">{{ list }}</p>
                 </div>
-                <div class="list-main">AI占卜很厉害，很快很准确的就找到了我需要的占卜。</div>
-                <div class="list-time">2020-07-27</div>
-              </div>
-              <div class="i-swiper-list">
-                <div class="list-top">
-                  <div class="top-userinfo">
-                    <img src="../assets/icon/photo.png">
-                    <span>182****5656</span>
-                  </div>
-                  <div class="top-buyType">
-                    <span>已购买</span>
-                    <span class="color">[婚恋感情]</span>
-                  </div>
-                </div>
-                <div class="list-tips">
-                  <p>专业技术厉害</p>
-                  <p>良师益友</p>
-                  <p>细致耐心</p>
-                </div>
-                <div class="list-main">AI占卜很厉害，很快很准确的就找到了我需要的占卜。</div>
-                <div class="list-time">2020-07-27</div>
+                <div class="list-main">{{ item.content || '用户未评价~' }}</div>
+                <div class="list-time">{{ item.time }}</div>
               </div>
             </div>
           </div>
           <div class="item">
             <div class="i-title">咨询师动态</div>
             <div class="i-wechat">
-              <div class="i-wechat-list">
+              <div class="i-wechat-list" v-for="item in Data.noteitems" :key="item.id">
                 <div class="wechat-time">
-                  24<span>7月</span>
+                  {{ item.day }}<span>{{ item.yue }}月</span>
                 </div>
                 <div class="wechat-content">
-                  <span>这里是是咨询师动态详情这里是是咨询师动态详情这里是是咨询师动态详情这里是是咨询师动态详情这里是是咨询师动态详情</span>
+                  <span>{{ item.content }}</span>
                   <div class="wechat-c-image">
-                    <img src="../assets/images/report_bg_1.jpg">
-                    <img src="../assets/images/report_bg_2.jpg">
-                    <img src="../assets/images/report_bg_3.jpg">
-                    <img src="../assets/images/report_bg_2.jpg">
-                    <img src="../assets/images/report_bg_3.jpg">
-                  </div>
-                </div>
-              </div>
-              <div class="i-wechat-list">
-                <div class="wechat-time">
-                  24<span>7月</span>
-                </div>
-                <div class="wechat-content">
-                  <span>这里是是咨询师动态详情这里是是咨询师动态详情这里是是咨询师动态详情这里是是咨询师动态详情这里是是咨询师动态详情</span>
-                  <div class="wechat-c-image">
-                    <img src="../assets/images/report_bg_1.jpg">
-                    <img src="../assets/images/report_bg_2.jpg">
-                    <img src="../assets/images/report_bg_3.jpg">
-                    <img src="../assets/images/report_bg_2.jpg">
-                    <img src="../assets/images/report_bg_3.jpg">
+                    <img v-for="(list, eq) in item.allpics" :key="eq" v-show="eq < 9" :src="list" @click="ImagePreview(item.allpics, eq)">
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="buy">
-          <img src="../assets/icon/follow.png">
-          <div class="buy-button">购买TA的服务</div>
-        </div>
       </div>
     </div>
+    <div class="buy" v-if="platFormStatus" @click="payStatus = true">
+      <img src="../assets/icon/follow.png">
+      <div class="buy-button">购买TA的服务</div>
+    </div>
+    <!-- 购买服务 -->
+    <van-popup v-model="payStatus" position="bottom">
+      <div class="pay-content">
+        <div class="pay-content-title">购买TA的服务</div>
+        <ul>
+          <li v-for="(item, index) in Data.xmitems" :key="item.id" :class="['bor-b', {active: buyActive == index}]" @click="selectFunc(item, index)">
+            <span class="color">{{ item.name }}</span>
+            <span class="color-1">￥{{ item.priceval }}</span>
+          </li>
+        </ul>
+        <div class="createOrder" @click="createOrderFunc">购买</div>
+      </div>
+    </van-popup>
+    <!-- 订单状态 -->
+    <van-popup v-model="orderStatus" :style="{ 'border-radius': '4px' }">
+      <div class="order-content">
+        <div class="tips">是否已成功支付订单？</div>
+        <div class="button">
+          <div class="color-1" @click="unPayFunc">未支付</div>
+          <div class="color-2" @click="checkPay">已支付</div>
+        </div>
+      </div>
+    </van-popup>
+    <!-- 未支付订单状态 -->
+    <van-popup v-model="unOrderStatus" :style="{ 'border-radius': '4px' }">
+      <div class="order-content">
+        <div class="tips">
+          <p>您还未支付订单？支付之后即可获取一对一服务？</p>
+          <p>(无法支付请联系QQ/微信：510034726)</p>
+        </div>
+        <div class="button">
+          <div class="color-1" @click="unOrderStatus = false">我再想想</div>
+          <div class="color-2" @click="createOrderFunc">前去支付</div>
+        </div>
+      </div>
+    </van-popup>
   </div>
 </template>
 
 <script>
-import { getDiviner } from '@/fetch/api'
+import { payOrder, getDiviner } from '@/fetch/api'
+import { setTimeout } from 'timers';
 export default {
   name: "tarot",
   data() {
     return {
+      Data: Object,
+      buyActive: 0, // 购买的序列号
+      payOrderId: '', // 支付订单id
+      payStatus: false, // 购买服务状态
+      orderStatus: false, // 订单状态
+      unOrderStatus: false, // 未支付状态
       titleActive: false,
       ClassStatus: false, // 动画状态
       introStatus: false, // 介绍状态
@@ -1012,17 +1044,101 @@ export default {
      */
     scrollFunc (e) {
       this.titleActive = e.srcElement.scrollTop > 100
+    },
+    /**
+     * 查看大图
+     */
+    ImagePreview (data, eq) {
+      this.$ImagePreview({
+        images: data,
+        startPosition: eq
+      })
+    },
+    /**
+     * 购买TA的服务
+     */
+    createOrderFunc () {
+      this.payOrderId = ''
+      payOrder({
+        expertuserid: this.Data.userid,
+        userid: this.$userId,
+        actiontype: 3,
+        ordername: this.Data.xmitems[this.buyActive].name,
+        price: this.Data.xmitems[this.buyActive].priceval,
+        ordertype: 1
+      }).then(res => {
+        if (res.result == 1) {
+          this.payOrderId = res.infos.orderid
+          window.fortune.openactivity('com.fairytale.fortunetarot.controller.ExpertOrderDetailActivity', '0', '', `orderid#${res.infos.orderid}`)
+          setTimeout(() => {
+            this.orderStatus = true
+          }, 500)
+        }
+      })
+    },
+    /**
+     * 选择对应的list
+     */
+    selectFunc (item, eq) {
+      this.buyActive = eq
+    },
+    /**
+     * 未支付
+     */
+    unPayFunc () {
+      [this.orderStatus, this.unOrderStatus] = [false, true]
+    },
+    /**
+     * 检测是否支付
+     */
+    checkPay () {
+      payOrder({
+        actiontype: 15,
+        orderid: this.payOrderId
+      }).then(res => {
+        if (res.result == 1) {
+          window.fortune.openactivity('startprivatechat', '0', '1', `userid#${Data.userid}@username#${Data.name}`)
+        } else {
+          this.unOrderStatus = true
+        }
+      })
     }
   },
   mounted () {
-    /**
-     * 获取数据
-     */
+    // 获取数据
     getDiviner({
-      leibie: -1,
+      leibie: -2,
       userid: this.$route.query.id
     }).then(res => {
-      console.log(res)
+      if (res.result == 1) {
+        res.infos[0].shanchang = res.infos[0].shanchang.split('#')
+        res.infos[0].xmitems.map(list => {
+          list.jieshao = list.jieshao.split('，')
+        })
+        res.infos[0].pjitems.map(list => {
+          list.biaoqian = list.biaoqian.split('#')
+        })
+        res.infos[0].jingLiData = []
+        res.infos[0].jingli = res.infos[0].jingli.split('@')
+        res.infos[0].jingli.map(list => {
+          let data = list.split('#')
+          res.infos[0].jingLiData.push({
+            year: data[0],
+            intro: data[1]
+          })
+        })
+        res.infos[0].shiliData = []
+        res.infos[0].shili = res.infos[0].shili.split('@')
+        res.infos[0].shili.map(list => {
+          let data = list.split('\\n\\t\\t\\t')
+          res.infos[0].shiliData.push({
+            title: data[0],
+            intro: data[1]
+          })
+        })
+        res.infos[0].jieshao = res.infos[0].jieshao.replace('\\t\\t\\t', '')
+        this.Data = res.infos[0]
+      }
     })
   }
 }
