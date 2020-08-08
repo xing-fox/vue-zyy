@@ -300,15 +300,6 @@
           }
         }
       }
-      .arrow {
-        width: 0.46rem;
-        height: 0.4rem;
-        margin: 0.4rem auto 0;
-        background-image: url("../assets/icon/arrow_up.png");
-        background-size: 80% 80%;
-        background-repeat: no-repeat;
-        background-position: center center;
-      }
     }
     .content-platform {
       position: absolute;
@@ -437,7 +428,7 @@
               margin: .25rem 0 0 .6rem;
               p {
                 color:rgba(81, 51, 40, .65);
-                font-size: .18rem;
+                font-size: .21rem;
                 line-height: .3rem;
               }
             }
@@ -640,6 +631,19 @@
       }
     }
   }
+  .arrow {
+    width: 0.46rem;
+    height: 0.4rem;
+    margin: 0.4rem auto 0;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: .2rem;
+    background-image: url("../assets/icon/arrow_up.png");
+    background-size: 80% 80%;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
   .buy {
     display: flex;
     align-items: center;
@@ -649,10 +653,20 @@
     background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
     position: fixed;
     bottom: 0;
-    img {
-      width: .4rem;
-      height: .62rem;
+    .follow {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       margin: 0 .35rem 0 0;
+      img {
+        width: .35rem;
+        height: .35rem;
+      }
+      span {
+        color: #B5341F;
+        font-size: .22rem;
+      }
     }
     .buy-button {
       display: flex;
@@ -669,7 +683,8 @@
   }
   .pay-content {
     width: 100%;
-    padding: .3rem 0 .4rem;
+    padding: .3rem 0 .3rem;
+    position: relative;
     background: rgba(229, 216, 207, 1);
     .pay-content-title {
       display: flex;
@@ -678,6 +693,13 @@
       font-size: .32rem;
       font-weight: 600;
       margin: 0 0 .5rem 0;
+    }
+    .close {
+      width: .3rem;
+      height: .3rem;
+      position: absolute;
+      top: .4rem;
+      right: .3rem;
     }
     ul {
       width: 100%;
@@ -710,6 +732,31 @@
             color: #513328;
             font-size: .22rem;
           }
+        }
+      }
+    }
+    .list {
+      display: flex;
+      align-items: center;
+      margin: 0 0 .4rem .25rem;
+      img {
+        width: .5rem;
+        height: .5rem;
+      }
+      .list-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin: 0 0 0 .1rem;
+        .list-content-title {
+          color: #513328;
+          font-size: .26rem;
+          font-weight: 500;
+        }
+        .list-content-intro {
+          color: rgba(81, 51, 40, .65);
+          font-size: .18rem;
         }
       }
     }
@@ -763,7 +810,7 @@
 </style>
 
 <template>
-  <div class="tarot-wrapper" @scroll="scrollFunc">
+  <div class="tarot-wrapper" @scroll="scrollFunc" ref="Tarot">
     <div class="title" :class="['title', { 'active animate__fadeIn animate__animated': titleActive }]">
       <i class="return" @click="$router.go(-1)" />
       <img v-if="titleActive" :src="Data.face" />
@@ -837,7 +884,6 @@
             <div class="i-list-content">{{ list.intro }}</div>
           </div>
         </div>
-        <div class="arrow animate__animated animate__infinite animate__fadeIn" @click="arrowUpFunc"></div>
       </div>
       <!-- 平台 -->
       <div class="content-platform" :class="[upDataClass, {'animate__fadeOutDown animate__animated': ClassStatus}]" v-show="platFormStatus">
@@ -852,7 +898,7 @@
               <span>{{ Data.qianming }}</span>
               <img class="img-right" src="../assets/icon/xyh.png">
             </div>
-            <div class="i-plan">
+            <div class="i-plan" @click="promiseStatus = true">
               <div class="i-plan-title">塔罗精选计划</div>
               <div class="i-plan-content">保护隐私·支持退款·5轮甄选·资料真实·伦理审查</div>
             </div>
@@ -863,7 +909,7 @@
               <span>*支持文字、语音、通话</span>
               <span>*私人订制咨询方案</span>
             </div>
-            <div class="i-box" v-for="item in Data.xmitems" :key="item.id">
+            <div class="i-box" v-for="(item, index) in Data.xmitems" :key="item.id">
               <div class="i-box-title">
                 <div class="t-icon">
                   <img :src="item.xmicon || require('../assets/icon/bmxp.png')">
@@ -876,13 +922,13 @@
                 <p>本案例分析包括但不限于：</p>
                 <p v-for="(list, eq) in item.jieshao" :key="eq">·{{ list }}</p>
               </div>
-              <div class="i-box-button">立即咨询</div>
+              <div class="i-box-button" @click="buyNow(index)">立即咨询</div>
             </div>
           </div>
           <div class="item">
             <div class="i-title">
               评价反馈
-              <span>查看{{ Data.pingjia }}名用户真实评价</span>
+              <!-- <span>查看{{ Data.pingjia }}名用户真实评价</span> -->
             </div>
             <div class="i-evaluate">
               <div class="e-left">
@@ -971,16 +1017,41 @@
         </div>
       </div>
     </div>
+    <!-- arrowup -->
+    <div class="arrow animate__animated animate__infinite animate__fadeIn" v-if="introStatus" @click="arrowUpFunc"></div>
+    <!-- 支付 -->
     <div :class="['buy', {'fadeInUp animate__animated': platFormStatus}]" v-if="platFormStatus">
-      <img v-if="!followStatus" src="../assets/icon/follow.png" @click="followFunc(1)">
+      <div v-if="!followStatus" class="follow" @click="followFunc(1)">
+        <img src="../assets/icon/unfollow.png">
+        <span>关注</span>
+      </div>
+      <div v-if="followStatus" class="follow" @click="followFunc(2)">
+        <img src="../assets/icon/follow.png">
+        <span>已关注</span>
+      </div>
       <div class="buy-button" @click="payStatus = true">购买TA的服务</div>
     </div>
+    <!-- 郑重承诺 -->
+    <van-popup v-model="promiseStatus" position="bottom">
+      <div class="pay-content">
+        <div class="pay-content-title">星座运势郑重承诺</div>
+        <img class="close" src="../assets/icon/close.png" @click="promiseStatus = false">
+        <div class="list" v-for="(item, index) in promiseData" :key="index">
+          <img :src="require('../assets/icon/promise_' + (index + 1) + '.png')">
+          <div class="list-content">
+            <span class="list-content-title">{{ item.title }}</span>
+            <span class="list-content-intro">{{ item.content }}</span>
+          </div>
+        </div>
+        <div class="createOrder" @click="promiseStatus = false">知道了</div>
+      </div>
+    </van-popup>
     <!-- 购买服务 -->
     <van-popup v-model="payStatus" position="bottom">
       <div class="pay-content">
         <div class="pay-content-title">购买TA的服务</div>
         <ul>
-          <li v-for="(item, index) in Data.xmitems" :key="item.id" :class="['bor-b', {active: buyActive == index}]" @click="selectFunc(item, index)">
+          <li v-for="(item, index) in Data.xmitems" :key="item.id" :class="['bor-b', {active: buyActive == index}]" @click="buyActive = index">
             <span class="color">{{ item.name }}</span>
             <span class="color-1">￥{{ item.priceval }}</span>
           </li>
@@ -1019,7 +1090,7 @@ import { payOrder, getDiviner } from '@/fetch/api'
 import { setTimeout } from 'timers';
 export default {
   name: "tarot",
-  data() {
+  data () {
     return {
       Data: Object,
       buyActive: 0, // 购买的序列号
@@ -1032,7 +1103,24 @@ export default {
       ClassStatus: false, // 动画状态
       introStatus: false, // 介绍状态
       platFormStatus: true, // 平台状态
-      upDataClass: ''
+      promiseStatus: false, // 郑重承诺
+      upDataClass: '',
+      promiseData: [{
+        title: '全面隐私保护',
+        content: '充分尊重每位来访者的隐私，全方位保护你的信息安全'
+      }, {
+        title: '24小时退款',
+        content: '咨询师24小时内未回复订单，用户即可申请取消订单及退款'
+      }, {
+        title: '5轮严格甄选',
+        content: '行业高水平入驻标准，精选TOP2%的入驻候选人'
+      }, {
+        title: '资料真实可靠',
+        content: '咨询师均持有相关资格证书，信息经过真实性核验'
+      }, {
+        title: '专业审查机制',
+        content: '平台专委会严肃处理违背占星、塔罗咨询伦理的各项行为'
+      }]
     }
   },
   methods: {
@@ -1053,6 +1141,7 @@ export default {
     arrowUpFunc () {
       this.ClassStatus = false
       this.platFormStatus = true
+      this.$refs.Tarot.scrollTo(0, 0)
       setTimeout(() => {
         this.introStatus = false
       }, 300)
@@ -1093,12 +1182,6 @@ export default {
       })
     },
     /**
-     * 选择对应的list
-     */
-    selectFunc (item, eq) {
-      this.buyActive = eq
-    },
-    /**
      * 未支付
      */
     unPayFunc () {
@@ -1130,16 +1213,22 @@ export default {
       }).then(res => {
         if (res.result == 1) {
           type == 1 ? this.$Toast('关注成功') : this.$Toast('取消关注')
-          this.followStatus = true
+          this.followStatus = type == 1
         }
       })
+    },
+    /**
+     * 立即咨询
+     */
+    buyNow (eq) {
+      [this.payStatus, this.buyActive] = [true, eq]
     }
   },
   mounted () {
     // 获取数据
     getDiviner({
       leibie: -2,
-      userid: this.$route.query.id
+      userid: this.$route.query.id || this.$userId
     }).then(res => {
       if (res.result == 1) {
         res.infos[0].shanchang = res.infos[0].shanchang.split('#')
