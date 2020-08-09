@@ -94,7 +94,9 @@
             }
           }
           img {
-            height: 2.9rem;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
           }
         }
         .intro {

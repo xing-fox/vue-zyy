@@ -167,8 +167,7 @@ export default {
     /**
      * 跳转占星师
      */
-    divineFunc () {
-    },
+    divineFunc () {},
     /**
      * 返回
      */
