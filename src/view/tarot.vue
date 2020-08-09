@@ -3,7 +3,7 @@
   font-size: 0;
   width: 100vw;
   height: 100vh;
-  padding: 1.2rem 0 0 0;
+  padding: 1.5rem 0 0 0;
   line-height: initial;
   box-sizing: border-box;
   overflow: auto;
@@ -17,7 +17,7 @@
     color: #fffaf1;
     font-size: 0.36rem;
     height: 1.2rem;
-    padding: 0 0 0 1.2rem;
+    padding: .5rem 0 0 1.2rem;
     position: fixed;
     top: 0;
     left: 0;
@@ -33,8 +33,8 @@
       background-size: 50% 50%;
       background-repeat: no-repeat;
       position: absolute;
-      top: 0;
-      left: 0.4rem;
+      top: .5rem;
+      left: .4rem;
       bottom: 0;
       margin: auto auto;
       &.return {
@@ -362,6 +362,7 @@
             height: 1.6rem;
             padding: 0 0 0 1.25rem;
             margin: .45rem 0;
+            position: relative;
             background-image: url('../assets/images/plan.png');
             background-size: 100% 100%;
             background-repeat: no-repeat;
@@ -374,6 +375,21 @@
               color: #6F543F;
               font-size: .2rem;
               margin: .2rem 0 0 0;
+              span {
+                margin: 0 .15rem 0 0;
+              }
+            }
+            .i-plan-arrow {
+              width: .09rem;
+              height: .17rem;
+              position: absolute;
+              top: 0;
+              right: .3rem;
+              bottom: 0;
+              margin: auto 0;
+              background-image: url('../assets/icon/arrow_right.png');
+              background-size: 100% 100%;
+              background-repeat: no-repeat;
             }
           }
           .i-tip {
@@ -381,6 +397,9 @@
             align-items: center;
             color: #513328;
             font-size: .22rem;
+            span {
+              margin: 0 .5rem 0 0;
+            }
           }
           .i-box {
             padding: .2rem;
@@ -773,20 +792,25 @@
     }
   }
   .order-content {
-      width: 5.3rem;
-      padding: .2rem .5rem .45rem;
+      width: 6rem;
+      padding: .2rem .3rem .45rem;
       box-sizing: border-box;
       .tips {
         color: #513328;
         font-size: .24rem;
         display: flex;
+        flex-direction: column;
+        align-items: center;
         justify-content: center;
         width: 100%;
-        margin: .5rem 0;
+        margin: .5rem 0 .4rem;
+        p {
+          margin: 0 0 .1rem 0;
+        }
       }
       .button {
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
         width: 100%;
         div {
           display: flex;
@@ -900,7 +924,14 @@
             </div>
             <div class="i-plan" @click="promiseStatus = true">
               <div class="i-plan-title">塔罗精选计划</div>
-              <div class="i-plan-content">保护隐私·支持退款·5轮甄选·资料真实·伦理审查</div>
+              <div class="i-plan-content">
+                <span>·保护隐私</span>
+                <span>·支持退款</span>
+                <span>·5轮甄选</span>
+                <span>·资料真实</span>
+                <span>·伦理审查</span>
+              </div>
+              <div class="i-plan-arrow"></div>
             </div>
           </div>
           <div class="item">
@@ -916,13 +947,14 @@
                 </div>
                 <div class="t-name">{{ item.name }}</div>
                 <div class="t-price">￥{{ item.priceval }}</div>
-                <div class="t-oldPrice">{{ item.pricevaltip }}</div>
+                <div class="t-oldPrice">{{ item.pricevaltipold }}</div>
               </div>
               <div class="i-box-main">
                 <p>本案例分析包括但不限于：</p>
-                <p v-for="(list, eq) in item.jieshao" :key="eq">·{{ list }}</p>
+                <!-- <p v-for="(list, eq) in item.jieshao" :key="eq">·{{ list }}</p> -->
+                <p v-html="item.jieshao"></p>
               </div>
-              <div class="i-box-button" @click="buyNow(index)">立即咨询</div>
+              <div class="i-box-button" @click="buyActive = index">立即咨询</div>
             </div>
           </div>
           <div class="item">
@@ -1050,6 +1082,7 @@
     <van-popup v-model="payStatus" position="bottom">
       <div class="pay-content">
         <div class="pay-content-title">购买TA的服务</div>
+        <img class="close" @click="payStatus = false" src="../assets/icon/close.png">
         <ul>
           <li v-for="(item, index) in Data.xmitems" :key="item.id" :class="['bor-b', {active: buyActive == index}]" @click="buyActive = index">
             <span class="color">{{ item.name }}</span>
@@ -1078,7 +1111,7 @@
         </div>
         <div class="button">
           <div class="color-1" @click="unOrderStatus = false">我再想想</div>
-          <div class="color-2" @click="createOrderFunc">前去支付</div>
+          <div class="color-2" @click="goPay">前去支付</div>
         </div>
       </div>
     </van-popup>
@@ -1087,7 +1120,6 @@
 
 <script>
 import { payOrder, getDiviner } from '@/fetch/api'
-import { setTimeout } from 'timers';
 export default {
   name: "tarot",
   data () {
@@ -1196,8 +1228,9 @@ export default {
         orderid: this.payOrderId
       }).then(res => {
         if (res.result == 1) {
+          this.orderStatus = false
           window.fortune.openactivity('startprivatechat', '0', '1', `userid#${Data.userid}@username#${Data.name}`)
-        } else {
+        } else { 
           this.unOrderStatus = true
         }
       })
@@ -1218,10 +1251,12 @@ export default {
       })
     },
     /**
-     * 立即咨询
+     * 前去支付
      */
-    buyNow (eq) {
-      [this.payStatus, this.buyActive] = [true, eq]
+    goPay () {
+      this.unOrderStatus = false
+      this.orderStatus = true
+      window.fortune.openactivity('com.fairytale.fortunetarot.controller.ExpertOrderDetailActivity', '0', '', `orderid#${this.payOrderId}`)
     }
   },
   mounted () {
@@ -1232,9 +1267,9 @@ export default {
     }).then(res => {
       if (res.result == 1) {
         res.infos[0].shanchang = res.infos[0].shanchang.split('#')
-        res.infos[0].xmitems.map(list => {
-          list.jieshao = list.jieshao.split('，')
-        })
+        // res.infos[0].xmitems.map(list => {
+        //   list.jieshao = list.jieshao.split('，')
+        // })
         res.infos[0].pjitems.map(list => {
           list.biaoqian = list.biaoqian.split('#')
         })
