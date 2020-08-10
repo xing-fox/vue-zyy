@@ -323,7 +323,7 @@
         }
       }
       .content {
-        padding: .5rem .3rem;
+        padding: .5rem .3rem 1.2rem;
         border-top-left-radius: .3rem;
         border-top-right-radius: .3rem;
         background: #E5D8CF;
@@ -449,7 +449,7 @@
               margin: .25rem 0 0 .6rem;
               p {
                 color:rgba(81, 51, 40, .65);
-                font-size: .21rem;
+                font-size: .24rem;
                 line-height: .3rem;
               }
             }
@@ -933,7 +933,7 @@
                 <span>•支持退款</span>
                 <span>•5轮甄选</span>
                 <span>•资料真实</span>
-                <span>•伦理审查</span>
+                <span>•高效沟通</span>
               </div>
               <div class="i-plan-arrow"></div>
             </div>
@@ -1032,7 +1032,7 @@
               </div>
             </div>
           </div>
-          <div class="item">
+          <div class="item" v-if="Data.noteitems.length">
             <div class="i-title">咨询师动态</div>
             <div class="i-wechat">
               <div class="i-wechat-list" v-for="item in Data.noteitems" :key="item.id">
@@ -1070,7 +1070,7 @@
     <!-- 郑重承诺 -->
     <van-popup v-model="promiseStatus" position="bottom">
       <div class="pay-content">
-        <div class="pay-content-title">星座运势郑重承诺</div>
+        <div class="pay-content-title">塔罗精选计划郑重承诺</div>
         <img class="close" src="../assets/icon/close.png" @click="promiseStatus = false">
         <div class="list" v-for="(item, index) in promiseData" :key="index">
           <img :src="require('../assets/icon/promise_' + (index + 1) + '.png')">
@@ -1154,8 +1154,8 @@ export default {
         title: '资料真实可靠',
         content: '咨询师均持有相关资格证书，信息经过真实性核验'
       }, {
-        title: '专业审查机制',
-        content: '平台专委会严肃处理违背占星、塔罗咨询伦理的各项行为'
+        title: '一对一语音文字沟通',
+        content: '一对一高效沟通的咨询方式，支持文字语音实时通话'
       }]
     }
   },
@@ -1232,10 +1232,10 @@ export default {
         actiontype: 15,
         orderid: this.payOrderId
       }).then(res => {
+        this.orderStatus = false
         if (res.result == 1) {
-          this.orderStatus = false
           window.fortune.openactivity('startprivatechat', '1', '0', `userid#${this.Data.userid}@username#${this.Data.name}`)
-        } else { 
+        } else {
           this.unOrderStatus = true
         }
       })
@@ -1277,6 +1277,7 @@ export default {
         // })
         res.infos[0].pjitems.map(list => {
           list.biaoqian = list.biaoqian.split('#')
+          list.content = list.content.length > 30 ? `${list.content.slice(0,30)}...` : list.content
         })
         res.infos[0].jingLiData = []
         res.infos[0].jingli = res.infos[0].jingli.split('@')
