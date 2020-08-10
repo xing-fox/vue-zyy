@@ -64,20 +64,40 @@
             background: url('../assets/images/hp-img2.png') no-repeat;
             background-size: 100% 100%;
           }
-          span {
+          & > div {
             position: absolute;
             background: url('../assets/images/hp-add.png') no-repeat;
             background-size: 100% 100%;
             width: 1.73rem;
             height: 1.73rem;
+            img {
+              display: block;
+              width: 100%;
+              height: 100%;
+            }
+            span {
+              position: absolute;
+              width: 100%;
+              font-size: .3rem;
+              color: #fff;
+              left: 0;
+              line-height: .8rem;
+              text-align: center;
+            }
           }
           .left {
             left: -.5rem;
             top: .5rem;
+            span {
+              top: -.7rem;
+            }
           }
           .right {
             right: -.5rem;
             bottom: .5rem;
+            span {
+              bottom: -.7rem;
+            }
           }
         }
       }
@@ -96,8 +116,13 @@
         <div class="yfhp-content">
           <div class="yfhp-box">
             <i class="heart"></i>
-            <span class="left"></span>
-            <span class="right"></span>
+            <div class="left">
+              <img src="../assets/images/hp-img.png">
+              <span>白展堂</span>
+            </div>
+            <div class="right">
+              <span>请选择</span>
+            </div>
           </div>
         </div>
       </div>
