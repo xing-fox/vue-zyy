@@ -1268,6 +1268,7 @@ export default {
     // 获取数据
     getDiviner({
       leibie: -2,
+      expertway: 3,
       userid: this.$route.query.id || this.$userId
     }).then(res => {
       if (res.result == 1) {
