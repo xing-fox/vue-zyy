@@ -110,15 +110,26 @@
           width: 90%;
           border-radius: 50%;
         }
-        .tab {
-          width: .97rem;
-          height: .35rem;
-          background-image: url('../assets/images/canshu.jpg');
-          background-size: 100% 100%;
-          background-repeat: no-repeat;
+        .pos {
+          display: flex;
+          align-items: center;
+          color: #B73724;
+          font-size: .22rem;
+          font-weight: bold;
           position: absolute;
-          right: .35rem;
           bottom: .5rem;
+          &.canshu {
+            left: .35rem;
+          }
+          &.hepan {
+            right: .35rem;
+          }
+          img {
+            width: .35rem;
+            height: .35rem;
+            margin: 0 .1rem 0 0;
+            border-radius: initial;
+          }
         }
       }
       .item-2 {
@@ -468,7 +479,14 @@
               <span>Placidus</span>
             </div>
             <img :src="totalData.xingpanpic">
-            <i class="tab" @click="navIndex = 3"></i>
+            <div class="canshu pos" @click="navIndex = 3">
+              <img src="../assets/icon/canshu.png" alt="">
+              <span>参数</span>  
+            </div>
+            <div class="hepan pos" @click="routeChange">
+              <img src="../assets/icon/hepan.png" alt="">
+              <span>合盘</span>
+            </div>
           </div>
           <div class="item item-2" v-if="navIndex == 1">
             <van-pull-refresh v-model="itemSecondStatus" @refresh="itemSecondStatus = false">
@@ -898,6 +916,14 @@ export default {
      */
     routeBack () {
       window.fortune.closepage()
+    },
+    /**
+     * 跳转合盘
+     */
+    routeChange () {
+      this.$router.push({
+        path: '/yfhp'
+      })
     }
   }
 }

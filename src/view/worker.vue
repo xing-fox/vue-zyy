@@ -195,7 +195,7 @@
     <div class="wrapper">
       <div class="title">
         <i class="icon return" @click="routeBack"></i>
-        <span>{{ titleName }}</span>
+        <span v-html="titleName"></span>
       </div>
       <van-pull-refresh class="content" v-model="refreshStatus" @refresh="refreshStatus = false">
         <ul>
@@ -251,7 +251,7 @@ export default {
       from: this.$route.query.from, // app 内页跳转
       data: [],
       refreshStatus: false,
-      titleName: this.getUrlParam('listtitle') || '咨询师'
+      titleName: this.getUrlParam('listtitle') ? decodeURIComponent(this.getUrlParam('listtitle')) : '咨询师'
     }
   },
   components: {

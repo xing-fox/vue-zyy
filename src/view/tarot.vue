@@ -1209,6 +1209,9 @@ export default {
         price: this.Data.xmitems[this.buyActive].priceval,
         ordertype: 1
       }).then(res => {
+        if (res.result == 0) {
+          this.$Toast('你还未登录，请先登录')
+        }
         if (res.result == 1) {
           this.payOrderId = res.infos.orderid
           window.fortune.openactivity('com.fairytale.fortunetarot.controller.ExpertOrderDetailActivity', '0', '', `orderid#${res.infos.orderid}`)
