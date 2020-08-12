@@ -184,16 +184,15 @@
           .content-image-show {
             float: left;
             display: inline-flex;
-            align-items: center;
-            justify-content: center;
             width: 2rem;
             height: 2.4rem;
             margin: 0 0.2rem 0.2rem 0;
             border-radius: 0.1rem;
             overflow: hidden;
             img {
-              height: 100%;
-              max-height: 2.4rem;
+              width: 2rem;
+              height: 2.4rem;
+              object-fit: cover;
             }
           }
         }
