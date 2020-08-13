@@ -51,9 +51,18 @@
       .yfhp-box {
         width: 4.35rem;
         height: 4.58rem;
+        transition: All 3s ease;
+        transform-origin: 50% 50%;
         position: relative;
         background: url("../assets/images/hp-bg2.png") no-repeat;
         background-size: 100% 100%;
+        &.active {
+          transform: rotate(360deg);
+          -webkit-transform: rotate(360deg);
+          -moz-transform: rotate(360deg);
+          -o-transform: rotate(360deg);
+          -ms-transform: rotate(360deg);
+        }
         .heart {
           display: inline-block;
           position: absolute;
@@ -89,6 +98,11 @@
         .left {
           left: -0.5rem;
           top: 0.5rem;
+          transition: all 1s ease;
+          &.active {
+            top: calc(50% - .865rem);
+            left: calc(50% - .865rem);
+          }
           span {
             top: -0.7rem;
           }
@@ -96,6 +110,11 @@
         .right {
           right: -0.5rem;
           bottom: 0.5rem;
+          transition: all 1s ease;
+          &.active {
+            right: calc(50% - .865rem);
+            bottom: calc(50% - .865rem);
+          }
           span {
             bottom: -0.7rem;
           }
@@ -114,7 +133,9 @@
       padding: 0 .25rem;
       position: relative;
       &.active {
-        background: #d9cdc5;
+        cursor: not-allowed;
+        pointer-events: none;
+        background: #cec3bb;
       }
       &:after {
         border-bottom: 1px solid #d8b293; 
@@ -225,13 +246,13 @@
       </div>
       <div class="main">
         <div class="yfhp-content">
-          <div class="yfhp-box">
+          <div :class="['yfhp-box', {'active': startHpStatus}]">
             <i class="heart"></i>
-            <div class="left" @click="hpData.active = false; getXpList()">
+            <div :class="['left', {'active': startHpStatus}]" @click="hpData.active = false; getXpList()">
               <img :src="hpData.left.id ? hpData.left.imgs: hpData.left.img" />
               <span>{{ hpData.left.name }}</span>
             </div>
-            <div class="right" @click="; hpData.active = true; getXpList()">
+            <div :class="['right', {'active': startHpStatus}]" @click="; hpData.active = true; getXpList()">
               <img :src="hpData.right.id ? hpData.right.imgs : hpData.right.img" />
               <span>{{ hpData.right.name }}</span>
             </div>
@@ -245,7 +266,7 @@
       <van-popup v-model="menuStatus" position="bottom">
         <div class="menu-content">
           <ul>
-            <li v-for="item in listData" :key="item.xpid" @click="choiseXp(item)" class="bor-b">
+            <li v-for="item in listData" :key="item.xpid" @click="choiseXp(item)" :class="['bor-b', {'active': item.xpid == (hpData.left.id || hpData.right.id)}]">
               <div class="name">{{ item.name }}</div>
               <i class="icon edit" @click.stop.prevent="listDetails(item.content)"></i>
               <i class="icon delete" @click.stop.prevent="deleteStatus = true; deleteXpId = item.xpid"></i>
@@ -287,11 +308,13 @@ export default {
   name: 'yfhp',
   data () {
     return {
+      from: this.$route.query.from, // app 内页跳转
       listData: [],
       listDetailData: [],
       menuStatus: false,
       dataStatus: false,
       deleteStatus: false,
+      startHpStatus: false,
       hpData: {
         active: false,
         left: {
@@ -312,7 +335,6 @@ export default {
   components: {
     Cont
   },
-  mounted () {},
   methods: {
     /**
      * 创建星盘
@@ -375,6 +397,7 @@ export default {
      */
     divineFunc () {
       if (!this.hpData.left.id || !this.hpData.right.id) return this.$toast('请先选择合盘信息')
+      this.startHpStatus = true
       getData_XP({
         actiontype: 9,
         userid: this.$userId,
@@ -408,7 +431,8 @@ export default {
      * 返回
      */
     routeBack () {
-      // window.fortune.closepage()
+      if (this.from == 'app') return this.$router.go(-1)
+      return window.fortune.closepage()
     }
   }
 }

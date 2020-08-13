@@ -922,7 +922,10 @@ export default {
      */
     routeChange () {
       this.$router.push({
-        path: '/yfhp'
+        path: '/yfhp',
+        query: {
+          from: 'app'
+        }
       })
     }
   }
