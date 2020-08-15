@@ -174,10 +174,10 @@
             border-radius: 0 0 .27rem .27rem;
             background: #b93825;
             position: absolute;
-            top: .1rem;
+            top: .05rem;
             right: .3rem;
             img {
-              width: .4rem;
+              width: .5rem;
             }
           }
         }
@@ -225,10 +225,10 @@
             }
           }
           .status {
-            width: .4rem;
-            height: .4rem;
+            width: .5rem;
+            height: .5rem;
             margin: 0 0 0 .2rem;
-            background-image: url('../assets/images/lock_1.jpg');
+            background-image: url('../assets/images/lock_1.png');
             background-size: 100% 100%;
             background-repeat: no-repeat;
           }
@@ -457,6 +457,46 @@
         }
       }
     }
+    .order-content {
+      width: 6rem;
+      padding: .2rem .3rem .45rem;
+      box-sizing: border-box;
+      .tips {
+        color: #513328;
+        font-size: .24rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        margin: .5rem 0 .4rem;
+        p {
+          margin: 0 0 .1rem 0;
+          text-align: center;
+        }
+      }
+      .button {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        div {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #e5d8cf;
+          font-size: .26rem;
+          width: 2rem;
+          height: .7rem;
+          border-radius: 2px;
+          &.color-1 {
+            background: #866e64;
+          }
+          &.color-2 {
+            background: #b5341f;
+          }
+        }
+      }
+    }
   }
 </style>
 
@@ -470,7 +510,7 @@
           <i class="icon menu" @click="getXpList"></i>
         </div>
         <ul class="nav bor-b">
-          <li v-for="(item, index) in navList" :key="index" :class="{'active': index == navIndex}" @click="navIndex = index">{{ item }}</li>
+          <li v-for="(item, index) in navList" :key="index" :class="{'active': index == navIndex}" @click="changeNav(index)">{{ item }}</li>
         </ul>
         <div class="main">
           <div class="item item-1" v-if="navIndex == 0">
@@ -491,9 +531,9 @@
           <div class="item item-2" v-if="navIndex == 1">
             <van-pull-refresh v-model="itemSecondStatus" @refresh="itemSecondStatus = false">
               <div v-for="item in reportData" :key="item" :class="['list', `list-${item}`]" @click="reportDetailFunc(item)">
-                <!-- <div class="lock">
-                  <img src="../assets/images/lock_2.jpg">
-                </div> -->
+                <div v-if="totalData.pinfos.isbuy == 0" class="lock">
+                  <img src="../assets/images/lock.png">
+                </div>
               </div>
             </van-pull-refresh>
           </div>
@@ -505,9 +545,9 @@
                     <i>{{ list.flag }}</i>
                     {{ list.keywords }}
                   </div>
-                  <div class="intro">【已解锁】{{ list.timu }}</div>
+                  <div class="intro">{{ list.timu }}</div>
                 </div>
-                <!-- <div class="status"></div> -->
+                <div v-if="totalData.pinfos.isbuy == 0" class="status"></div>
               </div>
             </van-pull-refresh>
           </div>
@@ -646,6 +686,28 @@
             </div>
           </div>
         </van-popup>
+        <!-- 订单状态 -->
+        <van-popup v-model="orderStatus" :style="{ 'border-radius': '4px' }">
+          <div class="order-content">
+            <div class="tips">是否已成功支付订单？</div>
+            <div class="button">
+              <div class="color-1" @click="unPayFunc">未支付</div>
+              <div class="color-2" @click="checkPay">已支付</div>
+            </div>
+          </div>
+        </van-popup>
+        <!-- 未支付订单状态 -->
+        <van-popup v-model="unOrderStatus" :style="{ 'border-radius': '4px' }">
+          <div class="order-content">
+            <div class="tips" v-if="totalData.pinfos">
+              <p v-for="(item, index) in totalData.pinfos.tipinfo" :key="index">{{ item }}</p>
+            </div>
+            <div class="button">
+              <div class="color-1" @click="unOrderStatus = false">我再想想</div>
+              <div class="color-2" @click="goPay">前去支付</div>
+            </div>
+          </div>
+        </van-popup>
       </template>
       <router-view />
     </div>
@@ -654,7 +716,7 @@
 
 <script>
 import Cont from './content'
-import { getData_XP } from '@/fetch/api'
+import { payOrder, getData_XP } from '@/fetch/api'
 import {
   BaseInfoData,
   BaseInfoData_1,
@@ -665,12 +727,15 @@ export default {
   name: 'bmxp',
   data () {
     return {
+      payOrderId: '',
       navIndex: 0,
-      navList: ['星盘', '报告', '解密', '参数'],
+      navList: ['星盘', '报告', '解密', '参数', '合盘'],
       menuStatus: false,
       dataStatus: false,
       deleteStatus: false,
       itemSecondStatus: false,
+      orderStatus: false,
+      unOrderStatus: false,
       activeXpId: '', // 当前星盘id
       deleteXpId: '', // 删除当前星盘id
       totalData: {}, // 当前星盘数据
@@ -687,12 +752,27 @@ export default {
   },
   methods: {
     /**
+     * 切换导航
+     */
+    changeNav (eq) {
+      this.navIndex = eq
+      if (eq == 4) return this.$router.push({
+        path: '/bjp',
+        query: {
+          from: 'app'
+        }
+      })
+    },
+    /**
      * 创建星盘
      */
     createFunc () {
       if (this.listData.length === 5) return this.$Toast('最多创建5个星盘，请删除后再次创建')
       this.$router.push({
-        path: '/createFile'
+        path: '/createFile',
+        query: {
+          type: 1
+        }
       })
     },
     /**
@@ -754,13 +834,14 @@ export default {
               }
             }
           })
+          if (res.infos.pinfos.isbuy == 0) res.infos.pinfos.tipinfo = res.infos.pinfos.tipinfo.split('<br>')
           this.totalData = res.infos
           this.activeXpId = res.infos.xpid
         } else {
           this.$router.push({
             path: '/createFile',
             query: {
-              from: 'app'
+              type: 0
             }
           })
         }
@@ -838,6 +919,7 @@ export default {
               }
             }
           })
+          if (res.infos.pinfos.isbuy == 0) res.infos.pinfos.tipinfo = res.infos.pinfos.tipinfo.split('<br>')
           this.totalData = res.infos
           this.activeXpId = res.infos.xpid
       })
@@ -870,7 +952,7 @@ export default {
             this.$router.push({
               path: '/createFile',
               query: {
-                from: 'app'
+                type: 0
               }
             })
           }, 1000)
@@ -892,24 +974,32 @@ export default {
      * 跳转报告详情页
      */
     reportDetailFunc (id) {
-      this.$router.push({
-        path: 'bmxp/reportDetail',
-        query: {
-          xpid: this.activeXpId,
-          itemid: id
-        }
-      })
+      if (this.totalData.pinfos.isbuy == 0) {
+        this.unOrderStatus = true
+      } else {
+        this.$router.push({
+          path: 'bmxp/reportDetail',
+          query: {
+            xpid: this.activeXpId,
+            itemid: id
+          }
+        })
+      }
     },
     /**
      * 跳转星盘解密页
      */
     secretDetailFunc (id) {
-      this.$router.push({
-        path: 'bmxp/secretDetail',
-        query: {
-          itemid: id
-        }
-      })
+      if (this.totalData.pinfos.isbuy == 0) {
+        this.unOrderStatus = true
+      } else {
+        this.$router.push({
+          path: 'bmxp/secretDetail',
+          query: {
+            itemid: id
+          }
+        })
+      }
     },
     /**
      * 返回
@@ -922,9 +1012,55 @@ export default {
      */
     routeChange () {
       this.$router.push({
-        path: '/yfhp',
+        path: '/bjp',
         query: {
           from: 'app'
+        }
+      })
+    },
+    /**
+     * 前去支付
+     */
+    goPay () {
+      this.unOrderStatus = false
+      payOrder({
+        expertuserid: this.totalData.pinfos.expertuserid,
+        userid: this.$userId,
+        actiontype: 3,
+        ordername: this.totalData.pinfos.ordername,
+        price: this.totalData.pinfos.price,
+        ordertype: this.totalData.pinfos.ordertype,
+        orderpid: this.totalData.pinfos.orderpid
+      }).then(res => {
+        if (res.result == 0) {
+          this.$Toast('你还未登录，请先登录')
+        }
+        if (res.result == 1) {
+          this.payOrderId = res.infos.orderid
+          this.orderStatus = true
+          window.fortune.openactivity('com.fairytale.fortunetarot.controller.ExpertOrderDetailActivity', '0', '', `orderid#${res.infos.orderid}`)
+        }
+      })
+    },
+    /**
+     * 未支付
+     */
+    unPayFunc () {
+      [this.orderStatus, this.unOrderStatus] = [false, true]
+    },
+    /**
+     * 检测是否支付
+     */
+    checkPay () {
+      payOrder({
+        actiontype: 15,
+        orderid: this.payOrderId
+      }).then(res => {
+        this.orderStatus = false
+        if (res.result == 1) {
+          this.totalData.pinfos.isbuy = 1
+        } else {
+          this.unOrderStatus = true
         }
       })
     }

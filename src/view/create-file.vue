@@ -192,8 +192,10 @@ export default {
      * 返回
      */
     routeBack () {
-      if (this.from == 'app') return window.fortune.closepage()
-      return this.$router.go(-1)
+      // type: 1 本命盘主动跳转
+      // type: 0 本名盘自动跳转
+      if (this.$route.query.type == 1) return this.$router.go(-1)
+      if (this.$route.query.type == 0) return window.fortune.closepage()
     },
     /**
      * 提交
@@ -207,6 +209,7 @@ export default {
         name: this.formData.name,
         cityid: this.formData.cityid,
         cityname: this.formData.addr,
+        isfromhepan: this.$route.query.origin == 'hp' ? 1 : null,
         y: this.$moment(this.formData.date).format('YYYY'),
         m: this.$moment(this.formData.date).format('MM'),
         d: this.$moment(this.formData.date).format('DD'),

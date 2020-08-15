@@ -40,83 +40,95 @@
     box-sizing: border-box;
     overflow: auto;
     .yfhp-content {
-      display: flex;
-      align-items: center;
-      justify-content: center;
       width: 100%;
       height: 100%;
-      box-sizing: border-box;
-      background: url("../assets/images/hp-bg.png") no-repeat;
-      background-size: 100% 100%;
-      .yfhp-box {
-        width: 4.35rem;
-        height: 4.58rem;
-        transition: All 3s ease;
-        transform-origin: 50% 50%;
-        position: relative;
-        background: url("../assets/images/hp-bg2.png") no-repeat;
-        background-size: 100% 100%;
-        &.active {
-          transform: rotate(360deg);
-          -webkit-transform: rotate(360deg);
-          -moz-transform: rotate(360deg);
-          -o-transform: rotate(360deg);
-          -ms-transform: rotate(360deg);
-        }
-        .heart {
-          display: inline-block;
-          position: absolute;
-          left: 50%;
-          top: 50%;
-          width: 0.9rem;
-          height: 0.84rem;
-          margin: -0.42rem 0 0 -0.45rem;
-          background: url("../assets/images/hp-img2.png") no-repeat;
+      position: relative;
+      .yfhp-content-bg {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .yfhp-content-main {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        .yfhp-box {
+          width: 4.35rem;
+          height: 4.58rem;
+          transition: All 3s ease;
+          transform-origin: 50% 50%;
+          position: relative;
+          background: url("../assets/images/hp-bg2.png") no-repeat;
           background-size: 100% 100%;
-        }
-        & > div {
-          position: absolute;
-          background: url("../assets/images/hp-add.png") no-repeat;
-          background-size: 100% 100%;
-          width: 1.73rem;
-          height: 1.73rem;
-          img {
-            display: block;
-            width: 100%;
-            height: 100%;
+          &.active {
+            transform: rotate(720deg);
+            -webkit-transform: rotate(720deg);
+            -moz-transform: rotate(720deg);
+            -o-transform: rotate(720deg);
+            -ms-transform: rotate(720deg);
           }
-          span {
+          .heart {
+            display: inline-block;
             position: absolute;
-            width: 100%;
-            font-size: 0.3rem;
-            color: #fff;
-            left: 0;
-            line-height: 0.8rem;
-            text-align: center;
+            left: 50%;
+            top: 50%;
+            width: 0.9rem;
+            height: 0.84rem;
+            margin: -0.42rem 0 0 -0.45rem;
+            background: url("../assets/images/hp-img2.png") no-repeat;
+            background-size: 100% 100%;
           }
-        }
-        .left {
-          left: -0.5rem;
-          top: 0.5rem;
-          transition: all 1s ease;
-          &.active {
-            top: calc(50% - .865rem);
-            left: calc(50% - .865rem);
+          & > div {
+            position: absolute;
+            background: url("../assets/images/hp-add.png") no-repeat;
+            background-size: 100% 100%;
+            width: 1.73rem;
+            height: 1.73rem;
+            img {
+              display: block;
+              width: 100%;
+              height: 100%;
+            }
+            span {
+              position: absolute;
+              width: 100%;
+              font-size: 0.3rem;
+              color: #fff;
+              left: 0;
+              line-height: 0.8rem;
+              text-align: center;
+            }
           }
-          span {
-            top: -0.7rem;
+          .left {
+            left: -0.5rem;
+            top: 0.5rem;
+            transition: all 1s ease;
+            &.active {
+              top: calc(50% - .865rem);
+              left: calc(50% - .865rem);
+            }
+            span {
+              top: -0.7rem;
+            }
           }
-        }
-        .right {
-          right: -0.5rem;
-          bottom: 0.5rem;
-          transition: all 1s ease;
-          &.active {
-            right: calc(50% - .865rem);
-            bottom: calc(50% - .865rem);
-          }
-          span {
-            bottom: -0.7rem;
+          .right {
+            right: -0.5rem;
+            bottom: 0.5rem;
+            transition: all 1s ease;
+            &.active {
+              right: calc(50% - .865rem);
+              bottom: calc(50% - .865rem);
+            }
+            span {
+              bottom: -0.7rem;
+            }
           }
         }
       }
@@ -246,15 +258,18 @@
       </div>
       <div class="main">
         <div class="yfhp-content">
-          <div :class="['yfhp-box', {'active': startHpStatus}]">
-            <i class="heart"></i>
-            <div :class="['left', {'active': startHpStatus}]" @click="hpData.active = false; getXpList()">
-              <img :src="hpData.left.id ? hpData.left.imgs: hpData.left.img" />
-              <span>{{ hpData.left.name }}</span>
-            </div>
-            <div :class="['right', {'active': startHpStatus}]" @click="; hpData.active = true; getXpList()">
-              <img :src="hpData.right.id ? hpData.right.imgs : hpData.right.img" />
-              <span>{{ hpData.right.name }}</span>
+          <img class="yfhp-content-bg" src="../assets/images/hp-bg.png">
+          <div class="yfhp-content-main">
+            <div :class="['yfhp-box', {'active': startHpStatus}]">
+              <i class="heart"></i>
+              <div :class="['left', {'active': startHpStatus}]" @click="hpData.active = false; getXpList()">
+                <img :src="hpData.left.id ? hpData.left.imgs: hpData.left.img" />
+                <span>{{ hpData.left.name }}</span>
+              </div>
+              <div :class="['right', {'active': startHpStatus}]" @click="hpData.active = true; getXpList()">
+                <img :src="hpData.right.id ? hpData.right.imgs : hpData.right.img" />
+                <span>{{ hpData.right.name }}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -266,7 +281,11 @@
       <van-popup v-model="menuStatus" position="bottom">
         <div class="menu-content">
           <ul>
-            <li v-for="item in listData" :key="item.xpid" @click="choiseXp(item)" :class="['bor-b', {'active': item.xpid == (hpData.left.id || hpData.right.id)}]">
+            <li
+              v-for="item in listData"
+              :key="item.xpid"
+              @click="choiseXp(item)"
+              :class="['bor-b', {'active': (item.xpid == hpData.left.id) ||  (item.xpid == hpData.right.id)}]">
               <div class="name">{{ item.name }}</div>
               <i class="icon edit" @click.stop.prevent="listDetails(item.content)"></i>
               <i class="icon delete" @click.stop.prevent="deleteStatus = true; deleteXpId = item.xpid"></i>
@@ -342,7 +361,11 @@ export default {
     createFunc () {
       if (this.listData.length === 5) return this.$Toast('最多创建5个星盘，请删除后再次创建')
       this.$router.push({
-        path: '/createFile'
+        path: '/createFile',
+        query: {
+          type: 1,
+          origin: 'hp'
+        }
       })
     },
     /**
@@ -383,10 +406,8 @@ export default {
           this.$Toast('暂无星盘，请先创建星盘')
           setTimeout(() => {
             this.$router.push({
-              path: '/createFile',
-              query: {
-                from: 'app'
-              }
+              type: 1,
+              path: '/createFile'
             })
           }, 1000)
         }
@@ -405,12 +426,12 @@ export default {
         xingpan02id: this.hpData.right.id
       }).then(res => {
         if (res.result == 1) {
-          this.$toast('合盘成功')
+          // this.$toast('合盘成功')
           setTimeout(() => {
             this.$router.push({
               path: '/bjp'
             })
-          },1000)
+          }, 1000)
         }
       })
     },
@@ -431,8 +452,12 @@ export default {
      * 返回
      */
     routeBack () {
-      if (this.from == 'app') return this.$router.go(-1)
-      return window.fortune.closepage()
+      // from: app 主路径是H5app
+      // type: 1 本命盘主动跳转
+      // type: 0 本名盘自动跳转
+      if (this.$route.query.type == 1) return this.$router.go(-1)
+      if (this.$route.query.type == 0 && this.$route.query.from == 'app') return this.$router.go(-2)
+      if (this.$route.query.type == 0 && !this.$route.query.from) return window.fortune.closepage()
     }
   }
 }

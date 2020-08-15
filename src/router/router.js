@@ -36,7 +36,17 @@ export default [
     component: resolve => require(['@/view/bjp'], resolve),
     meta: {
       title: '比较盘'
-    }
+    },
+    children: [
+      {
+        path: 'reportBjp',
+        name: 'bjpDetails',
+        component: resolve => require(['@/view/report-bjp'], resolve),
+        meta: {
+          title: '报告解析'
+        }
+      }
+    ]
   }, {
     path: '/createFile',
     name: 'createfile',

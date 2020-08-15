@@ -793,44 +793,44 @@
     }
   }
   .order-content {
-      width: 6rem;
-      padding: .2rem .3rem .45rem;
-      box-sizing: border-box;
-      .tips {
-        color: #513328;
-        font-size: .24rem;
+    width: 6rem;
+    padding: .2rem .3rem .45rem;
+    box-sizing: border-box;
+    .tips {
+      color: #513328;
+      font-size: .24rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      margin: .5rem 0 .4rem;
+      p {
+        margin: 0 0 .1rem 0;
+      }
+    }
+    .button {
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+      div {
         display: flex;
-        flex-direction: column;
         align-items: center;
         justify-content: center;
-        width: 100%;
-        margin: .5rem 0 .4rem;
-        p {
-          margin: 0 0 .1rem 0;
+        color: #e5d8cf;
+        font-size: .26rem;
+        width: 2rem;
+        height: .7rem;
+        border-radius: 2px;
+        &.color-1 {
+          background: #866e64;
         }
-      }
-      .button {
-        display: flex;
-        justify-content: space-around;
-        width: 100%;
-        div {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #e5d8cf;
-          font-size: .26rem;
-          width: 2rem;
-          height: .7rem;
-          border-radius: 2px;
-          &.color-1 {
-            background: #866e64;
-          }
-          &.color-2 {
-            background: #b5341f;
-          }
+        &.color-2 {
+          background: #b5341f;
         }
       }
     }
+  }
 }
 </style>
 

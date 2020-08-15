@@ -88,7 +88,7 @@
     <div class="wrapper-detail">
       <div class="title">
         <i class="icon return" @click="$router.go(-1)"></i>
-        <span>本命星盘</span>
+        <span>缘分报告</span>
       </div>
       <div class="main">
         <ul>
@@ -99,7 +99,7 @@
               <span class="time">{{ item.degree }}</span>
             </div>
             <div class="list-content">
-              <span v-html="item.contentText.content"></span>
+              <span v-html="item.content"></span>
             </div>
           </li>
         </ul>
@@ -113,9 +113,8 @@
 
 <script>
 import Cont from './content'
-import { getData_XP } from '@/fetch/api'
 export default {
-  name: 'bmxpDetails',
+  name: 'bjpDetails',
   data () {
     return {
       totalData: []
@@ -125,28 +124,10 @@ export default {
     Cont
   },
   mounted () {
-    this.init()
+    console.log(this.$route.params)
+    this.totalData = this.$route.params.data
   },
   methods: {
-    init () {
-      getData_XP({
-        xpid: this.$route.query.xpid,
-        itemid: this.$route.query.itemid,
-        actiontype: 2
-      }).then(res => {
-        let {
-          contentinfos,
-          titleinfos
-        } = res.infos
-        titleinfos.map(item => {
-          item.contentText = contentinfos[item.tag] || {
-            content: false
-          }
-        })
-        titleinfos = titleinfos.filter(list => list.contentText.content)
-        this.totalData = titleinfos
-      })
-    },
     /**
      * 跳转占星师
      */

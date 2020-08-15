@@ -441,6 +441,46 @@
         }
       }
     }
+    .order-content {
+      width: 6rem;
+      padding: .2rem .3rem .45rem;
+      box-sizing: border-box;
+      .tips {
+        color: #513328;
+        font-size: .24rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        margin: .5rem 0 .4rem;
+        p {
+          margin: 0 0 .1rem 0;
+          text-align: center;
+        }
+      }
+      .button {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        div {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #e5d8cf;
+          font-size: .26rem;
+          width: 2rem;
+          height: .7rem;
+          border-radius: 2px;
+          &.color-1 {
+            background: #866e64;
+          }
+          &.color-2 {
+            background: #b5341f;
+          }
+        }
+      }
+    }
   }
 </style>
 
@@ -478,7 +518,7 @@
           <div class="desc">
             <p v-html="reportData.adinfotip"></p>
           </div>
-          <div class="btn">查看缘分报告</div>
+          <div class="btn" @click="reportFunc">查看缘分报告</div>
         </div>
         <div class="item item-4" v-if="navIndex == 2">
           <van-pull-refresh v-model="itemSecondStatus" @refresh="itemSecondStatus = false">
@@ -591,7 +631,7 @@
               <i class="icon delete" @click.stop.prevent="deleteStatus = true; deleteHpId = item.id"></i>
             </li>
           </ul>
-          <div class="create" @click="createFunc">新建档案</div>
+          <div class="create" @click="createFunc">新建合盘</div>
         </div>
       </van-popup>
       <!-- 合盘信息 -->
@@ -613,13 +653,36 @@
       <!-- 删除合盘 -->
       <van-popup v-model="deleteStatus" :style="{ 'border-radius': '4px' }">
         <div class="delete-content">
-          <div class="tips">是否确认删除此档案?</div>
+          <div class="tips">是否确认删除此合盘?</div>
           <div class="button">
             <div class="color-1" @click="deleteStatus = false">取消</div>
             <div class="color-2" @click="deleteData">确认</div>
           </div>
         </div>
       </van-popup>
+      <!-- 订单状态 -->
+      <van-popup v-model="orderStatus" :style="{ 'border-radius': '4px' }">
+        <div class="order-content">
+          <div class="tips">是否已成功支付订单？</div>
+          <div class="button">
+            <div class="color-1" @click="unPayFunc">未支付</div>
+            <div class="color-2" @click="checkPay">已支付</div>
+          </div>
+        </div>
+      </van-popup>
+      <!-- 未支付订单状态 -->
+      <van-popup v-model="unOrderStatus" :style="{ 'border-radius': '4px' }">
+        <div class="order-content">
+          <div class="tips" v-if="totalData.pinfos">
+            <p v-for="(item, index) in totalData.pinfos.tipinfo" :key="index">{{ item }}</p>
+          </div>
+          <div class="button">
+            <div class="color-1" @click="unOrderStatus = false">我再想想</div>
+            <div class="color-2" @click="goPay">前去支付</div>
+          </div>
+        </div>
+      </van-popup>
+      <router-view />
     </div>
   </Cont>
 </template>
@@ -632,7 +695,7 @@ import {
   BaseInfoData_3
 } from '@/assets/json/xp'
 import Cont from './content'
-import { getData_XP } from '@/fetch/api'
+import { payOrder, getData_XP } from '@/fetch/api'
 import { resolve } from 'url';
 export default {
   name: 'bjp',
@@ -654,6 +717,8 @@ export default {
       deleteStatus: false,
       comboBoxState: false,
       itemSecondStatus: false,
+      orderStatus: false,
+      unOrderStatus: false,
       selectList: ['比较盘', '配对盘', '组合中点盘', '时空中点盘']
     }
   },
@@ -684,11 +749,23 @@ export default {
         actiontype: 12,
         userid: this.$userId
       }).then(res => {
-        let data = res.infos
-        this.totalData = JSON.parse(JSON.stringify(res.infos))
-        this.reportData = data.pinfos
-        if (this.navIndex == 0) {
-          this.Data = this.resetData(data.bjp)
+        if (res.result == 1) {
+          let data = res.infos
+          this.activehpId = data.hpid
+          this.totalData = JSON.parse(JSON.stringify(res.infos))
+          if (this.totalData.pinfos.isbuy == 0) this.totalData.pinfos.tipinfo = this.totalData.pinfos.tipinfo.split('<br>')
+          this.reportData = data.pinfos
+          if (this.navIndex == 0) {
+            this.Data = this.resetData(data.bjp)
+          }
+        } else {
+          this.$router.push({
+            path: '/yfhp',
+            query: {
+              from: this.$route.query.from == 'app' ? 'app' : null,
+              type: 0
+            }
+          })
         }
       })
     },
@@ -760,7 +837,8 @@ export default {
             this.$router.push({
               path: '/yfhp',
               query: {
-                from: 'app'
+                from: this.$route.query.from == 'app' ? 'app' : null,
+                type: 0
               }
             })
           }, 1000)
@@ -771,6 +849,7 @@ export default {
      * 选择合盘
      */
     choisehp (id) {
+      this.activehpId = id
       getData_XP({
         actiontype: 11,
         userid: this.$userId,
@@ -781,6 +860,7 @@ export default {
         this.menuStatus = false
         let data = res.infos
         this.totalData = JSON.parse(JSON.stringify(res.infos))
+        if (this.totalData.pinfos.isbuy == 0) this.totalData.pinfos.tipinfo = this.totalData.pinfos.tipinfo.split('<br>')
         this.reportData = data.pinfos
         if (this.navIndex == 0) {
           this.Data = this.resetData(data.bjp)
@@ -799,8 +879,13 @@ export default {
      * 新建档案
      */
     createFunc () {
+      if (this.hpData.length === 5) return this.$Toast('最多创建5个合盘，请删除后再次创建')
       this.$router.push({
-        path: '/yfhp'
+        path: '/yfhp',
+        query: {
+          from: this.$route.query.from == 'app' ? 'app' : null,
+          type: 1
+        }
       })
     },
     /**
@@ -821,6 +906,22 @@ export default {
       this.$router.go(-1)
     },
     /**
+     * 查看报告
+     */
+    reportFunc () {
+      if (this.totalData.pinfos.isbuy == 0) {
+        this.unOrderStatus = true
+      } else {
+        this.$router.push({
+          path: 'bjp/reportBjp',
+          name: 'bjpDetails',
+          params: {
+            data: this.totalData.hpbg
+          }
+        })
+      }
+    },
+    /**
      * 切换盘
      */
     changeTitle (eq) {
@@ -830,6 +931,52 @@ export default {
       if (eq == 1) this.Data = this.resetData(JSON.parse(JSON.stringify(this.totalData)).pdp)
       if (eq == 2) this.Data = this.resetData(JSON.parse(JSON.stringify(this.totalData)).zhzd)
       if (eq == 3) this.Data = this.resetData(JSON.parse(JSON.stringify(this.totalData)).skzd)
+    },
+    /**
+     * 前去支付
+     */
+    goPay () {
+      this.unOrderStatus = false
+      payOrder({
+        expertuserid: this.totalData.pinfos.expertuserid,
+        userid: this.$userId,
+        actiontype: 3,
+        ordername: this.totalData.pinfos.ordername,
+        price: this.totalData.pinfos.price,
+        ordertype: this.totalData.pinfos.ordertype,
+        orderpid: this.totalData.pinfos.orderpid
+      }).then(res => {
+        if (res.result == 0) {
+          this.$Toast('你还未登录，请先登录')
+        }
+        if (res.result == 1) {
+          this.payOrderId = res.infos.orderid
+          this.orderStatus = true
+          window.fortune.openactivity('com.fairytale.fortunetarot.controller.ExpertOrderDetailActivity', '0', '', `orderid#${res.infos.orderid}`)
+        }
+      })
+    },
+    /**
+     * 未支付
+     */
+    unPayFunc () {
+      [this.orderStatus, this.unOrderStatus] = [false, true]
+    },
+    /**
+     * 检测是否支付
+     */
+    checkPay () {
+      payOrder({
+        actiontype: 15,
+        orderid: this.payOrderId
+      }).then(res => {
+        this.orderStatus = false
+        if (res.result == 1) {
+          this.totalData.pinfos.isbuy = 1
+        } else {
+          this.unOrderStatus = true
+        }
+      })
     }
   }
 }
