@@ -66,6 +66,15 @@ a {
   background: #b5341f;
 }
 
+.tlyjy .van-cell {
+  padding: .2rem;
+}
+.tlyjy .van-cell::after {
+  border-bottom-color: #553328;
+  left: .2rem;
+  right: .2rem;
+}
+
 @font-face {
   font-family: fontXp;
   src: url("../assets/font/font_xp.ttf");
