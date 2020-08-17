@@ -36,7 +36,7 @@
   }
   .main {
     height: calc(100vh - 1.2rem);
-    margin: 0.4rem 0.4rem 0;
+    padding: .4rem .4rem 0;
     box-sizing: border-box;
     overflow: auto;
     .van-collapse-item {
@@ -123,6 +123,26 @@
       </div>
       <div class="main tlyjy">
         <van-collapse v-model="activeNames" accordion :border="false">
+          <van-collapse-item v-for="(item, index) in listData" :name="index" :key="index">
+            <div slot="title" class="collapse-title">
+              <div class="img"></div>
+              <div class="info">
+                <h5>{{ item.typeName }}</h5>
+                <p>{{ item.desc }}</p>
+              </div>
+            </div>
+            <div slot="right-icon" class="arrow"></div>
+            <div class="list-box">
+              <div class="list-item" v-for="(ite, ind) in item.child" :key="'item' + index + ind">
+                <div class="img"></div>
+                <div class="info">
+                  <h5>{{ ite.name }}</h5>
+                  <p>{{ ite.desc }}</p>
+                </div>
+                <div class="arrow"></div>
+              </div>
+            </div>
+          </van-collapse-item>
           <van-collapse-item v-for="(item, index) in listData" :name="index" :key="index">
             <div slot="title" class="collapse-title">
               <div class="img"></div>
