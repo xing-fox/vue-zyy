@@ -5,9 +5,11 @@ import router from './router'
 import moment from 'moment'
 // import Vconsole from 'vconsole'
 import JsBridge from './JsBridge'
-import { Form, RadioGroup, Radio, Switch, Icon, DatetimePicker, Picker, Popup, Area, PullRefresh, Loading, Toast, ImagePreview } from 'vant'
+import { Form, RadioGroup, Radio, Switch, Icon, DatetimePicker, Picker, Popup, Area, PullRefresh, Loading, Toast, ImagePreview, Collapse, CollapseItem, Tab, Tabs } from 'vant'
 import 'vant/lib/index.less'
 
+Vue.use(Tab)
+Vue.use(Tabs)
 Vue.use(Icon)
 Vue.use(Form)
 Vue.use(Area)
@@ -19,6 +21,8 @@ Vue.use(Switch)
 Vue.use(Picker)
 Vue.use(Loading)
 Vue.use(DatetimePicker)
+Vue.use(Collapse)
+Vue.use(CollapseItem)
 // new Vconsole()
 
 const getUrlParam = val => {

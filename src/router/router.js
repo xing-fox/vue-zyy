@@ -48,6 +48,20 @@ export default [
       }
     ]
   }, {
+    path: '/tlyjy',
+    name: 'tlyjy',
+    component: resolve => require(['@/view/tlyjy'], resolve),
+    meta: {
+      title: '塔罗研究院'
+    }
+  }, {
+    path: '/pmlx',
+    name: 'pmlx',
+    component: resolve => require(['@/view/pmlx'], resolve),
+    meta: {
+      title: '牌面类型'
+    }
+  }, {
     path: '/createFile',
     name: 'createfile',
     component: resolve => require(['@/view/create-file'], resolve),
