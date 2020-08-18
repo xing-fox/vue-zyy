@@ -60,7 +60,17 @@ export default [
     component: resolve => require(['@/view/pmlx'], resolve),
     meta: {
       title: '牌面类型'
-    }
+    },
+    children: [
+      {
+        path: 'details',
+        name: 'pmlxDetails',
+        component: resolve => require(['@/view/pmlx-details'], resolve),
+        meta: {
+          title: ''
+        }
+      }
+    ]
   }, {
     path: '/createFile',
     name: 'createfile',

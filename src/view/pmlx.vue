@@ -168,30 +168,33 @@
 <template>
   <Cont>
     <div class="wrapper">
-      <div class="title">
-        <i class="icon return" @click="routeBack"></i>
-        <span>牌面类型</span>
-      </div>
-      <ul class="nav bor-b">
-        <li v-for="(item, index) in navList" :key="index" :class="{'active': index == navIndex}" @click="navIndex = index">{{ item }}</li>
-      </ul>
-      <div class="main">
-        <div class="item item-1" v-if="navIndex == 0">
-          <div class="content-img"><img src="../assets/images/pmlx-img.jpg"/></div>
-          <div class="desc">子分类的介绍文字文字这是子分类的介绍文字文字子分类的介绍文字文字这是子分类的介绍文字文字子分类的介绍文字文字这是子分类的介绍文字文字子分类的介绍文字文字这是子分类的介绍文字文字子分类的介绍文字文字这是子分类的介绍文字文字子分类的介绍文字文</div>
-          <div class="list-box">
-            <div class="list-title">大阿卡纳相关牌</div>
-            <div class="list-item" v-for="(item, index) in listData" :key="index">
-              <div class="img"></div>
-              <div class="info">
-                <h5>{{ item.name }}</h5>
-                <p>{{ item.desc }}</p>
+      <template>
+        <div class="title">
+          <i class="icon return" @click="routeBack"></i>
+          <span>牌面类型</span>
+        </div>
+        <ul class="nav bor-b">
+          <li v-for="(item, index) in navList" :key="index" :class="{'active': index == navIndex}" @click="navIndex = index">{{ item }}</li>
+        </ul>
+        <div class="main">
+          <div class="item item-1" v-if="navIndex == 0">
+            <div class="content-img"><img src="../assets/images/pmlx-img.jpg"/></div>
+            <div class="desc">子分类的介绍文字文字这是子分类的介绍文字文字子分类的介绍文字文字这是子分类的介绍文字文字子分类的介绍文字文字这是子分类的介绍文字文字子分类的介绍文字文字这是子分类的介绍文字文字子分类的介绍文字文字这是子分类的介绍文字文字子分类的介绍文字文</div>
+            <div class="list-box">
+              <div class="list-title">大阿卡纳相关牌</div>
+              <div class="list-item" v-for="(item, index) in listData" :key="index">
+                <div class="img"></div>
+                <div class="info">
+                  <h5>{{ item.name }}</h5>
+                  <p>{{ item.desc }}</p>
+                </div>
+                <div class="arrow"></div>
               </div>
-              <div class="arrow"></div>
             </div>
           </div>
         </div>
-      </div>
+      </template>
+      <router-view />
     </div>
   </Cont>
 </template>
