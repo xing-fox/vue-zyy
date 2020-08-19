@@ -29,3 +29,10 @@ export const getBack = (param, data) => {
 export const payOrder = (param) => {
   return Post(`index.php?main_page=expert_handler`, param)
 }
+
+/**
+ * @param 塔罗牌
+ */
+export const getTarot = (param) => {
+  return Post(`index.php?main_page=tarotuniv_handler`, param)
+}

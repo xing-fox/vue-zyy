@@ -54,15 +54,19 @@
         img {
           width: 100%;
           height: 100%;
-          display: block;
+          object-fit: cover;
         }
       }
       .info {
         flex: 1;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
         overflow: hidden;
         line-height: .4rem;
+        color: rgba(81, 51, 40, .65);
         font-size: .24rem;
-        color:rgba(81,51,40, .65);
+        margin: 0 .1rem 0 0;
         h5 {
           font-size: .26rem;
           color: #513328;
@@ -123,41 +127,25 @@
       </div>
       <div class="main tlyjy">
         <van-collapse v-model="activeNames" accordion :border="false">
-          <van-collapse-item v-for="(item, index) in listData" :name="index" :key="index">
+          <van-collapse-item v-for="(item, index) in totalData" :name="index" :key="item.id">
             <div slot="title" class="collapse-title">
-              <div class="img"></div>
+              <div class="img">
+                <img :src="item.pic">
+              </div>
               <div class="info">
-                <h5>{{ item.typeName }}</h5>
-                <p>{{ item.desc }}</p>
+                <h5>{{ item.name }}</h5>
+                <p>{{ item.content }}</p>
               </div>
             </div>
             <div slot="right-icon" class="arrow"></div>
             <div class="list-box">
-              <div class="list-item" v-for="(ite, ind) in item.child" :key="'item' + index + ind">
-                <div class="img"></div>
-                <div class="info">
-                  <h5>{{ ite.name }}</h5>
-                  <p>{{ ite.desc }}</p>
+              <div class="list-item" v-for="(ite, ind) in item.sontypes" :key="'item' + index + ind" @click="routeChange(ite, ind)">
+                <div class="img">
+                  <img :src="ite.pic">
                 </div>
-                <div class="arrow"></div>
-              </div>
-            </div>
-          </van-collapse-item>
-          <van-collapse-item v-for="(item, index) in listData" :name="index" :key="index">
-            <div slot="title" class="collapse-title">
-              <div class="img"></div>
-              <div class="info">
-                <h5>{{ item.typeName }}</h5>
-                <p>{{ item.desc }}</p>
-              </div>
-            </div>
-            <div slot="right-icon" class="arrow"></div>
-            <div class="list-box">
-              <div class="list-item" v-for="(ite, ind) in item.child" :key="'item' + index + ind">
-                <div class="img"></div>
                 <div class="info">
                   <h5>{{ ite.name }}</h5>
-                  <p>{{ ite.desc }}</p>
+                  <p>{{ ite.content }}</p>
                 </div>
                 <div class="arrow"></div>
               </div>
@@ -171,31 +159,13 @@
 
 <script>
 import Cont from './content'
+import { getTarot } from '@/fetch/api'
 export default {
   name: 'tlyjy',
   data () {
     return {
       activeNames: 0,
-      listData: [
-        {
-          img: '',
-          typeName: '牌面类型',
-          desc: '包含大阿卡纳、小阿卡纳，宫廷牌三种模式',
-          child: [{
-            img: '',
-            name: '大阿卡纳',
-            desc: '22张大阿卡纳牌'
-          }, {
-            img: '',
-            name: '小阿卡纳',
-            desc: '22张大阿卡纳牌'
-          }, {
-            img: '',
-            name: '宫廷牌',
-            desc: '22张大阿卡纳牌'
-          }]
-        }
-      ]
+      totalData: []
     }
   },
   components: {
@@ -208,7 +178,34 @@ export default {
     routeBack () {
       if (this.from == 'app') return this.$router.go(-1)
       return window.fortune.closepage()
+    },
+    /**
+     * 获取塔罗牌
+     */
+    getData () {
+      getTarot({
+        userid: this.$userId,
+        actiontype: 1
+      }).then(res => {
+        this.totalData = res.infos.alltypes
+      })
+    },
+    /**
+     * 路由跳转
+     */
+    routeChange (item, eq) {
+      this.$router.push({
+        path: '/pmlx',
+        query: {
+          index: eq,
+          id: item.id,
+          from: 'app'
+        }
+      })
     }
+  },
+  mounted () {
+    this.getData()
   }
 }
 </script>

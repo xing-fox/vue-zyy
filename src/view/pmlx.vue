@@ -37,20 +37,21 @@
   .nav {
     color: #a28a78;
     font-size: .26rem;
-    display: flex;
     align-items: center;
     height: .9rem;
     margin: 0 .4rem;
+    white-space: nowrap;
+    overflow-x: auto;
     position: relative;
     &:after {
       border-bottom: 1px solid #765d49; 
     }
-    li {
-      flex: 1;
-      display: flex;
+    .list {
+      width: 2rem;
+      height: 100%;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      height: 100%;
       &.active {
         color:#fffaf1;
         position: relative;
@@ -88,24 +89,28 @@
       height: 100%;
       overflow-y: auto;
       overflow-x: hidden;
-      background:rgba(229,216,207,1);
+      background:rgba(229, 216, 207, 1);
       border-radius: .06rem;
       padding: .4rem .2rem;
       box-sizing: border-box;
       .content-img {
-        width: 5.18rem;
+        width: 5rem;
         height: 4.4rem;
         margin: 0 auto .3rem;
+        padding: .1rem;
+        border: .01rem dashed rgba(81, 51, 39, .5);
+        box-sizing: border-box;
         img {
           width: 100%;
           height: 100%;
-          display: block;
+          object-fit: cover;
         }
       }
       .desc {
+        color:#513328;
         font-size: .24rem;
         line-height: .48rem;
-        color:#513328;
+        text-indent: 2em;
         margin-bottom: .3rem;
       }
       .list-box {
@@ -140,6 +145,9 @@
           }
           .info {
             flex: 1;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
             overflow: hidden;
             line-height: .4rem;
             font-size: .24rem;
@@ -171,22 +179,28 @@
       <template>
         <div class="title">
           <i class="icon return" @click="routeBack"></i>
-          <span>牌面类型</span>
+          <span>{{ titleName }}</span>
         </div>
-        <ul class="nav bor-b">
-          <li v-for="(item, index) in navList" :key="index" :class="{'active': index == navIndex}" @click="navIndex = index">{{ item }}</li>
-        </ul>
+        <van-swipe class="nav" :loop="false" :show-indicators="false" :width="100">
+          <van-swipe-item class="list" v-for="(item, index) in totalData.allsontypes" :key="index" :class="{'active': index == navIndex}" @click="tabChange(item, index)">
+            {{ item.name }}
+          </van-swipe-item>
+        </van-swipe>
         <div class="main">
-          <div class="item item-1" v-if="navIndex == 0">
-            <div class="content-img"><img src="../assets/images/pmlx-img.jpg"/></div>
-            <div class="desc">子分类的介绍文字文字这是子分类的介绍文字文字子分类的介绍文字文字这是子分类的介绍文字文字子分类的介绍文字文字这是子分类的介绍文字文字子分类的介绍文字文字这是子分类的介绍文字文字子分类的介绍文字文字这是子分类的介绍文字文字子分类的介绍文字文</div>
+          <div class="item item-1" v-if="totalData.sontype">
+            <div class="content-img">
+              <img :src="totalData.sontype.pic"/>
+            </div>
+            <div class="desc">{{ totalData.sontype.content }}</div>
             <div class="list-box">
-              <div class="list-title">大阿卡纳相关牌</div>
-              <div class="list-item" v-for="(item, index) in listData" :key="index">
-                <div class="img"></div>
+              <div class="list-title">{{ totalData.allsontypes[navIndex].name }}相关牌</div>
+              <div class="list-item" v-for="(item, index) in totalData.sontype.cards" :key="index" @click="routeChange(item)">
+                <div class="img">
+                  <img :src="item.pic">
+                </div>
                 <div class="info">
                   <h5>{{ item.name }}</h5>
-                  <p>{{ item.desc }}</p>
+                  <p>{{ item.content }}</p>
                 </div>
                 <div class="arrow"></div>
               </div>
@@ -198,25 +212,17 @@
     </div>
   </Cont>
 </template>
+
 <script>
 import Cont from './content'
+import { getTarot } from '@/fetch/api'
 export default {
   name: 'pmlx',
   data () {
     return {
-      navIndex: 0,
-      navList: ['大阿卡纳', '小阿卡纳', '宫廷牌'],
-      listData: [
-        {
-          img: '',
-          name: '愚人 The Fool',
-          desc: '冒险的行动，追求可能性，重视梦想，无视物质的损失，离开家园，过于信赖。'
-        }, {
-          img: '',
-          name: '愚人 The Fool',
-          desc: '冒险的行动，追求可能性，重视梦想，无视物质的损失，离开家园，过于信赖。'
-        }
-      ]
+      titleName: '',
+      navIndex: this.$route.query.index || 0,
+      totalData: Object
     }
   },
   components: {
@@ -224,12 +230,49 @@ export default {
   },
   methods: {
     /**
+     * 获取数据
+     */
+    getData (id) {
+      const self = this
+      getTarot({
+        itemid: id,
+        actiontype: 2
+      }).then(res => {
+        console.log(res)
+        if (res.result == 1) {
+          self.totalData = res.infos
+          self.titleName = res.infos.sontype.name
+        }
+      })
+    },
+    /**
+     * 切换tab
+     */
+    tabChange (data, eq) {
+      this.navIndex = eq
+      this.getData(data.id)
+    },
+    /**
+     * 页面跳转
+     */
+    routeChange (item) {
+      this.$router.push({
+        path: '/pmlx/details',
+        query: {
+          id: item.id
+        }
+      })
+    },
+    /**
      * 返回
      */
     routeBack () {
-      if (this.from == 'app') return this.$router.go(-1)
+      if (this.$route.query.from == 'app') return this.$router.go(-1)
       return window.fortune.closepage()
     }
+  },
+  mounted () {
+    this.getData(this.$route.query.id)
   }
 }
 </script>

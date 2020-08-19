@@ -59,7 +59,7 @@ export default [
     name: 'pmlx',
     component: resolve => require(['@/view/pmlx'], resolve),
     meta: {
-      title: '牌面类型'
+      title: ''
     },
     children: [
       {

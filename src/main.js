@@ -5,15 +5,15 @@ import router from './router'
 import moment from 'moment'
 // import Vconsole from 'vconsole'
 import JsBridge from './JsBridge'
-import { Form, RadioGroup, Radio, Switch, Icon, DatetimePicker, Picker, Popup, Area, PullRefresh, Loading, Toast, ImagePreview, Collapse, CollapseItem, Tab, Tabs } from 'vant'
+import { Form, RadioGroup, Radio, Switch, Icon, DatetimePicker, Picker, Popup, Area, PullRefresh, Loading, Toast, ImagePreview, Collapse, CollapseItem, Swipe, SwipeItem } from 'vant'
 import 'vant/lib/index.less'
 
-Vue.use(Tab)
-Vue.use(Tabs)
 Vue.use(Icon)
 Vue.use(Form)
 Vue.use(Area)
 Vue.use(Popup)
+Vue.use(Swipe)
+Vue.use(SwipeItem)
 Vue.use(PullRefresh)
 Vue.use(RadioGroup)
 Vue.use(Radio)
