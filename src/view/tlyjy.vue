@@ -50,7 +50,7 @@
         border-radius: .06rem;
         margin-right: .2rem;
         overflow: hidden;
-        background-color: #aeaeae;
+        background-color: #f9ebe2;
         img {
           width: 100%;
           height: 100%;
@@ -61,7 +61,7 @@
         flex: 1;
         display: -webkit-box;
         -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
+        -webkit-line-clamp: 1;
         overflow: hidden;
         line-height: .4rem;
         color: rgba(81, 51, 40, .65);
@@ -130,7 +130,7 @@
           <van-collapse-item v-for="(item, index) in totalData" :name="index" :key="item.id">
             <div slot="title" class="collapse-title">
               <div class="img">
-                <img :src="item.pic">
+                <img v-if="item.pic" :src="item.pic">
               </div>
               <div class="info">
                 <h5>{{ item.name }}</h5>

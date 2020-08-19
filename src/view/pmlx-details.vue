@@ -116,7 +116,7 @@
         flex: 1;
         display: -webkit-box;
         -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
+        -webkit-line-clamp: 1;
         overflow: hidden;
         line-height: .4rem;
         color: rgba(81, 51, 40, .65);
