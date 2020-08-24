@@ -650,7 +650,7 @@
           </div>
         </div>
         <div class="submit" @click="divineFunc">
-          <span>咨询占卜师</span>
+          <span>咨询占星师</span>
         </div>
         <!-- 建档列表 -->
         <van-popup v-model="menuStatus" position="bottom">

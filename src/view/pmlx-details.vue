@@ -10,7 +10,7 @@
     color: #fffaf1;
     font-size: 0.36rem;
     height: 0.8rem;
-    padding: 0.4rem 0 0;
+    padding: 0.6rem 0 0;
     position: relative;
     i {
       display: inline-block;
@@ -19,7 +19,7 @@
       background-size: 50% 50%;
       background-repeat: no-repeat;
       position: absolute;
-      top: 0.4rem;
+      top: 0.6rem;
       left: 0.4rem;
       bottom: 0;
       margin: 0 auto;
@@ -46,14 +46,14 @@
   }
   .d-content-front,
   .d-content-end {
+    backface-visibility: hidden;
     position: absolute;
     left: 0;
     right: 0;
-    backface-visibility: hidden;
   }
   .d-content-front {
-    height: calc(100vh - 1.8rem);
-    padding: .4rem 0;
+    height: calc(100vh - 2.2rem);
+    padding: .4rem 0 .8rem;
     margin: .2rem .4rem 0;
     overflow: auto;
     border-radius: 0.06rem;
@@ -105,7 +105,7 @@
         border-radius: .06rem;
         margin-right: .2rem;
         overflow: hidden;
-        background-color: #aeaeae;
+        background-color: #f9ebe2;
         img {
           width: 100%;
           height: 100%;
@@ -174,19 +174,20 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    margin: 1rem 0 0 0;
     position: fixed;
     right: .5rem;
-    bottom: 20vh;
+    bottom: .8rem;
     .list {
       width: .6rem;
       height: .6rem;
-      margin: 0 0 0 .3rem;
+      margin: 0 .075rem;
       background-size: 100% 100%;
       &.menu-show {
-        background-image: url('../assets/icon/tlp_menu.png');
+        background-image: url('../assets/icon/tlp_menu_1.png');
       }
       &.menu-close {
-        background-image: url('../assets/icon/tlp_menu_1.png');
+        background-image: url('../assets/icon/tlp_menu.png');
       }
       &.menu-add {
         background-image: url('../assets/icon/tlp_add.png');
@@ -199,17 +200,16 @@
     align-items: center;
     justify-content: space-between;
     width: 80vw;
-    height: 84vh;
     margin: auto;
     .close {
       width: .6rem;
       height: .6rem;
+      margin: 0 0 .5rem 0;
       background-image: url('../assets/icon/close_tlp.png');
       background-size: 100% 100%;
     }
     .img {
       width: 100%;
-      height: 75vh;
       padding: .4rem;
       border-radius: .05rem;
       box-sizing: border-box;
@@ -223,6 +223,12 @@
   }
 }
 </style>
+<style lang="less">
+  .van-collapse-item__title--expanded::after {
+    transform: scaleY(.5);
+    border-bottom-color: #c8b7ae;
+  }
+</style>
 
 <template>
   <Cont>
@@ -233,31 +239,29 @@
       </div>
       <div class="detail" :class="['detail', {'active': statusChange}]">
         <div class="d-content-front">
-          <van-pull-refresh v-model="status" @refresh="status = false">
-            <div class="d-content-main" v-for="(item, index) in totalData" :key="index">
-              <div class="c-title" v-if="item.title">{{ item.title }}</div>
-              <div class="c-image" v-if="item.pic">
-                <img :src="item.pic">
-              </div>
-              <div class="c-main" v-if="item.content">{{ item.content }}</div>
+          <div class="d-content-main" v-for="(item, index) in totalData.allcontents" :key="index">
+            <div class="c-title" v-if="item.title">{{ item.title }}</div>
+            <div class="c-image" v-if="item.pic">
+              <img :src="item.pic">
             </div>
-          </van-pull-refresh>
+            <div class="c-main" v-if="item.content">{{ item.content }}</div>
+          </div>
         </div>
         <div class="d-content-end">
-          <van-collapse v-model="dataIndex" accordion :border="false">
+          <van-collapse v-model="dataIndex" :border="false">
             <van-collapse-item v-for="(item, index) in Data" :name="index" :key="item.id">
               <div slot="title" class="collapse-title">
                 <div class="img">
-                  <img :src="item.sontype.pic">
+                  <img :src="item.pic">
                 </div>
                 <div class="info">
-                  <h5>{{ item.sontype.name }}</h5>
-                  <p>{{ item.sontype.content }}</p>
+                  <h5>{{ item.name }}</h5>
+                  <!-- <p>{{ item.sontype.content }}</p> -->
                 </div>
               </div>
               <div slot="right-icon" class="arrow"></div>
               <div class="list-box">
-                <div class="list-item" v-for="(ite, ind) in item.allsontypes" :key="'item' + index + ind" @click="routeChange(ite, ind)">
+                <div class="list-item" v-for="(ite, ind) in item.sontypes" :key="'item' + index + ind" @click="routeChange(ite, ind)">
                   <div class="img">
                     <img :src="ite.pic">
                   </div>
@@ -273,8 +277,8 @@
         </div>
       </div>
       <div class="menu">
-        <div v-if="!statusChange" class="list menu-show" @click="statusChange = true"></div>
-        <div v-else class="list menu-close" @click="statusChange = false"></div>
+        <div v-if="!statusChange" class="list menu-show" @click="typeFunc(true)"></div>
+        <div v-else class="list menu-close" @click="typeFunc(false)"></div>
         <div class="list menu-add" @click="showImgStatus = true"></div>
       </div>
       <!-- 查看大图 -->
@@ -297,14 +301,13 @@ export default {
   name: 'pmlxDetails',
   data () {
     return {
-      status: false,
-      statusChange: false,
-      showImgStatus: false,
-      titleName: '',
-      Data: [],
       bigImg: '',
+      Data: [],
+      titleName: '',
       totalData: [],
-      dataIndex: 0
+      dataIndex: [],
+      statusChange: false,
+      showImgStatus: false
     }
   },
   components: {
@@ -319,24 +322,13 @@ export default {
         actiontype: 3,
         itemid: this.$route.query.id
       }).then(res => {
-        this.totalData = res.infos.cardinfo.allcontents
+        this.totalData = res.infos.cardinfo
+        this.Data = res.infos.cardinfo.sontypes
+        this.Data.map((item, index) => {
+          this.dataIndex.push(index)
+        })
         this.bigImg = res.infos.cardinfo.pic
         this.titleName = res.infos.cardinfo.name
-        this.getSortData(res.infos.cardinfo.id)
-      })
-    },
-    /**
-     * 获取大分类数据
-     */
-    getSortData (id) {
-      const self = this
-      getTarot({
-        itemid: id,
-        actiontype: 2
-      }).then(res => {
-        if (res.result == 1) {
-          self.Data = [res.infos]
-        }
       })
     },
     /**
@@ -344,13 +336,20 @@ export default {
      */
     routeChange (item, eq) {
       this.$router.push({
-        path: '/pmlx',
+        path: '/tlyjy/pmlx',
         query: {
           index: eq,
           id: item.id,
           from: 'app'
         }
       })
+    },
+    /**
+     * 展开分类
+     */
+    typeFunc (status) {
+      this.titleName = status ? `${this.totalData.name}所属分类` : this.totalData.name
+      this.statusChange = status
     },
     /**
      * 返回

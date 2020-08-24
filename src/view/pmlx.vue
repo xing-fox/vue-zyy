@@ -10,7 +10,7 @@
     color: #fffaf1;
     font-size: 0.36rem;
     height: 0.8rem;
-    padding: 0.4rem 0 0;
+    padding: 0.6rem 0 0;
     position: relative;
     i {
       display: inline-block;
@@ -19,7 +19,7 @@
       background-size: 50% 50%;
       background-repeat: no-repeat;
       position: absolute;
-      top: 0.4rem;
+      top: 0.6rem;
       left: 0.4rem;
       bottom: 0;
       margin: 0 auto;
@@ -80,7 +80,7 @@
     }
   }
   .main {
-    height: calc(100vh - 3rem);
+    height: calc(100vh - 3.2rem);
     margin: 0.4rem 0.4rem 0;
     box-sizing: border-box;
     overflow: auto;
@@ -257,7 +257,7 @@ export default {
      */
     routeChange (item) {
       this.$router.push({
-        path: '/pmlx/details',
+        path: '/tlyjy/pmlx/details',
         query: {
           id: item.id
         }

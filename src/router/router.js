@@ -53,22 +53,25 @@ export default [
     component: resolve => require(['@/view/tlyjy'], resolve),
     meta: {
       title: '塔罗研究院'
-    }
-  }, {
-    path: '/pmlx',
-    name: 'pmlx',
-    component: resolve => require(['@/view/pmlx'], resolve),
-    meta: {
-      title: ''
     },
     children: [
       {
-        path: 'details',
-        name: 'pmlxDetails',
-        component: resolve => require(['@/view/pmlx-details'], resolve),
+        path: 'pmlx',
+        name: 'pmlx',
+        component: resolve => require(['@/view/pmlx'], resolve),
         meta: {
           title: ''
-        }
+        },
+        children: [
+          {
+            path: 'details',
+            name: 'pmlxDetails',
+            component: resolve => require(['@/view/pmlx-details'], resolve),
+            meta: {
+              title: ''
+            }
+          }
+        ]
       }
     ]
   }, {
