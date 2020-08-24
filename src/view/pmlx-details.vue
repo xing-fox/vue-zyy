@@ -52,9 +52,9 @@
     right: 0;
   }
   .d-content-front {
-    height: calc(100vh - 2.2rem);
-    padding: .4rem 0 .8rem;
     margin: .2rem .4rem 0;
+    padding: .4rem 0 .8rem;
+    height: calc(100vh - 2.2rem);
     overflow: auto;
     border-radius: 0.06rem;
     box-sizing: border-box;
@@ -90,15 +90,19 @@
     }
   }
   .d-content-end {
-    padding: .4rem .4rem 0;
+    margin: .2rem .4rem 0;
+    height: calc(100vh - 2.2rem);
+    overflow: auto;
     transform: rotateY(180deg);
     box-sizing: border-box;
-    overflow: auto;
     .van-collapse-item {
       background-color:#E5D8CF;
       border-radius:.06rem;
       overflow: hidden;
       margin-bottom: .2rem;
+      &:last-child {
+        margin-bottom: 0;
+      }
       .img {
         width: 1.1rem;
         height: 1.1rem;
@@ -238,7 +242,7 @@
         <span>{{ titleName }}</span>
       </div>
       <div class="detail" :class="['detail', {'active': statusChange}]">
-        <div class="d-content-front">
+        <div class="d-content-front" v-if="!statusChange">
           <div class="d-content-main" v-for="(item, index) in totalData.allcontents" :key="index">
             <div class="c-title" v-if="item.title">{{ item.title }}</div>
             <div class="c-image" v-if="item.pic">
@@ -247,9 +251,9 @@
             <div class="c-main" v-if="item.content">{{ item.content }}</div>
           </div>
         </div>
-        <div class="d-content-end">
+        <div class="d-content-end" v-else>
           <van-collapse v-model="dataIndex" :border="false">
-            <van-collapse-item v-for="(item, index) in Data" :name="index" :key="item.id">
+            <van-collapse-item v-for="(item, index) in Data" :name="index" :key="index">
               <div slot="title" class="collapse-title">
                 <div class="img">
                   <img :src="item.pic">

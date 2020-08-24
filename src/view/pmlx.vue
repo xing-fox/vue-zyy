@@ -35,47 +35,55 @@
     }
   }
   .nav {
-    color: #a28a78;
-    font-size: .26rem;
-    align-items: center;
-    height: .9rem;
+    height: .98rem;
     margin: 0 .4rem;
-    white-space: nowrap;
-    overflow-x: auto;
-    position: relative;
-    &:after {
-      border-bottom: 1px solid #765d49; 
-    }
-    .list {
-      width: 2rem;
-      height: 100%;
-      display: inline-flex;
+    overflow-x: hidden;
+    .nav-swipe {
+      color: #a28a78;
+      font-size: .26rem;
       align-items: center;
-      justify-content: center;
-      &.active {
-        color:#fffaf1;
-        position: relative;
-        &:before {
-          content: '';
-          width: .2rem;
-          height: .2rem;
-          border: 1px solid #f5f0e7;
-          transform: scale(.5, .5) rotate(45deg);
-          position: absolute;
-          left: 0;
-          right: 0;
-          bottom: -.12rem;
-          margin: 0 auto;
+      width: 100%;
+      height: .9rem;
+      white-space: nowrap;
+      overflow-x: auto;
+      position: relative;
+      &:after {
+        border-bottom: 1px solid #765d49; 
+      }
+      .list {
+        padding: 0 .1rem;
+        height: 100%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        &.active {
+          color:#fffaf1;
+          position: relative;
+          &:before {
+            content: '';
+            width: .2rem;
+            height: .2rem;
+            border: 1px solid #f5f0e7;
+            transform: scale(.5, .5) rotate(45deg);
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -.12rem;
+            margin: 0 auto;
+          }
+          &:after {
+            content: '';
+            width: 100%;
+            border-bottom: 1px solid #fffaf1;
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+          }
         }
-        &:after {
-          content: '';
-          width: 100%;
-          border-bottom: 1px solid #fffaf1;
-          position: absolute;
-          left: 0;
-          right: 0;
-          bottom: 0;
-        }
+      }
+      &.van-swipe {
+        overflow: initial;
       }
     }
   }
@@ -93,17 +101,30 @@
       border-radius: .06rem;
       padding: .4rem .2rem;
       box-sizing: border-box;
-      .content-img {
-        width: 5rem;
-        height: 4.4rem;
-        margin: 0 auto .3rem;
-        padding: .1rem;
-        border: .01rem dashed rgba(81, 51, 39, .5);
-        box-sizing: border-box;
-        img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
+      .d-content-main {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        width: 100%;
+        .c-title {
+          color: #B63723;
+          font-size: .28rem;
+        }
+        .c-image {
+          width: 4rem;
+          margin: .4rem 0;
+          border-radius: .06rem;
+          background: #eee;
+          img {
+            width: 100%;
+          }
+        }
+        .c-main {
+          color: #513327;
+          font-size: .24rem;
+          width: 6rem;
+          text-indent: 2em;
+          line-height: .48rem;
         }
       }
       .desc {
@@ -181,15 +202,21 @@
           <i class="icon return" @click="routeBack"></i>
           <span>{{ titleName }}</span>
         </div>
-        <van-swipe class="nav" :loop="false" :show-indicators="false" :width="100">
-          <van-swipe-item class="list" v-for="(item, index) in totalData.allsontypes" :key="index" :class="{'active': index == navIndex}" @click="tabChange(item, index)">
-            {{ item.name }}
-          </van-swipe-item>
-        </van-swipe>
+        <div class="nav">
+          <van-swipe class="nav-swipe" :loop="false" :show-indicators="false" :width="70">
+            <van-swipe-item class="list" v-for="(item, index) in totalData.allsontypes" :key="index" :class="{'active': index == navIndex}" @click="tabChange(item, index)">
+              {{ item.name }}
+            </van-swipe-item>
+          </van-swipe>
+        </div>
         <div class="main">
           <div class="item item-1" v-if="totalData.sontype">
-            <div class="content-img">
-              <img :src="totalData.sontype.pic"/>
+            <div class="d-content-main" v-for="(item, index) in totalData.sontype.allcontents" :key="index">
+              <div class="c-title" v-if="item.title">{{ item.title }}</div>
+              <div class="c-image" v-if="item.pic">
+                <img :src="item.pic">
+              </div>
+              <div class="c-main" v-if="item.content">{{ item.content }}</div>
             </div>
             <div class="desc">{{ totalData.sontype.content }}</div>
             <div class="list-box">
@@ -241,7 +268,7 @@ export default {
         console.log(res)
         if (res.result == 1) {
           self.totalData = res.infos
-          self.titleName = res.infos.sontype.name
+          self.titleName = res.infos.sontype.fathertype
         }
       })
     },

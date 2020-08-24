@@ -19,13 +19,21 @@
       background-size: 50% 50%;
       background-repeat: no-repeat;
       position: absolute;
-      top: 0.6rem;
-      left: 0.4rem;
-      bottom: 0;
-      margin: 0 auto;
       &.return {
+        top: 0.6rem;
+        left: 0.4rem;
+        bottom: 0;
+        margin: 0 auto;
         background-position: left center;
         background-image: url("../assets/icon/icon_return.png");
+      }
+      &.tips {
+        top: 0.6rem;
+        right: 0.4rem;
+        bottom: 0;
+        margin: 0 auto;
+        background-position: right center;
+        background-image: url("../assets/icon/photo.png");
       }
     }
     span {
@@ -174,6 +182,7 @@
         <div class="title">
           <i class="icon return" @click="routeBack"></i>
           <span>塔罗研究院</span>
+          <i class="tips" @click="tipsStatus = true"></i>
         </div>
         <div class="main tlyjy">
           <van-collapse v-model="activeNames" accordion :border="false">
@@ -204,6 +213,18 @@
           </van-collapse>
         </div>
         <!-- 塔罗牌提示 -->
+        <van-popup v-model="tipsStatus" :style="{ 'border-radius': '4px' }">
+          <div class="order-content">
+            <div class="tips" style="align-items: flex-start !important; justify-content: flex-start !important">
+              <p>{{ totalData.experttip }}</p>
+              <p v-for="(item, index) in totalData.expertinfo" :key="index">{{ item }}</p>
+            </div>
+            <div class="button">
+              <div class="color-2" @click="openWebUrl">确定</div>
+            </div>
+          </div>
+        </van-popup>
+        <!-- 塔罗牌提示1 -->
         <van-popup v-model="tipStatus" :style="{ 'border-radius': '4px' }">
           <div class="order-content">
             <div class="tips" style="align-items: flex-start !important; justify-content: flex-start !important">
@@ -256,6 +277,7 @@ export default {
       activeNames: 0,
       totalData: [],
       tipStatus: false,
+      tipsStatus: false,
       orderStatus: false,
       unOrderStatus: false
     }
@@ -265,6 +287,12 @@ export default {
   },
   methods: {
     /**
+     * 提示
+     */
+    tipFunc () {
+
+    },
+    /**
      * 获取塔罗牌
      */
     getData () {
@@ -272,6 +300,7 @@ export default {
         userid: this.$userId,
         actiontype: 1
       }).then(res => {
+        res.infos.alltypes.expertinfo = res.infos.expertinfo.split('<br>')
         res.infos.alltypes.tarotunivinfoArr = res.infos.tarotunivinfo.split('<br>')
         this.totalData = res.infos.alltypes
       })
@@ -348,6 +377,12 @@ export default {
           this.unOrderStatus = true
         }
       })
+    },
+    /**
+     * 打开新页面
+     */
+    openWebUrl () {
+      // window.fortune.openactivity('com.fairytale.webpage.WebAcvitity','http://ast.senchuangnet.com/#/worker?leibie=3&expertway=5', 'http://newos.glassmarket.cn/webpage_jumper.php','extra_info_tag', 'type=43&actiontype=-18&yjyindex='xxx1+'&yjyid='+xxx2, '0', '0')
     }
   },
   mounted () {
