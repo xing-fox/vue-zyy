@@ -248,7 +248,7 @@ export default {
   data () {
     return {
       titleName: '',
-      navIndex: this.$route.query.index || this.getUrlParams(yjyindex) || 0,
+      navIndex: this.$route.query.index || this.getUrlParams('yjyindex') || 0,
       totalData: Object
     }
   },
@@ -316,7 +316,7 @@ export default {
   },
   mounted () {
     if (this.$route.query.id) return this.getData(this.$route.query.id)
-    return this.getUrlParams(yjyid)
+    return this.getUrlParams('yjyid')
   }
 }
 </script>

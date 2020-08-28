@@ -468,7 +468,10 @@ export default {
       }).then(res => {
         this.orderStatus = false
         if (res.result == 1) {
-          this.totalData.map(item => {
+          console.log(res)
+          this.Data.map(item => {
+            console.log(item.pinfos.expertuserid)
+            console.log(this.payOrderData.expertuserid)
             if (item.pinfos.expertuserid == this.payOrderData.expertuserid) item.pinfos.isbuy = 1
           })
         } else {
