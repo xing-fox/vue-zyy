@@ -361,7 +361,7 @@
 
 <script>
 import Cont from "./content"
-import { getTarot } from '@/fetch/api'
+import { payOrder, getTarot } from '@/fetch/api'
 export default {
   name: 'pmlxDetails',
   data () {
@@ -412,7 +412,7 @@ export default {
         window.fortune.openactivity('com.fairytale.webpage.WebAcvitity',
           'weburl_tag', 'http://newos.glassmarket.cn/webpage_jumper.php',
           'extra_info_tag',
-          `type=43&actiontype=-18&yjyindex='${eq}'&yjyid='${item.id}`, '0', '0')
+          `type=43&actiontype=-18&yjyindex=${eq}&yjyid=${item.id}`, '0', '0')
       }
     },
     /**
@@ -431,7 +431,7 @@ export default {
     /**
      * 前去支付
      */
-    goPay (item) {
+    goPay () {
       this.unOrderStatus = false
       payOrder({
         expertuserid: this.payOrderData.expertuserid,

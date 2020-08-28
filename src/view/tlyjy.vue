@@ -216,11 +216,11 @@
         <van-popup v-model="tipsStatus" :style="{ 'border-radius': '4px' }">
           <div class="order-content">
             <div class="tips" style="align-items: flex-start !important; justify-content: flex-start !important">
-              <p>{{ totalData.experttip }}</p>
+              <!-- <p>{{ totalData.experttip }}</p> -->
               <p v-for="(item, index) in totalData.expertinfo" :key="index">{{ item }}</p>
             </div>
             <div class="button">
-              <div class="color-2" @click="openWebUrl">确定</div>
+              <div class="color-2" @click="openWebUrl">{{ totalData.experttip }}</div>
             </div>
           </div>
         </van-popup>
@@ -231,7 +231,7 @@
               <p v-for="(item, index) in totalData.tarotunivinfoArr" :key="index">{{item}}</p>
             </div>
             <div class="button">
-              <div class="color-2" @click="tipStatus = false">{{ totalData.experttip }}</div>
+              <div class="color-2" @click="tipStatus = false">确定</div>
             </div>
           </div>
         </van-popup>

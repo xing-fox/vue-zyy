@@ -248,7 +248,7 @@ export default {
   data () {
     return {
       titleName: '',
-      navIndex: this.$route.query.index || this.$route.query.yjyindex || 0,
+      navIndex: this.$route.query.index || this.getUrlParams(yjyindex) || 0,
       totalData: Object
     }
   },
@@ -292,6 +292,21 @@ export default {
       })
     },
     /**
+     * 获取参数
+     */
+    getUrlParams (val) {
+      const url = window.location.href
+      if (url.indexOf('?') === -1) return false
+      const newArr = url.split('?')
+      newArr.shift()
+      const vars = newArr.join('&').split('&')
+      for (let i = 0; i < vars.length; i++) {
+        let pair = vars[i].split('=')
+        if (pair[0] == val) return pair[1]
+      }
+      return false
+    },
+    /**
      * 返回
      */
     routeBack () {
@@ -301,7 +316,7 @@ export default {
   },
   mounted () {
     if (this.$route.query.id) return this.getData(this.$route.query.id)
-    return this.getData(this.$route.query.yjyid)
+    return this.getUrlParams(yjyid)
   }
 }
 </script>
