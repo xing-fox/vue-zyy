@@ -389,6 +389,7 @@ export default {
     getData () {
       getTarot({
         actiontype: 3,
+        userid: this.$userId,
         itemid: this.$route.query.id
       }).then(res => {
         this.totalData = res.infos.cardinfo

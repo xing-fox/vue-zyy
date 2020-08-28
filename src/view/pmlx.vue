@@ -248,7 +248,7 @@ export default {
   data () {
     return {
       titleName: '',
-      navIndex: this.$route.query.index || 0,
+      navIndex: this.$route.query.index || this.$route.query.yjyindex || 0,
       totalData: Object
     }
   },
@@ -263,7 +263,8 @@ export default {
       const self = this
       getTarot({
         itemid: id,
-        actiontype: 2
+        actiontype: 2,
+        userid: this.$userId
       }).then(res => {
         console.log(res)
         if (res.result == 1) {
@@ -299,7 +300,8 @@ export default {
     }
   },
   mounted () {
-    this.getData(this.$route.query.id)
+    if (this.$route.query.id) return this.getData(this.$route.query.id)
+    return this.getData(this.$route.query.yjyid)
   }
 }
 </script>

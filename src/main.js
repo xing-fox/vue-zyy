@@ -46,7 +46,7 @@ Vue.prototype.$JsBridge = JsBridge
 Vue.prototype.$ImagePreview = ImagePreview
 Vue.prototype.$Url = window.location.href
 
-Vue.prototype.$userId = process.env.NODE_ENV === "production" ? getUrlParam('userid') : 1
+Vue.prototype.$userId = process.env.NODE_ENV === "production" ? getUrlParam('userid') : 1387265
 
 if (getUrlParam('appflag') == 3) {
   require(['./assets/app.js'], function(ios) {

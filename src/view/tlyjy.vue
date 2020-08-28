@@ -43,7 +43,7 @@
     }
   }
   .main {
-    height: calc(100vh - 1.4rem);
+    height: calc(100vh - 1.8rem);
     padding: .4rem .4rem 0;
     box-sizing: border-box;
     overflow: auto;
@@ -231,7 +231,7 @@
               <p v-for="(item, index) in totalData.tarotunivinfoArr" :key="index">{{item}}</p>
             </div>
             <div class="button">
-              <div class="color-2" @click="tipStatus = false">确定</div>
+              <div class="color-2" @click="tipStatus = false">{{ totalData.experttip }}</div>
             </div>
           </div>
         </van-popup>
@@ -297,9 +297,10 @@ export default {
      */
     getData () {
       getTarot({
-        userid: this.$userId,
-        actiontype: 1
+        actiontype: 1,
+        userid: this.$userId
       }).then(res => {
+        res.infos.alltypes.experttip = res.infos.experttip
         res.infos.alltypes.expertinfo = res.infos.expertinfo.split('<br>')
         res.infos.alltypes.tarotunivinfoArr = res.infos.tarotunivinfo.split('<br>')
         this.totalData = res.infos.alltypes
