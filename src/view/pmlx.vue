@@ -248,7 +248,7 @@ export default {
   data () {
     return {
       titleName: '',
-      navIndex: this.$route.query.index || this.getUrlParams('yjyindex') || 0,
+      navIndex: 0,
       totalData: Object
     }
   },
@@ -270,6 +270,9 @@ export default {
         if (res.result == 1) {
           self.totalData = res.infos
           self.titleName = res.infos.sontype.fathertype
+          self.totalData.allsontypes.map((item, index) => {
+            if (item.id == id) self.navIndex = index
+          })
         }
       })
     },
@@ -277,7 +280,6 @@ export default {
      * 切换tab
      */
     tabChange (data, eq) {
-      this.navIndex = eq
       this.getData(data.id)
     },
     /**
@@ -316,7 +318,7 @@ export default {
   },
   mounted () {
     if (this.$route.query.id) return this.getData(this.$route.query.id)
-    return this.getUrlParams('yjyid')
+    return this.getData(this.getUrlParams('yjyid'))
   }
 }
 </script>
