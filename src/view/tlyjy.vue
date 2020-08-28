@@ -33,7 +33,7 @@
         bottom: 0;
         margin: 0 auto;
         background-position: right center;
-        background-image: url("../assets/icon/photo.png");
+        background-image: url("../assets/icon/experticon.png");
       }
     }
     span {
@@ -382,7 +382,15 @@ export default {
      * 打开新页面
      */
     openWebUrl () {
-      // window.fortune.openactivity('com.fairytale.webpage.WebAcvitity','http://ast.senchuangnet.com/#/worker?leibie=3&expertway=5', 'http://newos.glassmarket.cn/webpage_jumper.php','extra_info_tag', 'type=43&actiontype=-18&yjyindex='xxx1+'&yjyid='+xxx2, '0', '0')
+      this.tipsStatus = false
+      this.$router.push({
+        path: '/worker',
+        query: {
+          leibie: 3,
+          expertway: 5,
+          from: 'app'
+        }
+      })
     }
   },
   mounted () {

@@ -225,6 +225,45 @@
       }
     }
   }
+  .order-content {
+    width: 6.6rem;
+    padding: .2rem .3rem .45rem;
+    box-sizing: border-box;
+    .tips {
+      color: #513328;
+      font-size: .24rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      margin: .5rem 0 .4rem;
+      p {
+        margin: 0 0 .1rem 0;
+      }
+    }
+    .button {
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+      div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #e5d8cf;
+        font-size: .26rem;
+        width: 2rem;
+        height: .7rem;
+        border-radius: 2px;
+        &.color-1 {
+          background: #866e64;
+        }
+        &.color-2 {
+          background: #b5341f;
+        }
+      }
+    }
+  }
 }
 </style>
 <style lang="less">
@@ -265,7 +304,7 @@
               </div>
               <div slot="right-icon" class="arrow"></div>
               <div class="list-box">
-                <div class="list-item" v-for="(ite, ind) in item.sontypes" :key="'item' + index + ind" @click="routeChange(ite, ind)">
+                <div class="list-item" v-for="(ite, ind) in item.sontypes" :key="'item' + index + ind" @click="routeChange(ite, ind, item)">
                   <div class="img">
                     <img :src="ite.pic">
                   </div>
@@ -294,6 +333,28 @@
           </div>
         </div>
       </van-popup>
+      <!-- 订单状态 -->
+      <van-popup v-model="orderStatus" :style="{ 'border-radius': '4px' }">
+        <div class="order-content">
+          <div class="tips">是否已成功支付订单？</div>
+          <div class="button">
+            <div class="color-1" @click="unPayFunc">未支付</div>
+            <div class="color-2" @click="checkPay">已支付</div>
+          </div>
+        </div>
+      </van-popup>
+      <!-- 未支付订单状态 -->
+      <van-popup v-model="unOrderStatus" :style="{ 'border-radius': '4px' }">
+        <div class="order-content">
+          <div class="tips" v-if="payOrderData">
+            <p >{{ payOrderData.tipinfo }}</p>
+          </div>
+          <div class="button">
+            <div class="color-1" @click="unOrderStatus = false">我再想想</div>
+            <div class="color-2" @click="goPay">前去支付</div>
+          </div>
+        </div>
+      </van-popup>
     </div>
   </Cont>
 </template>
@@ -305,6 +366,10 @@ export default {
   name: 'pmlxDetails',
   data () {
     return {
+      payOrderId: '',
+      orderStatus: false,
+      payOrderData: Object,
+      unOrderStatus: false,
       bigImg: '',
       Data: [],
       titleName: '',
@@ -338,15 +403,16 @@ export default {
     /**
      * 路由跳转
      */
-    routeChange (item, eq) {
-      this.$router.push({
-        path: '/tlyjy/pmlx',
-        query: {
-          index: eq,
-          id: item.id,
-          from: 'app'
-        }
-      })
+    routeChange (item, eq, data) {
+      if (data.pinfos.isbuy == 0) {
+        this.unOrderStatus = true
+        this.payOrderData = data.pinfos
+      } else {
+        window.fortune.openactivity('com.fairytale.webpage.WebAcvitity',
+          'weburl_tag', 'http://newos.glassmarket.cn/webpage_jumper.php',
+          'extra_info_tag',
+          `type=43&actiontype=-18&yjyindex='${eq}'&yjyid='${item.id}`, '0', '0')
+      }
     },
     /**
      * 展开分类
@@ -360,6 +426,54 @@ export default {
      */
     routeBack () {
       return this.$router.go(-1)
+    },
+    /**
+     * 前去支付
+     */
+    goPay (item) {
+      this.unOrderStatus = false
+      payOrder({
+        expertuserid: this.payOrderData.expertuserid,
+        userid: this.$userId,
+        actiontype: 3,
+        ordername: this.payOrderData.ordername,
+        price: this.payOrderData.price,
+        ordertype: this.payOrderData.ordertype,
+        orderpid: this.payOrderData.orderpid
+      }).then(res => {
+        if (res.result == 0) {
+          this.$Toast('你还未登录，请先登录')
+        }
+        if (res.result == 1) {
+          this.orderStatus = true
+          this.payOrderId = res.infos.orderid
+          window.fortune.openactivity('com.fairytale.fortunetarot.controller.ExpertOrderDetailActivity', '0', '', `orderid#${res.infos.orderid}`)
+        }
+      })
+    },
+    /**
+     * 未支付
+     */
+    unPayFunc () {
+      [this.orderStatus, this.unOrderStatus] = [false, true]
+    },
+    /**
+     * 检测是否支付
+     */
+    checkPay () {
+      payOrder({
+        actiontype: 15,
+        orderid: this.payOrderId
+      }).then(res => {
+        this.orderStatus = false
+        if (res.result == 1) {
+          this.totalData.map(item => {
+            if (item.pinfos.expertuserid == this.payOrderData.expertuserid) item.pinfos.isbuy = 1
+          })
+        } else {
+          this.unOrderStatus = true
+        }
+      })
     }
   },
   mounted () {
