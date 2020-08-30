@@ -69,7 +69,7 @@
       }
       .c-main {
         color: #513327;
-        font-size: .24rem;
+        font-size: .26rem;
         width: 6rem;
         text-indent: 2em;
         line-height: .48rem;
@@ -127,11 +127,6 @@
         transition: all .3s ease;
       }
     }
-    // .van-collapse-item__title--expanded {
-    //   .arrow {
-    //     transform: rotate(180deg);
-    //   }
-    // }
     .collapse-title {
       display: flex;
       flex-direction: row;
@@ -273,7 +268,7 @@
             <div class="c-image" v-if="item.pic">
               <img :src="item.pic">
             </div>
-            <div class="c-main" v-if="item.content">{{ item.content }}</div>
+            <div class="c-main" v-if="item.content" v-html="item.content"></div>
           </div>
         </div>
         <div class="d-content-end" v-if="statusChange">
