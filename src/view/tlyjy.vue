@@ -173,6 +173,9 @@
     transform: scaleY(.5);
     border-bottom-color: #c8b7ae;
   }
+  .tlyjy .van-cell--clickable:active {
+    background-color: rgba(0, 0, 0, 0);
+  }
 </style>
 
 <template>
@@ -185,32 +188,34 @@
           <i class="tips" @click="tipsStatus = true"></i>
         </div>
         <div class="main tlyjy">
-          <van-collapse v-model="activeNames" accordion :border="false">
-            <van-collapse-item v-for="(item, index) in totalData" :name="index" :key="item.id">
-              <div slot="title" class="collapse-title">
-                <div class="img">
-                  <img v-if="item.pic" :src="item.pic">
-                </div>
-                <div class="info">
-                  <h5>{{ item.name }}</h5>
-                  <p>{{ item.content }}</p>
-                </div>
-              </div>
-              <div slot="right-icon" class="arrow"></div>
-              <div class="list-box">
-                <div class="list-item" v-for="(ite, ind) in item.sontypes" :key="'item' + index + ind" @click="routeChange(ite, item)">
+          <van-pull-refresh v-model="itemSecondStatus" @refresh="itemSecondStatus = false">
+            <van-collapse v-model="activeNames" accordion :border="false">
+              <van-collapse-item v-for="(item, index) in totalData" :name="index" :key="item.id">
+                <div slot="title" class="collapse-title">
                   <div class="img">
-                    <img :src="ite.pic">
+                    <img v-if="item.pic" :src="item.pic">
                   </div>
                   <div class="info">
-                    <h5>{{ ite.name }}</h5>
-                    <p>{{ ite.content }}</p>
+                    <h5>{{ item.name }}</h5>
+                    <p>{{ item.content }}</p>
                   </div>
-                  <div class="arrow"></div>
                 </div>
-              </div>
-            </van-collapse-item>
-          </van-collapse>
+                <div slot="right-icon" class="arrow"></div>
+                <div class="list-box">
+                  <div class="list-item" v-for="(ite, ind) in item.sontypes" :key="'item' + index + ind" @click="routeChange(ite, item)">
+                    <div class="img">
+                      <img :src="ite.pic">
+                    </div>
+                    <div class="info">
+                      <h5>{{ ite.name }}</h5>
+                      <p>{{ ite.content }}</p>
+                    </div>
+                    <div class="arrow"></div>
+                  </div>
+                </div>
+              </van-collapse-item>
+            </van-collapse>
+          </van-pull-refresh>
         </div>
         <!-- 塔罗牌提示 -->
         <van-popup v-model="tipsStatus" :style="{ 'border-radius': '4px' }">
@@ -279,7 +284,8 @@ export default {
       tipStatus: false,
       tipsStatus: false,
       orderStatus: false,
-      unOrderStatus: false
+      unOrderStatus: false,
+      itemSecondStatus: false
     }
   },
   components: {

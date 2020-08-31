@@ -210,6 +210,7 @@
         </div>
         <div class="main">
           <div class="item item-1" ref="scroll">
+            <van-pull-refresh v-model="itemSecondStatus" @refresh="itemSecondStatus = false">
             <template  v-if="totalData.sontype">
               <div class="d-content-main" v-for="(item, index) in totalData.sontype.allcontents" :key="index">
                 <div class="c-title" v-if="item.title">{{ item.title }}</div>
@@ -233,6 +234,7 @@
                 </div>
               </div>
             </template>
+            </van-pull-refresh>
           </div>
         </div>
       </template>
@@ -251,7 +253,8 @@ export default {
       titleName: '',
       navIndex: 0,
       swipeIndex: 0,
-      totalData: Object
+      totalData: Object,
+      itemSecondStatus: false
     }
   },
   components: {

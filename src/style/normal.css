@@ -69,6 +69,7 @@ a {
 .tlyjy .van-cell {
   padding: .2rem;
 }
+
 .tlyjy .van-cell::after {
   border-bottom-color: #553328;
   left: .2rem;
