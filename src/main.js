@@ -3,7 +3,7 @@ import App from './App.vue'
 import store from '@/store'
 import router from './router'
 import moment from 'moment'
-import Vconsole from 'vconsole'
+// import Vconsole from 'vconsole'
 import JsBridge from './JsBridge'
 import { Form, RadioGroup, Radio, Switch, Icon, DatetimePicker, Picker, Popup, Area, PullRefresh, Loading, Toast, ImagePreview, Collapse, CollapseItem, Swipe, SwipeItem } from 'vant'
 import 'vant/lib/index.less'
@@ -23,7 +23,7 @@ Vue.use(Loading)
 Vue.use(DatetimePicker)
 Vue.use(Collapse)
 Vue.use(CollapseItem)
-new Vconsole()
+// new Vconsole()
 
 const getUrlParam = val => {
   const url = window.location.href

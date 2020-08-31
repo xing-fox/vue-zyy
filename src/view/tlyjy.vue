@@ -198,7 +198,7 @@
               </div>
               <div slot="right-icon" class="arrow"></div>
               <div class="list-box">
-                <div class="list-item" v-for="(ite, ind) in item.sontypes" :key="'item' + index + ind" @click="routeChange(ite, ind, item)">
+                <div class="list-item" v-for="(ite, ind) in item.sontypes" :key="'item' + index + ind" @click="routeChange(ite, item)">
                   <div class="img">
                     <img :src="ite.pic">
                   </div>
@@ -309,7 +309,7 @@ export default {
     /**
      * 路由跳转
      */
-    routeChange (item, eq, data) {
+    routeChange (item, data) {
       if (data.pinfos.isbuy == 0) {
         this.unOrderStatus = true
         this.payOrderData = data.pinfos
@@ -317,7 +317,6 @@ export default {
         this.$router.push({
           path: '/tlyjy/pmlx',
           query: {
-            index: eq,
             id: item.id,
             from: 'app'
           }

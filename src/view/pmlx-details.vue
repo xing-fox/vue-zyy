@@ -35,21 +35,8 @@
     }
   }
   .detail {
-    transition: transform 1s;
-    transform-style: preserve-3d;
-    transform: rotateY(0deg);
     width: 100vw;
     position: relative;
-    &.active {
-      transform: rotateY(180deg);
-    }
-  }
-  .d-content-front,
-  .d-content-end {
-    backface-visibility: hidden;
-    position: absolute;
-    left: 0;
-    right: 0;
   }
   .d-content-front {
     margin: .2rem .4rem 0;
@@ -82,7 +69,7 @@
       }
       .c-main {
         color: #513327;
-        font-size: .24rem;
+        font-size: .26rem;
         width: 6rem;
         text-indent: 2em;
         line-height: .48rem;
@@ -93,7 +80,6 @@
     margin: .2rem .4rem 0;
     height: calc(100vh - 2.2rem);
     overflow: auto;
-    transform: rotateY(180deg);
     box-sizing: border-box;
     .van-collapse-item {
       background-color:#E5D8CF;
@@ -139,11 +125,6 @@
         background:url(../assets/images/icon-arrow.png) no-repeat;
         background-size: 100% 100%;
         transition: all .3s ease;
-      }
-    }
-    .van-collapse-item__title--expanded {
-      .arrow {
-        transform: rotate(180deg);
       }
     }
     .collapse-title {
@@ -280,17 +261,17 @@
         <i class="icon return" @click="routeBack"></i>
         <span>{{ titleName }}</span>
       </div>
-      <div class="detail" :class="['detail', {'active': statusChange}]">
+      <div class="detail">
         <div class="d-content-front" v-if="!statusChange">
           <div class="d-content-main" v-for="(item, index) in totalData.allcontents" :key="index">
             <div class="c-title" v-if="item.title">{{ item.title }}</div>
             <div class="c-image" v-if="item.pic">
               <img :src="item.pic">
             </div>
-            <div class="c-main" v-if="item.content">{{ item.content }}</div>
+            <div class="c-main" v-if="item.content" v-html="item.content"></div>
           </div>
         </div>
-        <div class="d-content-end" v-else>
+        <div class="d-content-end" v-if="statusChange">
           <van-collapse v-model="dataIndex" :border="false">
             <van-collapse-item v-for="(item, index) in Data" :name="index" :key="index">
               <div slot="title" class="collapse-title">
@@ -304,7 +285,7 @@
               </div>
               <div slot="right-icon" class="arrow"></div>
               <div class="list-box">
-                <div class="list-item" v-for="(ite, ind) in item.sontypes" :key="'item' + index + ind" @click="routeChange(ite, ind, item)">
+                <div class="list-item" v-for="(ite, ind) in item.sontypes" :key="'item' + index + ind" @click="routeChange(ite, item)">
                   <div class="img">
                     <img :src="ite.pic">
                   </div>
@@ -404,7 +385,7 @@ export default {
     /**
      * 路由跳转
      */
-    routeChange (item, eq, data) {
+    routeChange (item, data) {
       if (data.pinfos.isbuy == 0) {
         this.unOrderStatus = true
         this.payOrderData = data.pinfos
@@ -412,7 +393,7 @@ export default {
         window.fortune.openactivity('com.fairytale.webpage.WebAcvitity',
           'weburl_tag', 'http://newos.glassmarket.cn/webpage_jumper.php',
           'extra_info_tag',
-          `type=43&actiontype=-18&yjyindex=${eq}&yjyid=${item.id}`, '0', '0')
+          `type=43&actiontype=-18&yjyid=${item.id}`, '0', '0')
       }
     },
     /**

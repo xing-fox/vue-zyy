@@ -41,11 +41,8 @@
     .nav-swipe {
       color: #a28a78;
       font-size: .26rem;
-      align-items: center;
       width: 100%;
       height: .9rem;
-      white-space: nowrap;
-      overflow-x: auto;
       position: relative;
       &:after {
         border-bottom: 1px solid #765d49; 
@@ -56,6 +53,7 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        box-sizing: border-box;
         &.active {
           color:#fffaf1;
           position: relative;
@@ -121,7 +119,7 @@
         }
         .c-main {
           color: #513327;
-          font-size: .24rem;
+          font-size: .26rem;
           width: 6rem;
           text-indent: 2em;
           line-height: .48rem;
@@ -194,6 +192,7 @@
 }
 </style>
 
+
 <template>
   <Cont>
     <div class="wrapper">
@@ -202,36 +201,38 @@
           <i class="icon return" @click="routeBack"></i>
           <span>{{ titleName }}</span>
         </div>
-        <div class="nav">
-          <van-swipe class="nav-swipe" :loop="false" :show-indicators="false" :width="70">
+        <div class="nav" v-if="totalData.allsontypes">
+          <van-swipe :initial-swipe="swipeIndex" class="nav-swipe" :loop="false" :show-indicators="false" width="80">
             <van-swipe-item class="list" v-for="(item, index) in totalData.allsontypes" :key="index" :class="{'active': index == navIndex}" @click="tabChange(item, index)">
               {{ item.name }}
             </van-swipe-item>
           </van-swipe>
         </div>
         <div class="main">
-          <div class="item item-1" v-if="totalData.sontype">
-            <div class="d-content-main" v-for="(item, index) in totalData.sontype.allcontents" :key="index">
-              <div class="c-title" v-if="item.title">{{ item.title }}</div>
-              <div class="c-image" v-if="item.pic">
-                <img :src="item.pic">
-              </div>
-              <div class="c-main" v-if="item.content">{{ item.content }}</div>
-            </div>
-            <div class="desc">{{ totalData.sontype.content }}</div>
-            <div class="list-box">
-              <div class="list-title">{{ totalData.allsontypes[navIndex].name }}相关牌</div>
-              <div class="list-item" v-for="(item, index) in totalData.sontype.cards" :key="index" @click="routeChange(item)">
-                <div class="img">
+          <div class="item item-1" ref="scroll">
+            <template  v-if="totalData.sontype">
+              <div class="d-content-main" v-for="(item, index) in totalData.sontype.allcontents" :key="index">
+                <div class="c-title" v-if="item.title">{{ item.title }}</div>
+                <div class="c-image" v-if="item.pic">
                   <img :src="item.pic">
                 </div>
-                <div class="info">
-                  <h5>{{ item.name }}</h5>
-                  <p>{{ item.content }}</p>
-                </div>
-                <div class="arrow"></div>
+                <div class="c-main" v-if="item.content">{{ item.content }}</div>
               </div>
-            </div>
+              <div class="desc">{{ totalData.sontype.content }}</div>
+              <div class="list-box">
+                <div class="list-title">{{ totalData.allsontypes[navIndex].name }}相关牌</div>
+                <div class="list-item" v-for="(item, index) in totalData.sontype.cards" :key="index" @click="routeChange(item)">
+                  <div class="img">
+                    <img :src="item.pic">
+                  </div>
+                  <div class="info">
+                    <h5>{{ item.name }}</h5>
+                    <p>{{ item.content }}</p>
+                  </div>
+                  <div class="arrow"></div>
+                </div>
+              </div>
+            </template>
           </div>
         </div>
       </template>
@@ -248,7 +249,8 @@ export default {
   data () {
     return {
       titleName: '',
-      navIndex: this.$route.query.index || this.getUrlParams('yjyindex') || 0,
+      navIndex: 0,
+      swipeIndex: 0,
       totalData: Object
     }
   },
@@ -268,8 +270,15 @@ export default {
       }).then(res => {
         console.log(res)
         if (res.result == 1) {
+          res.infos.allsontypes.map((item, index) => {
+            if (item.id == id) {
+              self.navIndex = index
+              self.swipeIndex = index
+            }
+          })
           self.totalData = res.infos
           self.titleName = res.infos.sontype.fathertype
+          self.$refs.scroll.scrollTo(0, 0)
         }
       })
     },
@@ -277,7 +286,6 @@ export default {
      * 切换tab
      */
     tabChange (data, eq) {
-      this.navIndex = eq
       this.getData(data.id)
     },
     /**
@@ -316,7 +324,7 @@ export default {
   },
   mounted () {
     if (this.$route.query.id) return this.getData(this.$route.query.id)
-    return this.getUrlParams('yjyid')
+    return this.getData(this.getUrlParams('yjyid'))
   }
 }
 </script>
