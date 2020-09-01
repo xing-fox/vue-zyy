@@ -52,6 +52,10 @@
     box-sizing: border-box;
     background: rgba(229, 215, 207, 1);
     backface-visibility: hidden;
+    position: relative;
+    &.active {
+      z-index: 1;
+    }
     .d-content-main {
       display: flex;
       align-items: center;
@@ -92,6 +96,9 @@
     position: absolute;
     top: 0;
     left: 0;
+    &.active {
+      z-index: 1;
+    }
     .van-collapse-item {
       background-color:#E5D8CF;
       border-radius:.06rem;
@@ -273,7 +280,7 @@
         <span>{{ titleName }}</span>
       </div>
       <div class="detail" :class="{'active': statusChange}">
-        <div class="d-content-front">
+        <div class="d-content-front" :class="{active: !statusChange}">
           <div class="d-content-main" v-for="(item, index) in totalData.allcontents" :key="index">
             <div class="c-title" v-if="item.title">{{ item.title }}</div>
             <div class="c-image" v-if="item.pic">
@@ -282,7 +289,7 @@
             <div class="c-main" v-if="item.content" v-html="item.content"></div>
           </div>
         </div>
-        <div class="d-content-end">
+        <div class="d-content-end" :class="{active: statusChange}">
           <van-collapse v-model="dataIndex" :border="false">
             <van-collapse-item v-for="(item, index) in Data" :name="index" :key="index">
               <div slot="title" class="collapse-title">
@@ -291,7 +298,6 @@
                 </div>
                 <div class="info">
                   <h5>{{ item.name }}</h5>
-                  <!-- <p>{{ item.sontype.content }}</p> -->
                 </div>
               </div>
               <div slot="right-icon" class="arrow"></div>
