@@ -42,85 +42,199 @@
       justify-content: center;
     }
   }
+  .nav {
+    color: #a28a78;
+    font-size: .26rem;
+    display: flex;
+    align-items: center;
+    height: .9rem;
+    margin: 0 .4rem;
+    position: relative;
+    &:after {
+      border-bottom: 1px solid #765d49; 
+    }
+    li {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      &.active {
+        color:#fffaf1;
+        position: relative;
+        &:before {
+          content: '';
+          width: .2rem;
+          height: .2rem;
+          border: 1px solid #f5f0e7;
+          transform: scale(.5, .5) rotate(45deg);
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: -.12rem;
+          margin: 0 auto;
+        }
+        &:after {
+          content: '';
+          width: 100%;
+          border-bottom: 1px solid #fffaf1;
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 0;
+        }
+      }
+    }
+  }
   .main {
-    height: calc(100vh - 1.8rem);
+    height: calc(100vh - 2.7rem);
     padding: .4rem .4rem 0;
     box-sizing: border-box;
     overflow: auto;
-    .van-collapse-item {
-      background-color:#E5D8CF;
-      border-radius:.06rem;
-      overflow: hidden;
-      margin-bottom: .2rem;
-      .img {
-        width: 1.1rem;
-        height: 1.1rem;
-        border-radius: .06rem;
-        margin-right: .2rem;
+    .item-1 {
+      .van-collapse-item {
+        background-color:#E5D8CF;
+        border-radius:.06rem;
         overflow: hidden;
-        background-color: #f9ebe2;
-        img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
+        margin-bottom: .2rem;
+        .img {
+          width: 1.1rem;
+          height: 1.1rem;
+          border-radius: .06rem;
+          margin-right: .2rem;
+          overflow: hidden;
+          background-color: #f9ebe2;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+        .info {
+          flex: 1;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 1;
+          overflow: hidden;
+          line-height: .4rem;
+          color: rgba(81, 51, 40, .65);
+          font-size: .24rem;
+          margin: 0 .1rem 0 0;
+          h5 {
+            font-size: .26rem;
+            color: #513328;
+          }
+        }
+        .arrow {
+          display: block;
+          width: .16rem;
+          height: .09rem;
+          margin: auto;
+          background:url(../assets/images/icon-arrow.png) no-repeat;
+          background-size: 100% 100%;
+          transition: all .3s ease;
         }
       }
-      .info {
-        flex: 1;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 1;
-        overflow: hidden;
-        line-height: .4rem;
-        color: rgba(81, 51, 40, .65);
-        font-size: .24rem;
-        margin: 0 .1rem 0 0;
-        h5 {
-          font-size: .26rem;
-          color: #513328;
+      .van-collapse-item__title--expanded {
+        .arrow {
+          transform: rotate(180deg);
         }
       }
-      .arrow {
-        display: block;
-        width: .16rem;
-        height: .09rem;
-        margin: auto;
-        background:url(../assets/images/icon-arrow.png) no-repeat;
-        background-size: 100% 100%;
-        transition: all .3s ease;
-      }
-    }
-    .van-collapse-item__title--expanded {
-      .arrow {
-        transform: rotate(180deg);
-      }
-    }
-    .collapse-title {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-    }
-    .list-box {
-      .list-item {
+      .collapse-title {
         display: flex;
         flex-direction: row;
         align-items: center;
-        margin-bottom: .2rem;
-        &:last-child {
-          margin-bottom: 0;
-        }
-        .img {
-          width: .9rem;
-          height: .9rem;
-          margin-left: .4rem;
-        }
-        h5 {
-          font-weight: normal;
-        }
-        .arrow {
-          transform: rotate(270deg);
+      }
+      .list-box {
+        .list-item {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          margin-bottom: .2rem;
+          &:last-child {
+            margin-bottom: 0;
+          }
+          .img {
+            width: .9rem;
+            height: .9rem;
+            margin-left: .4rem;
+          }
+          h5 {
+            font-weight: normal;
+          }
+          .arrow {
+            transform: rotate(270deg);
+          }
         }
       }
+    }
+    .item-2 {
+      background: #E5D8CF;
+      border-radius: .06rem;
+      height: 100%;
+      padding: .3rem;
+      box-sizing: border-box;
+      overflow-y: auto;
+      .list-item {
+          display: flex;
+          flex-direction: row;
+          align-items: stretch;
+          padding: .2rem 0;
+          border-bottom: #D1BDAF solid 1px;
+          &:first-child {
+            padding-top: 0;
+          }
+          &:last-child {
+            padding-bottom: 0;
+            border-bottom: 0;
+          }
+          .img {
+            width: 1.3rem;
+            height: 2rem;
+            border-radius: .06rem;
+            margin-right: .2rem;
+            overflow: hidden;
+            background-color: #aeaeae;
+            img {
+              width: 100%;
+              height: 100%;
+              display: block;
+            }
+          }
+          .right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+          }
+          .info {
+            flex: 1;
+            line-height: .3rem;
+            font-size: .22rem;
+            color:rgba(81,51,40, .65);
+            h5 {
+              line-height: .4rem;
+              font-size: .26rem;
+              color: #513328;
+            }
+          }
+          .bottom {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            font-size: .22rem;
+            line-height: .4rem;
+            .num {
+              font-size: .18rem;
+              color: #513328;
+              padding-left: .28rem;
+              background:url(../assets/images/icon-play.png) left center no-repeat;
+              background-size: .2rem .2rem;
+            }
+            .price {
+              color:#B73724;
+            }
+          }
+        }
     }
   }
   .order-content {
@@ -187,35 +301,57 @@
           <span>塔罗研究院</span>
           <i class="tips" @click="tipsStatus = true"></i>
         </div>
+        <ul class="nav bor-b">
+          <li v-for="(item, index) in navList" :key="index" :class="{'active': index == navIndex}" @click="changeNav(index)">{{ item }}</li>
+        </ul>
         <div class="main tlyjy">
-          <van-pull-refresh v-model="itemSecondStatus" @refresh="itemSecondStatus = false">
-            <van-collapse v-model="activeNames" accordion :border="false">
-              <van-collapse-item v-for="(item, index) in totalData" :name="index" :key="item.id">
-                <div slot="title" class="collapse-title">
-                  <div class="img">
-                    <img v-if="item.pic" :src="item.pic">
-                  </div>
-                  <div class="info">
-                    <h5>{{ item.name }}</h5>
-                    <p>{{ item.content }}</p>
-                  </div>
-                </div>
-                <div slot="right-icon" class="arrow"></div>
-                <div class="list-box">
-                  <div class="list-item" v-for="(ite, ind) in item.sontypes" :key="'item' + index + ind" @click="routeChange(ite, item)">
+          <div class="item item-1" v-if="navIndex == 0">
+            <van-pull-refresh v-model="itemSecondStatus" @refresh="itemSecondStatus = false">
+              <van-collapse v-model="activeNames" accordion :border="false">
+                <van-collapse-item v-for="(item, index) in totalData" :name="index" :key="item.id">
+                  <div slot="title" class="collapse-title">
                     <div class="img">
-                      <img :src="ite.pic">
+                      <img v-if="item.pic" :src="item.pic">
                     </div>
                     <div class="info">
-                      <h5>{{ ite.name }}</h5>
-                      <p>{{ ite.content }}</p>
+                      <h5>{{ item.name }}</h5>
+                      <p>{{ item.content }}</p>
                     </div>
-                    <div class="arrow"></div>
                   </div>
+                  <div slot="right-icon" class="arrow"></div>
+                  <div class="list-box">
+                    <div class="list-item" v-for="(ite, ind) in item.sontypes" :key="'item' + index + ind" @click="routeChange(ite, item)">
+                      <div class="img">
+                        <img :src="ite.pic">
+                      </div>
+                      <div class="info">
+                        <h5>{{ ite.name }}</h5>
+                        <p>{{ ite.content }}</p>
+                      </div>
+                      <div class="arrow"></div>
+                    </div>
+                  </div>
+                </van-collapse-item>
+              </van-collapse>
+            </van-pull-refresh>
+          </div>
+          <div class="item item-2" v-if="navIndex == 1">
+            <div class="list-item" v-for="item in listData" :key="item.id" @click="goTo(item.id)">
+              <div class="img">
+                <img :src="item.src">
+              </div>
+              <div class="right">
+                <div class="info">
+                  <h5>{{ item.title }}</h5>
+                  <p>{{ item.desc }}</p>
                 </div>
-              </van-collapse-item>
-            </van-collapse>
-          </van-pull-refresh>
+                <div class="bottom">
+                  <div class="num">{{ item.num }}</div>
+                  <div class="price">{{ item.price }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <!-- 塔罗牌提示 -->
         <van-popup v-model="tipsStatus" :style="{ 'border-radius': '4px' }">
@@ -275,6 +411,8 @@ export default {
   name: 'tlyjy',
   data () {
     return {
+      navIndex: 0,
+      navList: ['塔罗牌义', '塔罗课堂'],
       payOrderId: '',
       orderStatus: false,
       payOrderData: Object,
@@ -285,7 +423,17 @@ export default {
       tipsStatus: false,
       orderStatus: false,
       unOrderStatus: false,
-      itemSecondStatus: false
+      itemSecondStatus: false,
+      listData: [
+        {
+          id: '1111',
+          src: '111',
+          title: '塔罗初阶入门教学',
+          desc: '冒险的行动，追求可能性，重视梦想，无视物质的损失，离开家园，过于信赖。',
+          num: '4123',
+          price: '99元/25讲'
+        }
+      ]
     }
   },
   components: {
@@ -293,10 +441,25 @@ export default {
   },
   methods: {
     /**
+     * 切换导航
+     */
+    changeNav (eq) {
+      this.navIndex = eq
+    },
+    /**
      * 提示
      */
     tipFunc () {
 
+    },
+
+    /**
+     * 页面跳转
+     */
+    goTo (item) {
+      this.$router.push({
+        path: '/tlyjy/tlkt'
+      })
     },
     /**
      * 获取塔罗牌

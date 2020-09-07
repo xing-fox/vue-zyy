@@ -72,6 +72,13 @@ export default [
             }
           }
         ]
+      }, {
+        path: 'tlkt',
+        name: 'tlkt',
+        component: resolve => require(['@/view/tlkt'], resolve),
+        meta: {
+          title: '塔罗课堂'
+        }
       }
     ]
   }, {
