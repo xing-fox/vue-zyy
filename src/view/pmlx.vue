@@ -210,29 +210,31 @@
         </div>
         <div class="main">
           <div class="item item-1" ref="scroll">
-            <template  v-if="totalData.sontype">
-              <div class="d-content-main" v-for="(item, index) in totalData.sontype.allcontents" :key="index">
-                <div class="c-title" v-if="item.title">{{ item.title }}</div>
-                <div class="c-image" v-if="item.pic">
-                  <img :src="item.pic">
-                </div>
-                <div class="c-main" v-if="item.content">{{ item.content }}</div>
-              </div>
-              <div class="desc">{{ totalData.sontype.content }}</div>
-              <div class="list-box">
-                <div class="list-title">{{ totalData.allsontypes[navIndex].name }}相关牌</div>
-                <div class="list-item" v-for="(item, index) in totalData.sontype.cards" :key="index" @click="routeChange(item)">
-                  <div class="img">
+            <van-pull-refresh v-model="itemSecondStatus" @refresh="itemSecondStatus = false">
+              <template  v-if="totalData.sontype">
+                <div class="d-content-main" v-for="(item, index) in totalData.sontype.allcontents" :key="index">
+                  <div class="c-title" v-if="item.title">{{ item.title }}</div>
+                  <div class="c-image" v-if="item.pic">
                     <img :src="item.pic">
                   </div>
-                  <div class="info">
-                    <h5>{{ item.name }}</h5>
-                    <p>{{ item.content }}</p>
-                  </div>
-                  <div class="arrow"></div>
+                  <div class="c-main" v-if="item.content">{{ item.content }}</div>
                 </div>
-              </div>
-            </template>
+                <div class="desc">{{ totalData.sontype.content }}</div>
+                <div class="list-box">
+                  <div class="list-title">{{ totalData.allsontypes[navIndex].name }}相关牌</div>
+                  <div class="list-item" v-for="(item, index) in totalData.sontype.cards" :key="index" @click="routeChange(item)">
+                    <div class="img">
+                      <img :src="item.pic">
+                    </div>
+                    <div class="info">
+                      <h5>{{ item.name }}</h5>
+                      <p>{{ item.content }}</p>
+                    </div>
+                    <div class="arrow"></div>
+                  </div>
+                </div>
+              </template>
+            </van-pull-refresh>
           </div>
         </div>
       </template>
@@ -251,7 +253,8 @@ export default {
       titleName: '',
       navIndex: 0,
       swipeIndex: 0,
-      totalData: Object
+      totalData: Object,
+      itemSecondStatus: false
     }
   },
   components: {
