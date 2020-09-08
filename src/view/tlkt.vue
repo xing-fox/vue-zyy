@@ -98,91 +98,16 @@
   }
   .main {
     height: calc(100vh - 6.9rem);
-    padding: .4rem .4rem 0;
+    padding: .3rem .4rem 0;
     box-sizing: border-box;
     overflow: auto;
-    .item-1 {
+    .item-info {
       background: #E5D8CF;
       border-radius: .06rem;
       height: 100%;
       padding: .3rem;
       box-sizing: border-box;
       overflow-y: auto;
-      .van-collapse-item {
-        background-color:#E5D8CF;
-        border-radius:.06rem;
-        overflow: hidden;
-        margin-bottom: .2rem;
-        .img {
-          width: 1.1rem;
-          height: 1.1rem;
-          border-radius: .06rem;
-          margin-right: .2rem;
-          overflow: hidden;
-          background-color: #f9ebe2;
-          img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-          }
-        }
-        .info {
-          flex: 1;
-          display: -webkit-box;
-          -webkit-box-orient: vertical;
-          -webkit-line-clamp: 1;
-          overflow: hidden;
-          line-height: .4rem;
-          color: rgba(81, 51, 40, .65);
-          font-size: .24rem;
-          margin: 0 .1rem 0 0;
-          h5 {
-            font-size: .26rem;
-            color: #513328;
-          }
-        }
-        .arrow {
-          display: block;
-          width: .16rem;
-          height: .09rem;
-          margin: auto;
-          background:url(../assets/images/icon-arrow.png) no-repeat;
-          background-size: 100% 100%;
-          transition: all .3s ease;
-        }
-      }
-      .van-collapse-item__title--expanded {
-        .arrow {
-          transform: rotate(180deg);
-        }
-      }
-      .collapse-title {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-      }
-      .list-box {
-        .list-item {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          margin-bottom: .2rem;
-          &:last-child {
-            margin-bottom: 0;
-          }
-          .img {
-            width: .9rem;
-            height: .9rem;
-            margin-left: .4rem;
-          }
-          h5 {
-            font-weight: normal;
-          }
-          .arrow {
-            transform: rotate(270deg);
-          }
-        }
-      }
     }
     .item-nav {
       background: #E5D8CF;
@@ -290,6 +215,113 @@
       }
     }
   }
+  .item-info {
+    .class-info {
+      padding-bottom: .2rem;
+      border-bottom:#D1BDAF solid 1px;
+      color: #8B7469;
+      font-size: .24rem;
+      line-height: .4rem;
+      .title-c {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        h5 {
+          flex: 1;
+          font-size: .32rem;
+          color: #513328;
+        }
+        span {
+          padding: 0 .16rem;
+          font-size: .24rem;
+          color: #fff;
+          height: .4rem;
+          border-radius: .06rem;
+          background-color: #B73724;
+        }
+      }
+      .desc {
+        padding: .12rem 0 .18rem;
+      }
+      .detail {
+        display: flex;
+        justify-content: space-between;
+        .price {
+          .new {
+            font-size: .32rem;
+            color: #B73724;
+            font-weight: bold;
+            font-style: normal;
+          }
+          .old {
+            font-style: normal;
+            text-decoration: line-through;
+          }
+        }
+      }
+    }
+    .teacher, .class-item {
+      font-size: .24rem;
+      color: #513328;
+      line-height: .48rem;
+      .title-t {
+        color: #B73724;
+        font-size: .32rem;
+        line-height: .4rem;
+        padding: .3rem 0 .2rem;
+      }
+    }
+    .teacher {
+      .teacher-info {
+        display: flex;
+        .teacher-img {
+          width: 2rem;
+          height: 2.6rem;
+          background: #ccc;
+          border-radius: .06rem;
+          overflow: hidden;
+          margin: .1rem .22rem 0 0;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        .desc {
+          flex: 1;
+        }
+      }
+      .teacher-btn {
+        color: #E5D8CF;
+        font-size: .26rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.8rem;
+        height: .6rem;
+        margin: .3rem auto .1rem;
+        border-radius: .3rem;
+        background: #B5341F;
+      }
+    }
+    .class-item {
+      .class-img {
+        width: 100%;
+        height: 2.96rem;
+        background: #ccc;
+        border-radius: .06rem;
+        overflow: hidden;
+        margin: 0 0 .14rem;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .desc {
+        text-indent: .48rem;
+        padding-bottom: .06rem;
+      }
+    }
+  }
 }
 </style>
 
@@ -309,9 +341,41 @@
           <li v-for="(item, index) in navList" :key="index" :class="{'active': index == navIndex}" @click="changeNav(index)">{{ item }}</li>
         </ul>
         <div class="main">
-          <div class="item item-1" v-if="navIndex == 0">
+          <div class="item-info" v-if="navIndex == 0">
+            <div class="class-info">
+              <div class="title-c">
+                <h5>塔罗初阶入门教学</h5>
+                <span>更新中</span>
+              </div>
+              <div class="desc">这里是课程的一句话介绍，简介内容简介内容简介内容</div>
+              <div class="detail">
+                <span>40220次播放</span>
+                <span class="price">
+                  <i class="old">￥199</i>
+                  <i class="new">￥99</i>
+                </span>
+              </div>
+            </div>
+            <div class="teacher">
+              <div class="title-t">讲师介绍</div>
+              <div class="teacher-info">
+                <div class="teacher-img"><img src=""></div>
+                <div class="desc">占星学是用天体的相对位置和相对运动（尤其是太阳系内的行星的位置）来解释或预言人的和行为的系统。占星师是遵循占星学原理，利用人的出生地、出生时间绘制星盘，借此来解释人的性格和命运的人。</div>
+              </div>
+              <div class="teacher-btn">立即咨询</div>
+            </div>
+            <div class="class-item">
+              <div class="title-t">课程介绍第一段标题</div>
+                <div class="class-img"><img src=""></div>
+                <div class="desc">这里是课程的介绍内容。这里是课程的介绍内容。这里是课程的介绍内容。这里是课程的介绍内容。这里是课程的介绍内容。这里是课程的介绍内容。这里是课程的介绍内容。这里是课程的介绍内。这里是课程的介绍内容。这里是课程的介绍内容。这里是课程的介绍内容。这里是课程的介绍内容。这里是课程的介绍内容</div>
+            </div>
+            <div class="class-item">
+              <div class="title-t">课程介绍第二段标题</div>
+                <div class="class-img"><img src=""></div>
+                <div class="desc">这里是课程的介绍内容。这里是课程的介绍内容。这里是课程的介绍内容。这里是课程的介绍内容。这里是课程的介绍内容。这里是课程的介绍内容。这里是课程的介绍内容。这里是课程的介绍内。这里是课程的介绍内容。这里是课程的介绍内容。这里是课程的介绍内容。这里是课程的介绍内容。这里是课程的介绍内容</div>
+            </div>
           </div>
-          <div class="item item-nav" v-if="navIndex == 1">
+          <div class="item-nav" v-if="navIndex == 1">
             <div class="list-item" v-for="item in listData" :key="item.id" @click="goTo(item.id)">
               <div class="status">
                 <img v-if="item.id === currentId" src="../assets/images/icon-stop.png">
