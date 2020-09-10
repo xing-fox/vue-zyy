@@ -634,7 +634,7 @@
                     justify-content: center;
                     width: 1.8rem;
                     height: 1.8rem;
-                    margin: 0 .15rem .15rem 0;
+                    margin: 0 .1rem .15rem 0;
                     overflow: hidden;
                     &:nth-child(3n) {
                       margin: 0 0 .15rem 0;

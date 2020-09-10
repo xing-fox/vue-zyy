@@ -180,7 +180,7 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 1.5rem;
+    height: 1.1rem;
     background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
     position: fixed;
     bottom: 0;
@@ -344,35 +344,36 @@
           <div class="item-info" v-if="navIndex == 0">
             <div class="class-info">
               <div class="title-c">
-                <h5>塔罗初阶入门教学</h5>
-                <span>更新中</span>
+                <h5>{{ totalData.name }}</h5>
+                <span>{{ totalData.estatus === '1' ? '已完结' : '更新中' }}</span>
               </div>
-              <div class="desc">这里是课程的一句话介绍，简介内容简介内容简介内容</div>
+              <div class="desc">{{ totalData.estatusnametip }}</div>
               <div class="detail">
-                <span>40220次播放</span>
+                <span>{{ totalData.views }}次播放</span>
                 <span class="price">
-                  <i class="old">￥199</i>
-                  <i class="new">￥99</i>
+                  <i class="old">￥{{ totalData.oldpricetip }}</i>
+                  <i class="new">￥{{ totalData.pricetip }}</i>
                 </span>
               </div>
             </div>
             <div class="teacher">
               <div class="title-t">讲师介绍</div>
               <div class="teacher-info">
-                <div class="teacher-img"><img src=""></div>
-                <div class="desc">占星学是用天体的相对位置和相对运动（尤其是太阳系内的行星的位置）来解释或预言人的和行为的系统。占星师是遵循占星学原理，利用人的出生地、出生时间绘制星盘，借此来解释人的性格和命运的人。</div>
+                <div class="teacher-img">
+                  <img :src="totalData.expertface">
+                </div>
+                <div class="desc">{{ totalData.expertjieshao }}</div>
               </div>
               <div class="teacher-btn">立即咨询</div>
             </div>
             <div class="class-item">
-              <div class="title-t">课程介绍第一段标题</div>
-                <div class="class-img"><img src=""></div>
-                <div class="desc">这里是课程的介绍内容。这里是课程的介绍内容。这里是课程的介绍内容。这里是课程的介绍内容。这里是课程的介绍内容。这里是课程的介绍内容。这里是课程的介绍内容。这里是课程的介绍内。这里是课程的介绍内容。这里是课程的介绍内容。这里是课程的介绍内容。这里是课程的介绍内容。这里是课程的介绍内容</div>
-            </div>
-            <div class="class-item">
-              <div class="title-t">课程介绍第二段标题</div>
-                <div class="class-img"><img src=""></div>
-                <div class="desc">这里是课程的介绍内容。这里是课程的介绍内容。这里是课程的介绍内容。这里是课程的介绍内容。这里是课程的介绍内容。这里是课程的介绍内容。这里是课程的介绍内容。这里是课程的介绍内。这里是课程的介绍内容。这里是课程的介绍内容。这里是课程的介绍内容。这里是课程的介绍内容。这里是课程的介绍内容</div>
+                <div v-for="(list, eq) in totalData.detail" :key="eq">
+                  <div class="title-t">{{ list.title }}</div>
+                  <div class="class-img">
+                    <img :src="list.pic">
+                  </div>
+                  <div class="desc">{{ list.content }}</div>
+                </div>
             </div>
           </div>
           <div class="item-nav" v-if="navIndex == 1">
@@ -401,11 +402,13 @@
 </template>
 
 <script>
+import { payOrder, getTarot } from '@/fetch/api'
 import Cont from './content'
 export default {
   name: 'tlkt',
   data () {
     return {
+      from: this.$route.query.from || '',
       navIndex: 0,
       navList: ['详情', '目录', '咨询'],
       currentId: '1111',
@@ -423,7 +426,8 @@ export default {
           title: '3.第三节：主流塔罗体系',
           time: "9'40"
         }
-      ]
+      ],
+      totalData: Object
     }
   },
   components: {
@@ -444,12 +448,29 @@ export default {
         path: '/tlyjy/tlkt'
       })
     },
+    /**
+     * 获取数据
+     */
+    getData (id='') {
+      getTarot({
+        itemid: this.$route.query.id,
+        sonitemid: id,
+        actiontype: 4,
+        userid: this.$userId
+      }).then(res => {
+        this.totalData = res.infos
+      })
+    },
+    /**
+     * 返回
+     */
     routeBack () {
       if (this.from == 'app') return this.$router.go(-1)
       return window.fortune.closepage()
     }
   },
   mounted () {
+    this.getData('')
   }
 }
 </script>

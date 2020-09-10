@@ -302,7 +302,7 @@
           <i class="tips" @click="tipsStatus = true"></i>
         </div>
         <ul class="nav bor-b">
-          <li v-for="(item, index) in navList" :key="index" :class="{'active': index == navIndex}" @click="changeNav(index)">{{ item }}</li>
+          <li v-for="(item, index) in navList" :key="index" :class="{'active': index == navIndex}" @click="changeNav(index)">{{ item.title }}</li>
         </ul>
         <div class="main tlyjy">
           <div class="item item-1" v-if="navIndex == 0">
@@ -336,17 +336,36 @@
             </van-pull-refresh>
           </div>
           <div class="item item-2" v-if="navIndex == 1">
-            <div class="list-item" v-for="item in listData" :key="item.id" @click="goTo(item.id)">
+            <van-pull-refresh v-model="pullStatus" @refresh="pullStatus = false">
+              <div class="list-item" v-for="(item, eq) in navList[1].edus" :key="eq" @click="goTo(item.id)">
+                <div class="img">
+                  <img :src="item.pic">
+                </div>
+                <div class="right">
+                  <div class="info">
+                    <h5>{{ item.name }}</h5>
+                    <p>{{ item.nametip }}</p>
+                  </div>
+                  <div class="bottom">
+                    <div class="num">{{ item.views }}</div>
+                    <div class="price">{{ item.price }}</div>
+                  </div>
+                </div>
+              </div>
+            </van-pull-refresh>
+          </div>
+          <div class="item item-2" v-if="navIndex == 2">
+            <div class="list-item" v-for="(item, eq) in navList[2].edus" :key="eq" @click="goTo(item.id)">
               <div class="img">
-                <img :src="item.src">
+                <img :src="item.pic">
               </div>
               <div class="right">
                 <div class="info">
-                  <h5>{{ item.title }}</h5>
-                  <p>{{ item.desc }}</p>
+                  <h5>{{ item.name }}</h5>
+                  <p>{{ item.nametip }}</p>
                 </div>
                 <div class="bottom">
-                  <div class="num">{{ item.num }}</div>
+                  <div class="num">{{ item.views }}</div>
                   <div class="price">{{ item.price }}</div>
                 </div>
               </div>
@@ -412,28 +431,22 @@ export default {
   data () {
     return {
       navIndex: 0,
-      navList: ['塔罗牌义', '塔罗课堂'],
+      navList: [{
+        title: '塔罗牌义'
+      }],
+      listData: [],
       payOrderId: '',
-      orderStatus: false,
-      payOrderData: Object,
-      unOrderStatus: false,
       activeNames: 0,
       totalData: [],
+      pullStatus: false,
       tipStatus: false,
       tipsStatus: false,
       orderStatus: false,
+      orderStatus: false,
+      payOrderData: Object,
       unOrderStatus: false,
-      itemSecondStatus: false,
-      listData: [
-        {
-          id: '1111',
-          src: '111',
-          title: '塔罗初阶入门教学',
-          desc: '冒险的行动，追求可能性，重视梦想，无视物质的损失，离开家园，过于信赖。',
-          num: '4123',
-          price: '99元/25讲'
-        }
-      ]
+      unOrderStatus: false,
+      itemSecondStatus: false
     }
   },
   components: {
@@ -447,18 +460,15 @@ export default {
       this.navIndex = eq
     },
     /**
-     * 提示
-     */
-    tipFunc () {
-
-    },
-
-    /**
      * 页面跳转
      */
-    goTo (item) {
+    goTo (id) {
       this.$router.push({
-        path: '/tlyjy/tlkt'
+        path: '/tlyjy/tlkt',
+        query: {
+          id: id,
+          from: 'app'
+        }
       })
     },
     /**
@@ -469,6 +479,7 @@ export default {
         actiontype: 1,
         userid: this.$userId
       }).then(res => {
+        this.navList = this.navList.concat(res.infos.alledus)
         res.infos.alltypes.experttip = res.infos.experttip
         res.infos.alltypes.expertinfo = res.infos.expertinfo.split('<br>')
         res.infos.alltypes.tarotunivinfoArr = res.infos.tarotunivinfo.split('<br>')
