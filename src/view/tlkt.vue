@@ -273,8 +273,8 @@
     }
     .teacher {
       .teacher-info {
-        display: flex;
         .teacher-img {
+          float: left;
           width: 2rem;
           height: 2.6rem;
           background: #ccc;
@@ -284,6 +284,7 @@
           img {
             width: 100%;
             height: 100%;
+            object-fit: cover;
           }
         }
         .desc {
@@ -329,13 +330,13 @@
   <Cont>
     <div class="wrapper">
       <template>
-        <div class="title">
+        <div class="title" v-if="totalData.allcourses">
           <i class="icon return" @click="routeBack"></i>
-          <span>1.第一节：先导课，塔罗不神秘</span>
+          <span>{{ totalData.allcourses[currentIndex].name }}</span>
           <i class="tips"></i>
         </div>
-        <div class="video">
-          <video src="" controls="controls"></video>
+        <div class="video" v-if="totalData.allcourses">
+          <video ref="video" :src="totalData.allcourses[currentIndex].video"></video>
         </div>
         <ul class="nav bor-b">
           <li v-for="(item, index) in navList" :key="index" :class="{'active': index == navIndex}" @click="changeNav(index)">{{ item }}</li>
@@ -364,37 +365,37 @@
                 </div>
                 <div class="desc">{{ totalData.expertjieshao }}</div>
               </div>
-              <div class="teacher-btn">立即咨询</div>
+              <div v-if="totalData.expertuserid != 0" class="teacher-btn" @click="workerFunc">立即咨询</div>
             </div>
             <div class="class-item">
                 <div v-for="(list, eq) in totalData.detail" :key="eq">
-                  <div class="title-t">{{ list.title }}</div>
-                  <div class="class-img">
+                  <div class="title-t" v-if="list.title">{{ list.title }}</div>
+                  <div class="class-img" v-if="list.pic">
                     <img :src="list.pic">
                   </div>
-                  <div class="desc">{{ list.content }}</div>
+                  <div class="desc" v-if="list.content">{{ list.content }}</div>
                 </div>
             </div>
           </div>
           <div class="item-nav" v-if="navIndex == 1">
-            <div class="list-item" v-for="item in listData" :key="item.id" @click="goTo(item.id)">
+            <div class="list-item" v-for="(item, index) in totalData.allcourses" :key="item.id" @click="goTo(index)">
               <div class="status">
-                <img v-if="item.id === currentId" src="../assets/images/icon-stop.png">
+                <img v-if="index === currentIndex" src="../assets/images/icon-stop.png">
                 <img v-else src="../assets/images/icon-play.png">
               </div>
               <div class="info">
-                <h5 :class="{'red': item.id === currentId}">{{ item.title }}</h5>
-                <p>{{ item.time }}</p>
+                <h5 :class="{'red': currentIndex === index}">{{ item.name }}</h5>
+                <p>{{ item.duration }}</p>
               </div>
             </div>
           </div>
         </div>
         <div :class="['buy']">
-          <div class="hear">
+          <div class="hear" @click="$refs.video.play()">
             <img src="../assets/images/icon-hear.png">
             <span>试听</span>
           </div>
-          <div class="buy-button" @click="payStatus = true">立即参加：<span>99</span>元</div>
+          <div class="buy-button" @click="payStatus = true">立即参加：<span>{{ totalData.price }}</span>元</div>
         </div>
       </template>
     </div>
@@ -411,23 +412,8 @@ export default {
       from: this.$route.query.from || '',
       navIndex: 0,
       navList: ['详情', '目录', '咨询'],
-      currentId: '1111',
-      listData: [
-        {
-          id: '1111',
-          title: '1.第一节：先导课，塔罗不神秘',
-          time: "9'40"
-        }, {
-          id: '1222',
-          title: '2.第二节：塔罗发展简史',
-          time: "9'40"
-        }, {
-          id: '12333',
-          title: '3.第三节：主流塔罗体系',
-          time: "9'40"
-        }
-      ],
-      totalData: Object
+      currentIndex: 0,
+      totalData: {}
     }
   },
   components: {
@@ -438,20 +424,26 @@ export default {
      * 切换导航
      */
     changeNav (eq) {
-      this.navIndex = eq
+      if (eq == 2) return this.workerFunc()
+      return this.navIndex = eq
     },
     /**
      * 页面跳转
      */
-    goTo (item) {
-      this.$router.push({
-        path: '/tlyjy/tlkt'
-      })
+    goTo (eq) {
+      if (this.currentIndex == eq) return this.currentIndex = -1
+      return this.currentIndex = eq
+    },
+    /**
+     * 立即咨询
+     */
+    workerFunc () {
+      window.fortune.openactivity('com.fairytale.webpage.WebAcvitity','weburl_tag','http://newos.glassmarket.cn/webapps/jumper/index.php','extra_info_tag', `jumpertype=4&jumperact=5&expertuserid=${totalData.expertuserid}`, '0', '0')
     },
     /**
      * 获取数据
      */
-    getData (id='') {
+    getData (id = '') {
       getTarot({
         itemid: this.$route.query.id,
         sonitemid: id,
@@ -469,7 +461,7 @@ export default {
       return window.fortune.closepage()
     }
   },
-  mounted () {
+  created () {
     this.getData('')
   }
 }
