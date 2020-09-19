@@ -31,6 +31,13 @@ export default [
       title: '缘分合盘'
     }
   }, {
+    path: '/throw',
+    name: 'throw',
+    component: resolve => require(['@/view/throw'], resolve),
+    meta: {
+      title: '占星骰子'
+    }
+  }, {
     path: '/bjp',
     name: 'bjp',
     component: resolve => require(['@/view/bjp'], resolve),
