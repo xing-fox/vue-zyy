@@ -323,6 +323,45 @@
       }
     }
   }
+  .order-content {
+    width: 6.6rem;
+    padding: .2rem .3rem .45rem;
+    box-sizing: border-box;
+    .tips {
+      color: #513328;
+      font-size: .24rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      margin: .5rem 0 .4rem;
+      p {
+        margin: 0 0 .1rem 0;
+      }
+    }
+    .button {
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+      div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #e5d8cf;
+        font-size: .26rem;
+        width: 2rem;
+        height: .7rem;
+        border-radius: 2px;
+        &.color-1 {
+          background: #866e64;
+        }
+        &.color-2 {
+          background: #b5341f;
+        }
+      }
+    }
+  }
 }
 </style>
 
@@ -333,70 +372,94 @@
         <div class="title" v-if="totalData.allcourses">
           <i class="icon return" @click="routeBack"></i>
           <span>{{ totalData.allcourses[currentIndex].name }}</span>
-          <i class="tips"></i>
+          <!-- <i class="tips"></i> -->
         </div>
         <div class="video" v-if="totalData.allcourses">
-          <video ref="video" :src="totalData.allcourses[currentIndex].video"></video>
+          <video ref="video" controls :src="totalData.allcourses[currentIndex].video"></video>
         </div>
         <ul class="nav bor-b">
           <li v-for="(item, index) in navList" :key="index" :class="{'active': index == navIndex}" @click="changeNav(index)">{{ item }}</li>
         </ul>
         <div class="main">
-          <div class="item-info" v-if="navIndex == 0">
-            <div class="class-info">
-              <div class="title-c">
-                <h5>{{ totalData.name }}</h5>
-                <span>{{ totalData.estatus === '1' ? '已完结' : '更新中' }}</span>
-              </div>
-              <div class="desc">{{ totalData.estatusnametip }}</div>
-              <div class="detail">
-                <span>{{ totalData.views }}次播放</span>
-                <span class="price">
-                  <i class="old">￥{{ totalData.oldpricetip }}</i>
-                  <i class="new">￥{{ totalData.pricetip }}</i>
-                </span>
-              </div>
-            </div>
-            <div class="teacher">
-              <div class="title-t">讲师介绍</div>
-              <div class="teacher-info">
-                <div class="teacher-img">
-                  <img :src="totalData.expertface">
+          <van-pull-refresh v-model="itemSecondStatus" @refresh="itemSecondStatus = false">
+            <div class="item-info" v-if="navIndex == 0">
+              <div class="class-info">
+                <div class="title-c">
+                  <h5>{{ totalData.name }}</h5>
+                  <span>{{ totalData.estatus === '1' ? '已完结' : '更新中' }}</span>
                 </div>
-                <div class="desc">{{ totalData.expertjieshao }}</div>
+                <div class="desc">{{ totalData.estatusnametip }}</div>
+                <div class="detail">
+                  <span>{{ totalData.views }}次播放</span>
+                  <span class="price">
+                    <i class="old">￥{{ totalData.oldpricetip }}</i>
+                    <i class="new">￥{{ totalData.pricetip }}</i>
+                  </span>
+                </div>
               </div>
-              <div v-if="totalData.expertuserid != 0" class="teacher-btn" @click="workerFunc">立即咨询</div>
-            </div>
-            <div class="class-item">
-                <div v-for="(list, eq) in totalData.detail" :key="eq">
-                  <div class="title-t" v-if="list.title">{{ list.title }}</div>
-                  <div class="class-img" v-if="list.pic">
-                    <img :src="list.pic">
+              <div class="teacher">
+                <div class="title-t">讲师介绍</div>
+                <div class="teacher-info">
+                  <div class="teacher-img">
+                    <img :src="totalData.expertface">
                   </div>
-                  <div class="desc" v-if="list.content">{{ list.content }}</div>
+                  <div class="desc">{{ totalData.expertjieshao }}</div>
                 </div>
-            </div>
-          </div>
-          <div class="item-nav" v-if="navIndex == 1">
-            <div class="list-item" v-for="(item, index) in totalData.allcourses" :key="item.id" @click="goTo(index)">
-              <div class="status">
-                <img v-if="index === currentIndex" src="../assets/images/icon-stop.png">
-                <img v-else src="../assets/images/icon-play.png">
+                <div v-if="totalData.expertuserid != 0" class="teacher-btn" @click="workerFunc">立即咨询</div>
               </div>
-              <div class="info">
-                <h5 :class="{'red': currentIndex === index}">{{ item.name }}</h5>
-                <p>{{ item.duration }}</p>
+              <div class="class-item">
+                  <div v-for="(list, eq) in totalData.detail" :key="eq">
+                    <div class="title-t" v-if="list.title">{{ list.title }}</div>
+                    <div class="class-img" v-if="list.pic">
+                      <img :src="list.pic">
+                    </div>
+                    <div class="desc" v-if="list.content">{{ list.content }}</div>
+                  </div>
               </div>
             </div>
-          </div>
+            <div class="item-nav" v-if="navIndex == 1">
+              <div class="list-item" v-for="(item, index) in totalData.allcourses" :key="item.id" @click="goTo(index)">
+                <div class="status">
+                  <img v-if="index === currentIndex && playStatus" src="../assets/images/icon-stop.png" @click.stop.prevent="pauseVideo(index)">
+                  <img v-else src="../assets/images/icon-play.png" @click.stop.prevent="playVideo(index)">
+                </div>
+                <div class="info">
+                  <h5 :class="{'red': currentIndex === index}">{{ item.name }}</h5>
+                  <p>{{ item.duration }}</p>
+                </div>
+              </div>
+            </div>
+          </van-pull-refresh>
         </div>
-        <div :class="['buy']">
-          <div class="hear" @click="$refs.video.play()">
+        <div :class="['buy']" v-if="totalData.allcourses &&  !totalData.allcourses[0].pinfos.isbuy">
+          <div class="hear" @click="playVideo">
             <img src="../assets/images/icon-hear.png">
             <span>试听</span>
           </div>
-          <div class="buy-button" @click="payStatus = true">立即参加：<span>{{ totalData.price }}</span>元</div>
+          <div class="buy-button" @click="goPay">立即参加：<span>{{ totalData.price }}</span>元</div>
         </div>
+        <!-- 订单状态 -->
+        <van-popup v-model="orderStatus" :style="{ 'border-radius': '4px' }">
+          <div class="order-content">
+            <div class="tips">是否已成功支付订单？</div>
+            <div class="button">
+              <div class="color-1" @click="unPayFunc">未支付</div>
+              <div class="color-2" @click="checkPay">已支付</div>
+            </div>
+          </div>
+        </van-popup>
+        <!-- 未支付订单状态 -->
+        <van-popup v-model="unOrderStatus" :style="{ 'border-radius': '4px' }">
+          <div class="order-content">
+            <div class="tips" v-if="payOrderData">
+              <p >{{ payOrderData.tipinfo }}</p>
+            </div>
+            <div class="button">
+              <div class="color-1" @click="unOrderStatus = false">我再想想</div>
+              <div class="color-2" @click="goPay">购买课程</div>
+            </div>
+          </div>
+        </van-popup>
       </template>
     </div>
   </Cont>
@@ -409,11 +472,18 @@ export default {
   name: 'tlkt',
   data () {
     return {
+      itemSecondStatus: false,
       from: this.$route.query.from || '',
       navIndex: 0,
       navList: ['详情', '目录', '咨询'],
       currentIndex: 0,
-      totalData: {}
+      totalData: {},
+      playStatus: false,
+      videoDom: '',
+      payOrderId: '',
+      orderStatus: false,
+      unOrderStatus: false,
+      payOrderData: Object
     }
   },
   components: {
@@ -431,7 +501,8 @@ export default {
      * 页面跳转
      */
     goTo (eq) {
-      if (this.currentIndex == eq) return this.currentIndex = -1
+      this.playStatus = false
+      if (this.currentIndex == eq) return false
       return this.currentIndex = eq
     },
     /**
@@ -444,13 +515,102 @@ export default {
      * 获取数据
      */
     getData (id = '') {
+      const self = this
       getTarot({
-        itemid: this.$route.query.id,
+        itemid: self.$route.query.id,
         sonitemid: id,
         actiontype: 4,
-        userid: this.$userId
+        userid: self.$userId
       }).then(res => {
-        this.totalData = res.infos
+        self.totalData = res.infos
+        self.$nextTick(() => {
+          self.videoDom = self.$refs.video
+          // 播放开始
+          self.videoDom.addEventListener('play', function() {})
+          // 播放结束
+          self.videoDom.addEventListener('pause', function() {})
+          // 监听播放结束
+          self.videoDom.addEventListener('ended', function() {})
+          // 实时监听播放
+          self.videoDom.addEventListener('timeupdate', function() {
+            self.totalData.allcourses.map((item, index) => {
+              if (index == self.currentIndex && item.pinfos.isbuy == 0 && (self.videoDom.currentTime > item.pinfos.freeduration)) {
+                self.videoDom.pause()
+                self.unOrderStatus = true
+                self.payOrderData = item.pinfos
+              }
+            })
+          })
+        })
+      })
+    },
+    /**
+     * 播放视频
+     */
+    playVideo (eq = 0) {
+      this.currentIndex = eq
+      this.playStatus = true
+      this.$nextTick(() => {
+        this.videoDom.play()
+      })
+    },
+    /**
+     * 暂停播放
+     */
+    pauseVideo (eq) {
+      this.currentIndex = eq
+      this.playStatus = false
+      this.$nextTick(() => {
+        this.videoDom.pause()
+      })
+    },
+    /**
+     * 前去支付
+     */
+    goPay () {
+      this.unOrderStatus = false
+      payOrder({
+        expertuserid: this.payOrderData.expertuserid,
+        userid: this.$userId,
+        actiontype: 3,
+        ordername: this.payOrderData.ordername,
+        price: this.payOrderData.price,
+        ordertype: this.payOrderData.ordertype,
+        orderpid: this.payOrderData.orderpid
+      }).then(res => {
+        if (res.result == 0) {
+          this.$Toast('你还未登录，请先登录')
+        }
+        if (res.result == 1) {
+          this.orderStatus = true
+          this.payOrderId = res.infos.orderid
+          window.fortune.openactivity('com.fairytale.fortunetarot.controller.ExpertOrderDetailActivity', '0', '', `orderid#${res.infos.orderid}`)
+        }
+      })
+    },
+    /**
+     * 未支付
+     */
+    unPayFunc () {
+      [this.orderStatus, this.unOrderStatus] = [false, true]
+    },
+    /**
+     * 检测是否支付
+     */
+    checkPay () {
+      const self = this
+      payOrder({
+        actiontype: 15,
+        orderid: self.payOrderId
+      }).then(res => {
+        self.orderStatus = false
+        if (res.result == 1) {
+          self.totalData.allcourses.map((item, index) => {
+            item.pinfos.isbuy == 1
+          })
+        } else {
+          self.unOrderStatus = true
+        }
       })
     },
     /**

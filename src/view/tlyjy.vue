@@ -336,23 +336,21 @@
             </van-pull-refresh>
           </div>
           <div class="item item-2" v-if="navIndex == 1">
-            <van-pull-refresh v-model="pullStatus" @refresh="pullStatus = false">
-              <div class="list-item" v-for="(item, eq) in navList[1].edus" :key="eq" @click="goTo(item.id)">
-                <div class="img">
-                  <img :src="item.pic">
+            <div class="list-item" v-for="(item, eq) in navList[1].edus" :key="eq" @click="goTo(item.id)">
+              <div class="img">
+                <img :src="item.pic">
+              </div>
+              <div class="right">
+                <div class="info">
+                  <h5>{{ item.name }}</h5>
+                  <p>{{ item.nametip }}</p>
                 </div>
-                <div class="right">
-                  <div class="info">
-                    <h5>{{ item.name }}</h5>
-                    <p>{{ item.nametip }}</p>
-                  </div>
-                  <div class="bottom">
-                    <div class="num">{{ item.views }}</div>
-                    <div class="price">{{ item.price }}</div>
-                  </div>
+                <div class="bottom">
+                  <div class="num">{{ item.views }}</div>
+                  <div class="price">{{ item.price }}</div>
                 </div>
               </div>
-            </van-pull-refresh>
+            </div>
           </div>
           <div class="item item-2" v-if="navIndex == 2">
             <div class="list-item" v-for="(item, eq) in navList[2].edus" :key="eq" @click="goTo(item.id)">
@@ -513,7 +511,7 @@ export default {
     /**
      * 前去支付
      */
-    goPay (item) {
+    goPay () {
       this.unOrderStatus = false
       payOrder({
         expertuserid: this.payOrderData.expertuserid,
