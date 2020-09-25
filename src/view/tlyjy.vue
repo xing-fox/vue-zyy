@@ -189,14 +189,15 @@
             border-bottom: 0;
           }
           .img {
-            width: 1.3rem;
+            width: 1.8rem;
             height: 2rem;
             border-radius: .06rem;
             margin-right: .2rem;
             overflow: hidden;
             background-color: #aeaeae;
+            display: flex;
+            justify-content: center;
             img {
-              width: 100%;
               height: 100%;
               display: block;
             }
@@ -347,7 +348,7 @@
                 </div>
                 <div class="bottom">
                   <div class="num">{{ item.views }}</div>
-                  <div class="price">{{ item.price }}</div>
+                  <div class="price">{{ item.lessonstip }}</div>
                 </div>
               </div>
             </div>
@@ -364,7 +365,7 @@
                 </div>
                 <div class="bottom">
                   <div class="num">{{ item.views }}</div>
-                  <div class="price">{{ item.price }}</div>
+                  <div class="price">{{ item.lessonstip }}</div>
                 </div>
               </div>
             </div>

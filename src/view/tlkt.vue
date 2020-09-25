@@ -375,7 +375,7 @@
           <!-- <i class="tips"></i> -->
         </div>
         <div class="video" v-if="totalData.allcourses">
-          <video ref="video" webkit-playsinline playsinline x5-playsinline controls :src="totalData.allcourses[currentIndex].video"></video>
+          <video ref="video" :poster="totalData.pic" webkit-playsinline playsinline x5-playsinline controls :src="totalData.allcourses[currentIndex].video"></video>
         </div>
         <ul class="nav bor-b">
           <li v-for="(item, index) in navList" :key="index" :class="{'active': index == navIndex}" @click="changeNav(index)">{{ item }}</li>
@@ -501,8 +501,9 @@ export default {
      * 页面跳转
      */
     goTo (eq) {
-      this.playStatus = false
       if (this.currentIndex == eq) return false
+      this.playStatus = false
+      this.playVideo(eq)
       return this.currentIndex = eq
     },
     /**
