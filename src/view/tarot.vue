@@ -837,7 +837,7 @@
 <template>
   <div class="tarot-wrapper" @scroll="scrollFunc" ref="Tarot">
     <div class="title" :class="['title', { 'active animate__fadeIn animate__animated': titleActive }]">
-      <i class="return" @click="$router.go(-1)" />
+      <i class="return" @click="routeBack" />
       <img v-if="titleActive" :src="Data.face" />
       <div v-if="titleActive" class="content">
         <span>{{ Data.name }}</span>
@@ -1160,6 +1160,21 @@ export default {
   },
   methods: {
     /**
+     * 获取参数
+     */
+    getUrlParam (val) {
+      const url = window.location.href
+      if (url.indexOf('?') === -1) return false
+      const newArr = url.split('?')
+      newArr.shift()
+      const vars = newArr.join('&').split('&')
+      for (let i = 0; i < vars.length; i++) {
+        let pair = vars[i].split('=')
+        if (pair[0] == val) return pair[1]
+      }
+      return false
+    },
+    /**
      * 详细资料
      */
     detailFunc () {
@@ -1264,6 +1279,16 @@ export default {
       this.unOrderStatus = false
       this.orderStatus = true
       window.fortune.openactivity('com.fairytale.fortunetarot.controller.ExpertOrderDetailActivity', '0', '', `orderid#${this.payOrderId}`)
+    },
+    /**
+     * 返回
+     */
+    routeBack () {
+      if (this.getUrlParam('from') == 'app') {
+        return window.fortune.closepage()
+      } else {
+        return this.$router.go(-1)
+      }
     }
   },
   mounted () {

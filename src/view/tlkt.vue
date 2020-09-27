@@ -47,9 +47,16 @@
     border: .04rem solid #9F6C49;
     box-shadow: 0px 0px .2rem 0px rgba(62, 33, 11, 0.9);
     border-radius: .1rem;
-    video {
+    video, audio {
       width: 100%;
-      height: 3.4rem;
+      height: 3.5rem;
+      object-fit: cover;
+      border-radius: .05rem;
+      background: #000;
+    }
+    audio {
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
     }
   }
   .nav {
@@ -101,6 +108,9 @@
     padding: .3rem .4rem 0;
     box-sizing: border-box;
     overflow: auto;
+    &.active {
+      height: calc(100vh - 6.3rem);
+    }
     .item-info {
       background: #E5D8CF;
       border-radius: .06rem;
@@ -108,6 +118,117 @@
       padding: .3rem;
       box-sizing: border-box;
       overflow-y: auto;
+      .class-info {
+        padding-bottom: .2rem;
+        border-bottom:#D1BDAF solid 1px;
+        color: #8B7469;
+        font-size: .24rem;
+        line-height: .4rem;
+        .title-c {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          h5 {
+            flex: 1;
+            font-size: .32rem;
+            color: #513328;
+          }
+          span {
+            padding: 0 .16rem;
+            font-size: .24rem;
+            color: #fff;
+            height: .4rem;
+            border-radius: .06rem;
+            background-color: #B73724;
+          }
+        }
+        .desc {
+          padding: .12rem 0 .18rem;
+        }
+        .detail {
+          display: flex;
+          justify-content: space-between;
+          .price {
+            .new {
+              font-size: .32rem;
+              color: #B73724;
+              font-weight: bold;
+              font-style: normal;
+            }
+            .old {
+              font-style: normal;
+              text-decoration: line-through;
+            }
+          }
+        }
+      }
+      .teacher, .class-item {
+        font-size: .24rem;
+        color: #513328;
+        line-height: .48rem;
+        .title-t {
+          color: #B73724;
+          font-size: .32rem;
+          line-height: .4rem;
+          padding: .3rem 0 .2rem;
+        }
+      }
+      .teacher {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        .teacher-info {
+          .teacher-img {
+            float: left;
+            width: 2rem;
+            height: 2.6rem;
+            background: #ccc;
+            border-radius: .06rem;
+            overflow: hidden;
+            margin: .1rem .22rem 0 0;
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+            }
+          }
+          .desc {
+            flex: 1;
+          }
+        }
+        .teacher-btn {
+          color: #E5D8CF;
+          font-size: .26rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 2.8rem;
+          height: .6rem;
+          margin: .3rem auto .1rem;
+          border-radius: .3rem;
+          background: #B5341F;
+        }
+      }
+      .class-item {
+        .class-img {
+          width: 100%;
+          height: 2.96rem;
+          background: #ccc;
+          border-radius: .06rem;
+          overflow: hidden;
+          margin: 0 0 .14rem;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        .desc {
+          text-indent: .48rem;
+          padding-bottom: .06rem;
+        }
+      }
     }
     .item-nav {
       background: #E5D8CF;
@@ -215,114 +336,6 @@
       }
     }
   }
-  .item-info {
-    .class-info {
-      padding-bottom: .2rem;
-      border-bottom:#D1BDAF solid 1px;
-      color: #8B7469;
-      font-size: .24rem;
-      line-height: .4rem;
-      .title-c {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        h5 {
-          flex: 1;
-          font-size: .32rem;
-          color: #513328;
-        }
-        span {
-          padding: 0 .16rem;
-          font-size: .24rem;
-          color: #fff;
-          height: .4rem;
-          border-radius: .06rem;
-          background-color: #B73724;
-        }
-      }
-      .desc {
-        padding: .12rem 0 .18rem;
-      }
-      .detail {
-        display: flex;
-        justify-content: space-between;
-        .price {
-          .new {
-            font-size: .32rem;
-            color: #B73724;
-            font-weight: bold;
-            font-style: normal;
-          }
-          .old {
-            font-style: normal;
-            text-decoration: line-through;
-          }
-        }
-      }
-    }
-    .teacher, .class-item {
-      font-size: .24rem;
-      color: #513328;
-      line-height: .48rem;
-      .title-t {
-        color: #B73724;
-        font-size: .32rem;
-        line-height: .4rem;
-        padding: .3rem 0 .2rem;
-      }
-    }
-    .teacher {
-      .teacher-info {
-        .teacher-img {
-          float: left;
-          width: 2rem;
-          height: 2.6rem;
-          background: #ccc;
-          border-radius: .06rem;
-          overflow: hidden;
-          margin: .1rem .22rem 0 0;
-          img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-          }
-        }
-        .desc {
-          flex: 1;
-        }
-      }
-      .teacher-btn {
-        color: #E5D8CF;
-        font-size: .26rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 2.8rem;
-        height: .6rem;
-        margin: .3rem auto .1rem;
-        border-radius: .3rem;
-        background: #B5341F;
-      }
-    }
-    .class-item {
-      .class-img {
-        width: 100%;
-        height: 2.96rem;
-        background: #ccc;
-        border-radius: .06rem;
-        overflow: hidden;
-        margin: 0 0 .14rem;
-        img {
-          width: 100%;
-          height: 100%;
-        }
-      }
-      .desc {
-        text-indent: .48rem;
-        padding-bottom: .06rem;
-      }
-    }
-  }
   .order-content {
     width: 6.6rem;
     padding: .2rem .3rem .45rem;
@@ -375,66 +388,66 @@
           <!-- <i class="tips"></i> -->
         </div>
         <div class="video" v-if="totalData.allcourses">
-          <video ref="video" :poster="totalData.pic" webkit-playsinline playsinline x5-playsinline controls :src="totalData.allcourses[currentIndex].video"></video>
+          <video v-if="totalData.type == '2'" ref="video" :poster="totalData.pic" webkit-playsinline playsinline x5-playsinline controls :src="totalData.allcourses[currentIndex].video"></video>
+          <audio v-else ref="video" :style="{'background-image': `url(${totalData.pic})`}" webkit-playsinline playsinline x5-playsinline controls :src="totalData.allcourses[currentIndex].video"></audio>
         </div>
         <ul class="nav bor-b">
           <li v-for="(item, index) in navList" :key="index" :class="{'active': index == navIndex}" @click="changeNav(index)">{{ item }}</li>
         </ul>
-        <div class="main">
-          <van-pull-refresh v-model="itemSecondStatus" @refresh="itemSecondStatus = false">
-            <div class="item-info" v-if="navIndex == 0">
-              <div class="class-info">
-                <div class="title-c">
-                  <h5>{{ totalData.name }}</h5>
-                  <span>{{ totalData.estatus === '1' ? '已完结' : '更新中' }}</span>
-                </div>
-                <div class="desc">{{ totalData.estatusnametip }}</div>
-                <div class="detail">
-                  <span>{{ totalData.views }}次播放</span>
-                  <span class="price">
-                    <i class="old">￥{{ totalData.oldpricetip }}</i>
-                    <i class="new">￥{{ totalData.pricetip }}</i>
-                  </span>
-                </div>
+        <div class="main" :class="{'active': totalData.allcourses && totalData.allcourses[0].pinfos.isbuy}">
+          <div class="item-info" v-if="navIndex == 0">
+            <div class="class-info">
+              <div class="title-c">
+                <h5>{{ totalData.name }}</h5>
+                <span>{{ totalData.estatus === '1' ? '已完结' : '更新中' }}</span>
               </div>
-              <div class="teacher">
-                <div class="title-t">讲师介绍</div>
-                <div class="teacher-info">
-                  <div class="teacher-img">
-                    <img :src="totalData.expertface">
-                  </div>
-                  <div class="desc">{{ totalData.expertjieshao }}</div>
-                </div>
-                <div v-if="totalData.expertuserid != 0" class="teacher-btn" @click="workerFunc">立即咨询</div>
-              </div>
-              <div class="class-item">
-                  <div v-for="(list, eq) in totalData.detail" :key="eq">
-                    <div class="title-t" v-if="list.title">{{ list.title }}</div>
-                    <div class="class-img" v-if="list.pic">
-                      <img :src="list.pic">
-                    </div>
-                    <div class="desc" v-if="list.content">{{ list.content }}</div>
-                  </div>
+              <div class="desc">{{ totalData.nametip }}</div>
+              <div class="detail">
+                <span>{{ totalData.views }}次播放</span>
+                <span class="price">
+                  <i class="old">￥{{ totalData.oldpricetip }}</i>
+                  <i class="new">￥{{ totalData.pricetip }}</i>
+                </span>
               </div>
             </div>
-            <div class="item-nav" v-if="navIndex == 1">
-              <div class="list-item" v-for="(item, index) in totalData.allcourses" :key="item.id" @click="goTo(index)">
-                <div class="status">
-                  <img v-if="index === currentIndex && playStatus" src="../assets/images/icon-stop.png" @click.stop.prevent="pauseVideo(index)">
-                  <img v-else src="../assets/images/icon-play.png" @click.stop.prevent="playVideo(index)">
+            <div class="teacher">
+              <div class="title-t">讲师介绍</div>
+              <div class="teacher-info">
+                <div class="teacher-img">
+                  <img :src="totalData.expertface">
                 </div>
-                <div class="info">
-                  <h5 :class="{'red': currentIndex === index}">{{ item.name }}</h5>
-                  <p>{{ item.duration }}</p>
+                <div class="desc">{{ totalData.expertjieshao }}</div>
+              </div>
+              <div v-if="totalData.expertuserid != 0" class="teacher-btn" @click="workerFunc">立即咨询</div>
+            </div>
+            <div class="class-item">
+                <div v-for="(list, eq) in totalData.detail" :key="eq">
+                  <div class="title-t" v-if="list.title">{{ list.title }}</div>
+                  <div class="class-img" v-if="list.pic">
+                    <img :src="list.pic">
+                  </div>
+                  <div class="desc" v-if="list.content">{{ list.content }}</div>
                 </div>
+            </div>
+          </div>
+          <div class="item-nav" v-if="navIndex == 1">
+            <div class="list-item" v-for="(item, index) in totalData.allcourses" :key="item.id" @click="goTo(index)">
+              <div class="status">
+                <img v-if="index === currentIndex && playStatus" src="../assets/images/icon-stop.png" @click.stop.prevent="pauseVideo(index)">
+                <img v-else src="../assets/images/icon-play.png" @click.stop.prevent="playVideo(index)">
+              </div>
+              <div class="info">
+                <h5 :class="{'red': currentIndex === index}">{{ item.name }}</h5>
+                <p>{{ item.duration }}</p>
               </div>
             </div>
-          </van-pull-refresh>
+          </div>
         </div>
         <div :class="['buy']" v-if="totalData.allcourses &&  !totalData.allcourses[0].pinfos.isbuy">
-          <div class="hear" @click="playVideo">
-            <img src="../assets/images/icon-hear.png">
-            <span>试听</span>
+          <div class="hear" @click="playVideo(currentIndex)">
+            <img v-if="totalData.type == '2'" src="../assets/images/icon-see.png">
+            <img v-else src="../assets/images/icon-hear.png">
+            <span>{{ totalData.type == '2' ? '试看' : '试听' }}</span>
           </div>
           <div class="buy-button" @click="goPay">立即参加：<span>{{ totalData.price }}</span>元</div>
         </div>
@@ -510,7 +523,7 @@ export default {
      * 立即咨询
      */
     workerFunc () {
-      window.fortune.openactivity('com.fairytale.webpage.WebAcvitity','weburl_tag','http://newos.glassmarket.cn/webapps/jumper/index.php','extra_info_tag', `jumpertype=4&jumperact=5&expertuserid=${totalData.expertuserid}`, '0', '0')
+      window.fortune.openactivity('com.fairytale.webpage.WebAcvitity','weburl_tag','http://newos.glassmarket.cn/webapps/jumper/index.php','extra_info_tag', `jumpertype=4&jumperact=5&expertuserid=${this.totalData.expertuserid}`, '0', '0')
     },
     /**
      * 获取数据
@@ -526,6 +539,7 @@ export default {
         self.totalData = res.infos
         self.$nextTick(() => {
           self.videoDom = self.$refs.video
+          self.payOrderData = self.totalData.allcourses[0].pinfos
           // 播放开始
           self.videoDom.addEventListener('play', function() {})
           // 播放结束
@@ -536,9 +550,26 @@ export default {
           self.videoDom.addEventListener('timeupdate', function() {
             self.totalData.allcourses.map((item, index) => {
               if (index == self.currentIndex && item.pinfos.isbuy == 0 && (self.videoDom.currentTime > item.pinfos.freeduration)) {
+                const ele = Document || Window.document
                 self.videoDom.pause()
                 self.unOrderStatus = true
                 self.payOrderData = item.pinfos
+                if (ele.exitFullscreen) {
+                  console.log(1)
+                  ele.exitFullscreen()
+                } else if (ele.mozCancelFullscreen) {
+                  console.log(2)
+                  ele.mozCancelFullscreen()
+                } else if (ele.webkitExitFullscreen) {
+                  console.log(3)
+                  ele.webkitExitFullscreen()
+                } else if (ele.webkitCancelFullscreen) {
+                  console.log(4)
+                  ele.webkitCancelFullscreen()
+                } else {
+                  console.log(5)
+                  self.videoDom.IsFullscreen = false
+                }
               }
             })
           })
@@ -607,8 +638,9 @@ export default {
         self.orderStatus = false
         if (res.result == 1) {
           self.totalData.allcourses.map((item, index) => {
-            item.pinfos.isbuy == 1
+            item.pinfos.isbuy = 1
           })
+          self.totalData = JSON.parse(JSON.stringify(self.totalData))
         } else {
           self.unOrderStatus = true
         }
