@@ -550,26 +550,21 @@ export default {
           self.videoDom.addEventListener('timeupdate', function() {
             self.totalData.allcourses.map((item, index) => {
               if (index == self.currentIndex && item.pinfos.isbuy == 0 && (self.videoDom.currentTime > item.pinfos.freeduration)) {
-                const ele = Document || Window.document
+                // const ele = Document || Window.document
                 self.videoDom.pause()
                 self.unOrderStatus = true
                 self.payOrderData = item.pinfos
-                if (ele.exitFullscreen) {
-                  console.log(1)
-                  ele.exitFullscreen()
-                } else if (ele.mozCancelFullscreen) {
-                  console.log(2)
-                  ele.mozCancelFullscreen()
-                } else if (ele.webkitExitFullscreen) {
-                  console.log(3)
-                  ele.webkitExitFullscreen()
-                } else if (ele.webkitCancelFullscreen) {
-                  console.log(4)
-                  ele.webkitCancelFullscreen()
-                } else {
-                  console.log(5)
-                  self.videoDom.IsFullscreen = false
-                }
+                // if (ele.exitFullscreen) {
+                //   ele.exitFullscreen()
+                // } else if (ele.mozCancelFullscreen) {
+                //   ele.mozCancelFullscreen()
+                // } else if (ele.webkitExitFullscreen) {
+                //   ele.webkitExitFullscreen()
+                // } else if (ele.webkitCancelFullscreen) {
+                //   ele.webkitCancelFullscreen()
+                // } else {
+                //   self.videoDom.IsFullscreen = false
+                // }
               }
             })
           })
