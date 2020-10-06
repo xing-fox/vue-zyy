@@ -123,16 +123,16 @@
         </div>
         <div class="nav">
           <div class="item">
-            <div class="star">Q</div>
-            <div class="name">天王星</div>
+            <div class="star">{{ Fuhaos[0][flag].flag }}</div>
+            <div class="name">{{ Fuhaos[0][flag].name }}</div>
           </div>
           <div class="item">
-            <div class="star">W</div>
-            <div class="name">天王星</div>
+            <div class="star">{{ Fuhaos[1][flag].flag }}</div>
+            <div class="name">{{ Fuhaos[1][flag].name }}</div>
           </div>
           <div class="item">
-            <div class="star">1</div>
-            <div class="name">天王星</div>
+            <div class="star">{{ Fuhaos[2][flag].flag }}</div>
+            <div class="name">{{ Fuhaos[2][flag].name }}</div>
           </div>
         </div>
         <div class="content">
@@ -146,7 +146,7 @@
           </div>
         </div>
         <div class="footer">
-          <div class="button">
+          <div class="button" @click="throwFunc">
             <span>掷骰子</span>
           </div>
         </div>
@@ -157,12 +157,31 @@
 
 <script>
 import Cont from './content'
+import Fuhaos from '@/assets/json/throw'
 export default {
   name: 'throw',
+  data () {
+    return {
+      flag: 0,
+      Fuhaos: Fuhaos,
+      AnimationFunc: Object
+    }
+  },
   components: {
     Cont
   },
   methods: {
+    /**
+     * 掷骰子
+     */
+    throwFunc () {
+      let Loop = () => {
+        this.flag++
+        if (this.flag === 9) this.flag = 0
+        this.AnimationFunc = requestAnimationFrame(Loop)
+      }
+      Loop()
+    },
     /**
      * 返回
      */

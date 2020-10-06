@@ -1,4 +1,4 @@
-var fuhaos = [
+const Fuhaos = [
   [
     { name: '太阳', flag: 'Q' },
     { name: '月亮', flag: 'W' },
@@ -42,3 +42,5 @@ var fuhaos = [
     { name: '十二宫', flag: '12' }
   ]
 ]
+
+export default Fuhaos
