@@ -7,6 +7,7 @@
   .title {
     display: flex;
     align-items: center;
+    justify-content: center;
     color: #fffaf1;
     font-size: 0.3rem;
     height: 0.8rem;
@@ -37,9 +38,13 @@
       }
     }
     span {
-      flex: 1;
-      display: flex;
-      justify-content: center;
+      width: 70%;
+      display: block;
+      margin: 0 auto;
+      text-align: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
   .video {
@@ -389,7 +394,7 @@
         </div>
         <div class="video" v-if="totalData.allcourses">
           <video v-if="totalData.type == '2'" ref="video" :poster="totalData.pic" webkit-playsinline playsinline x5-playsinline controls :src="totalData.allcourses[currentIndex].video"></video>
-          <audio v-else ref="video" :style="{'background-image': `url(${totalData.pic})`}" webkit-playsinline playsinline x5-playsinline controls :src="totalData.allcourses[currentIndex].video"></audio>
+          <audio v-else ref="video" preload="true" :style="{'background-image': `url(${totalData.pic})`}" webkit-playsinline playsinline x5-playsinline controls :src="totalData.allcourses[currentIndex].video"></audio>
         </div>
         <ul class="nav bor-b">
           <li v-for="(item, index) in navList" :key="index" :class="{'active': index == navIndex}" @click="changeNav(index)">{{ item }}</li>
@@ -537,9 +542,11 @@ export default {
         userid: self.$userId
       }).then(res => {
         self.totalData = res.infos
+        window.document.title = document.title = self.$route.meta.title = self.totalData.allcourses[self.currentIndex].name
         self.$nextTick(() => {
           self.videoDom = self.$refs.video
           self.payOrderData = self.totalData.allcourses[0].pinfos
+          self.videoDom.load()
           // 播放开始
           self.videoDom.addEventListener('play', function() {})
           // 播放结束
@@ -554,18 +561,18 @@ export default {
                 self.videoDom.pause()
                 self.unOrderStatus = true
                 self.payOrderData = item.pinfos
-                // if (ele.exitFullscreen) {
-                //   ele.exitFullscreen()
-                // } else if (ele.mozCancelFullscreen) {
-                //   ele.mozCancelFullscreen()
-                // } else if (ele.webkitExitFullscreen) {
-                //   ele.webkitExitFullscreen()
-                // } else if (ele.webkitCancelFullscreen) {
-                //   ele.webkitCancelFullscreen()
-                // } else {
-                //   self.videoDom.IsFullscreen = false
-                // }
-              }
+                if (ele.exitFullscreen) {
+                  ele.exitFullscreen()
+                } else if (ele.mozCancelFullscreen) {
+                  ele.mozCancelFullscreen()
+                } else if (ele.webkitExitFullscreen) {
+                  ele.webkitExitFullscreen()
+                } else if (ele.webkitCancelFullscreen) {
+                  ele.webkitCancelFullscreen()
+                } else {
+                  self.videoDom.IsFullscreen = false
+                }
+              } 
             })
           })
         })
@@ -651,6 +658,11 @@ export default {
   },
   created () {
     this.getData('')
+  },
+  watch: {
+    'currentIndex' () {
+      window.document.title = document.title = this.$route.meta.title = this.totalData.allcourses[this.currentIndex].name
+    }
   }
 }
 </script>
