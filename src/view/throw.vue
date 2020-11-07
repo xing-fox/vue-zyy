@@ -240,6 +240,7 @@ export default {
      * 跳转
      */
     routeChange () {
+      if (this.$SH == 1) return window.fortune.openactivity('startprivatechat', '0', '1', 'userid#1451758@username#塔罗师岱诗')
       window.fortune.openactivity('com.fairytale.webpage.WebAcvitity','weburl_tag','http://newos.glassmarket.cn/webapps/jumper/index.php','extra_info_tag', 'jumpertype=4&jumperact=7', '0', '0')
     }
   }

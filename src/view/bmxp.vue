@@ -983,6 +983,7 @@ export default {
      * 跳转占星师
      */
     divineFunc () {
+      if (this.$SH == 1) return window.fortune.openactivity('startprivatechat', '0', '1', 'userid#1451758@username#塔罗师岱诗')
       this.$router.push({
         path: '/worker',
         query: {

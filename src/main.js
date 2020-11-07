@@ -45,6 +45,7 @@ Vue.prototype.$moment = moment
 Vue.prototype.$JsBridge = JsBridge
 Vue.prototype.$ImagePreview = ImagePreview
 Vue.prototype.$Url = window.location.href
+Vue.prototype.$SH = getUrlParam('isshenhe')
 
 Vue.prototype.$userId = process.env.NODE_ENV === "production" ? getUrlParam('userid') : 1387265
 
