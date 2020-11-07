@@ -110,6 +110,22 @@
           width: 90%;
           border-radius: 50%;
         }
+        .canshu {
+          display: flex;
+          justify-content: center;
+          color: #B73724;
+          font-size: .22rem;
+          font-weight: bold;
+          position: absolute;
+          top: .35rem;
+          left: .35rem;
+          img {
+            width: .35rem;
+            height: .35rem;
+            margin: 0 .1rem 0 0;
+            border-radius: initial;
+          }
+        }
         .pos {
           display: flex;
           align-items: center;
@@ -117,8 +133,8 @@
           font-size: .22rem;
           font-weight: bold;
           position: absolute;
-          bottom: .5rem;
-          &.canshu {
+          bottom: .35rem;
+          &.touzi {
             left: .35rem;
           }
           &.hepan {
@@ -519,9 +535,13 @@
               <span>Placidus</span>
             </div>
             <img :src="totalData.xingpanpic">
-            <div class="canshu pos" @click="navIndex = 3">
+            <div class="canshu" @click="navIndex = 3">
               <img src="../assets/icon/canshu.png" alt="">
-              <span>参数</span>  
+              <span>参数</span>
+            </div>
+            <div class="touzi pos" @click="routeChange1">
+              <img src="../assets/icon/touzi.png" alt="">
+              <span>骰子</span>
             </div>
             <div class="hepan pos" @click="routeChange">
               <img src="../assets/icon/hepan.png" alt="">
@@ -1013,6 +1033,17 @@ export default {
     routeChange () {
       this.$router.push({
         path: '/bjp',
+        query: {
+          from: 'app'
+        }
+      })
+    },
+    /**
+     * 跳转骰子
+     */
+    routeChange1 () {
+      this.$router.push({
+        path: '/throw',
         query: {
           from: 'app'
         }

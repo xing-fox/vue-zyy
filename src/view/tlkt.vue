@@ -557,7 +557,7 @@ export default {
           self.videoDom.addEventListener('timeupdate', function() {
             self.totalData.allcourses.map((item, index) => {
               if (index == self.currentIndex && item.pinfos.isbuy == 0 && (self.videoDom.currentTime > item.pinfos.freeduration)) {
-                const ele = Document || Window.document
+                // const ele = Document || Window.document
                 self.videoDom.pause()
                 self.unOrderStatus = true
                 self.payOrderData = item.pinfos

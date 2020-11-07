@@ -1,5 +1,6 @@
-var fuhaos = [
+const Fuhaos = [
   [
+    { name: '行星', flag: 'Q' },
     { name: '太阳', flag: 'Q' },
     { name: '月亮', flag: 'W' },
     { name: '水星', flag: 'E' },
@@ -14,6 +15,7 @@ var fuhaos = [
     { name: '南交点', flag: '}' }
   ],
   [
+    { name: '星座', flag: 'a' },
     { name: '白羊座', flag: 'a' },
     { name: '金牛座', flag: 's' },
     { name: '双子座', flag: 'd' },
@@ -28,6 +30,7 @@ var fuhaos = [
     { name: '双鱼座', flag: 'c' }
   ],
   [
+    { name: '宫位', flag: '1' },
     { name: '一宫', flag: '1' },
     { name: '二宫', flag: '2' },
     { name: '三宫', flag: '3' },
@@ -42,3 +45,5 @@ var fuhaos = [
     { name: '十二宫', flag: '12' }
   ]
 ]
+
+export default Fuhaos

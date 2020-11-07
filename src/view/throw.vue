@@ -74,17 +74,18 @@
   .content {
     margin: .4rem .5rem 0;
     height: calc(100vh - 6rem);
+    overflow: auto;
     .item {
       width: 100%;
       .item-title {
         color: #BFAE9A;
-        font-size: .24rem;
+        font-size: .26rem;
         text-align: center;
-        margin: .2rem 0;
+        margin: .3rem 0;
       }
       .item-cont {
         color: #fff;
-        font-size: .24rem;
+        font-size: .26rem;
       }
     }
   }
@@ -108,6 +109,15 @@
       margin: 0 auto;
       border-radius: .4rem;
       background: #AA1827;
+      i {
+        display: inline-block;
+        width: .4rem;
+        height: .4rem;
+        margin: 0 .1rem 0 0;
+        background-image: url("../assets/images/zxsz-btn.png");
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+      }
     }
   }
 }
@@ -123,31 +133,32 @@
         </div>
         <div class="nav">
           <div class="item">
-            <div class="star">Q</div>
-            <div class="name">天王星</div>
+            <div class="star">{{ Fuhaos[0][flag].flag }}</div>
+            <div class="name">{{ Fuhaos[0][flag].name }}</div>
           </div>
           <div class="item">
-            <div class="star">W</div>
-            <div class="name">天王星</div>
+            <div class="star">{{ Fuhaos[1][flag1].flag }}</div>
+            <div class="name">{{ Fuhaos[1][flag1].name }}</div>
           </div>
           <div class="item">
-            <div class="star">1</div>
-            <div class="name">天王星</div>
+            <div class="star">{{ Fuhaos[2][flag2].flag }}</div>
+            <div class="name">{{ Fuhaos[2][flag2].name }}</div>
           </div>
         </div>
         <div class="content">
-          <div class="item">
-            <div class="item-title">行星-交汇点</div>
-            <div class="item-cont">主要是获取到加密报文, code, 还有加密算法的初始向量等参数</div>
-          </div>
-          <div class="item">
-            <div class="item-title">行星-交汇点</div>
-            <div class="item-cont">主要是获取到加密报文, code, 还有加密算法的初始向量等参数</div>
+          <div class="item" v-for="item in Data" :key="item.index">
+            <div class="item-title">{{ item.info.title }}</div>
+            <div class="item-cont">{{ item.info.content }}</div>
           </div>
         </div>
         <div class="footer">
-          <div class="button">
+          <div v-if="!status && tapStatus" class="button" @click="throwFunc">
+            <i></i>
             <span>掷骰子</span>
+          </div>
+          <div v-else class="button" @click="routeChange">
+            <i></i>
+            <span>咨询骰子师</span>
           </div>
         </div>
       </template>
@@ -157,18 +168,79 @@
 
 <script>
 import Cont from './content'
+import Fuhaos from '@/assets/json/throw'
+import { getData_XP } from '@/fetch/api'
 export default {
   name: 'throw',
+  data () {
+    return {
+      flag: 0,
+      flag1: 0,
+      flag2: 0,
+      setTime: '',
+      status: false,
+      tapStatus: true,
+      Data: Object,
+      Fuhaos: Fuhaos,
+      AnimationFunc: Object
+    }
+  },
   components: {
     Cont
   },
   methods: {
     /**
+     * 获取数据
+     */
+    getData () {
+      let self = this
+      getData_XP({
+        actiontype: 14
+      }).then(res => {
+        let animal = () => {
+          if (new Date().getTime() > self.setTime + 2000) {
+            self.status = true
+            self.Data = res.infos
+            cancelAnimationFrame(animal)
+            clearInterval(self.AnimationFunc)
+            self.flag = self.Data[0].position + 1
+            self.flag1 = self.Data[1].position + 1
+            self.flag2 = self.Data[2].position + 1
+          } else {
+            requestAnimationFrame(animal)
+          }
+        }
+        animal()
+      })
+    },
+    /**
+     * 掷骰子
+     */
+    throwFunc () {
+      this.tapStatus = false
+      this.setTime = new Date().getTime()
+      this.AnimationFunc = setInterval(() => {
+        this.flag++
+        this.flag1++
+        this.flag2++
+        if (this.flag === 12) this.flag = 1
+        if (this.flag1 === 12) this.flag1 = 1
+        if (this.flag2 === 12) this.flag2 = 1
+      }, 100)
+      this.getData()
+    },
+    /**
      * 返回
      */
     routeBack() {
-      if (this.from == "app") return this.$router.go(-1)
+      if (this.$route.query.from == 'app') return this.$router.go(-1)
       return window.fortune.closepage()
+    },
+    /**
+     * 跳转
+     */
+    routeChange () {
+      window.fortune.openactivity('com.fairytale.webpage.WebAcvitity','weburl_tag','http://newos.glassmarket.cn/webapps/jumper/index.php','extra_info_tag', 'jumpertype=4&jumperact=7', '0', '0')
     }
   }
 }
