@@ -24,8 +24,7 @@ Vue.use(DatetimePicker)
 Vue.use(Collapse)
 Vue.use(CollapseItem)
 // new Vconsole()
-
-const getUrlParam = val => {
+const getUrlParam = val => { 
   const url = window.location.href
   if (url.indexOf('?') === -1) return false
   const newArr = url.split('?')
@@ -39,18 +38,17 @@ const getUrlParam = val => {
 }
 
 Vue.config.productionTip = false
-
 Vue.prototype.$Toast = Toast
-Vue.prototype.$moment = moment
+Vue.prototype.$moment = moment 
 Vue.prototype.$JsBridge = JsBridge
 Vue.prototype.$ImagePreview = ImagePreview
 Vue.prototype.$Url = window.location.href
 Vue.prototype.$SH = getUrlParam('isshenhe')
-
 Vue.prototype.$userId = process.env.NODE_ENV === "production" ? getUrlParam('userid') : 1387265
+localStorage.setItem('isshenhe', getUrlParam('isshenhe'))
 
 if (getUrlParam('appflag') == 3) {
-  require(['./assets/app.js'], function(ios) {
+  require(['./assets/app.js'], function (ios) {
     console.log('app.js load complete')
   })
 }
