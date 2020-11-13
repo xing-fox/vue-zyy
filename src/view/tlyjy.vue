@@ -302,9 +302,9 @@
           <span>塔罗研究院</span>
           <i class="tips" @click="tipsStatus = true"></i>
         </div>
-        <ul class="nav bor-b">
+        <!-- <ul class="nav bor-b">
           <li v-for="(item, index) in navList" :key="index" :class="{'active': index == navIndex}" @click="changeNav(index)">{{ item.title }}</li>
-        </ul>
+        </ul> -->
         <div class="main tlyjy">
           <div class="item item-1" v-if="navIndex == 0">
             <van-pull-refresh v-model="itemSecondStatus" @refresh="itemSecondStatus = false">

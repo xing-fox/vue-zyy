@@ -211,7 +211,7 @@
           justify-content: center;
           width: 2.8rem;
           height: .6rem;
-          margin: .3rem auto .1rem;
+          margin: .3rem auto .2rem;
           border-radius: .3rem;
           background: #B5341F;
         }
@@ -219,14 +219,11 @@
       .class-item {
         .class-img {
           width: 100%;
-          height: 2.96rem;
           background: #ccc;
           border-radius: .06rem;
           overflow: hidden;
-          margin: 0 0 .14rem;
           img {
             width: 100%;
-            height: 100%;
           }
         }
         .desc {

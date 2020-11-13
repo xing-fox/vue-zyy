@@ -89,13 +89,20 @@ export default [
       }
     ]
   }, {
+    path: '/tarotClass',
+    name: 'tarotClass',
+    component: resolve => require(['@/view/tarot-class'], resolve),
+    meta: {
+      title: '塔罗课堂'
+    }
+  }, {
     path: '/createFile',
     name: 'createfile',
     component: resolve => require(['@/view/create-file'], resolve),
     meta: {
       title: '新建档案'
     }
-  },{
+  }, {
     path: '/tarot',
     name: 'tarot',
     component: resolve => require(['@/view/tarot'], resolve),
