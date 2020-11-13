@@ -223,7 +223,9 @@
           border-radius: .06rem;
           overflow: hidden;
           img {
+            display: block;
             width: 100%;
+            line-height: 0;
           }
         }
         .desc {
@@ -412,7 +414,7 @@
                 </span>
               </div>
             </div>
-            <div class="teacher">
+            <div class="teacher" v-if="totalData.expertshow != 0">
               <div class="title-t">讲师介绍</div>
               <div class="teacher-info">
                 <div class="teacher-img">
@@ -425,7 +427,7 @@
             <div class="class-item">
                 <div v-for="(list, eq) in totalData.detail" :key="eq">
                   <div class="title-t" v-if="list.title">{{ list.title }}</div>
-                  <div class="class-img" v-if="list.pic">
+                  <div class="class-img" v-if="list.pic" @click="infoFunc(list)">
                     <img :src="list.pic">
                   </div>
                   <div class="desc" v-if="list.content">{{ list.content }}</div>
@@ -644,6 +646,13 @@ export default {
           self.unOrderStatus = true
         }
       })
+    },
+    /**
+     * 图片点击事件
+     */
+    infoFunc (data) {
+      if (!data.extrainfo) return false
+      window.fortune.openactivity('com.fairytale.webpage.WebAcvitity','weburl_tag','http://newos.glassmarket.cn/webapps/jumper/index.php','extra_info_tag', `${data.extrainfo}`, '1', '0')
     },
     /**
      * 返回

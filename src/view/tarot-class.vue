@@ -33,7 +33,7 @@
         bottom: 0;
         margin: 0 auto;
         background-position: right center;
-        background-image: url("../assets/icon/experticon.png");
+        background-image: url("../assets/icon/class-tip.png");
       }
     }
     span {
@@ -87,7 +87,7 @@
     }
   }
   .main {
-    height: calc(100vh - 2.7rem);
+    height: calc(100vh - 2rem);
     padding: .4rem .4rem 0;
     box-sizing: border-box;
     overflow: auto;
@@ -104,11 +104,8 @@
           margin: 0 0 .25rem;
           border-radius: .06rem;
           box-sizing: border-box;
-          background: rgba(229, 216, 207, .5);
-          &:last-child {
-            padding-bottom: 0;
-            border-bottom: 0;
-          }
+          background-image: url('../assets/images/class-bg.jpg');
+          background-size: 100% 100%;
           .img {
             width: 100%;
             height: 3rem;
@@ -131,7 +128,7 @@
           }
           .info {
             flex: 1;
-            color: #cecece;
+            color: #d9c6b8;
             font-size: .24rem;
             margin: .05rem 0;
             line-height: .3rem;
@@ -150,13 +147,13 @@
             line-height: .4rem;
             .num {
               font-size: .22rem;
-              color: #513328;
+              color: #70574b;
               padding-left: .32rem;
               background:url(../assets/images/icon-play.png) left center no-repeat;
               background-size: .24rem .24rem;
             }
             .price {
-              color:#B73724;
+              color:#a84c3f;
             }
           }
         }
@@ -304,7 +301,7 @@ export default {
           id: id,
           from: "app"
         }
-      });
+      })
     },
     /**
      * 获取塔罗牌

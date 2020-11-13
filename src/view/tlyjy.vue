@@ -87,7 +87,7 @@
     }
   }
   .main {
-    height: calc(100vh - 2.7rem);
+    height: calc(100vh - 2rem);
     padding: .4rem .4rem 0;
     box-sizing: border-box;
     overflow: auto;
@@ -151,9 +151,9 @@
           flex-direction: row;
           align-items: center;
           margin-bottom: .2rem;
-          &:last-child {
-            margin-bottom: 0;
-          }
+          // &:last-child {
+          //   margin-bottom: 0;
+          // }
           .img {
             width: .9rem;
             height: .9rem;
@@ -184,10 +184,10 @@
           &:first-child {
             padding-top: 0;
           }
-          &:last-child {
-            padding-bottom: 0;
-            border-bottom: 0;
-          }
+          // &:last-child {
+          //   padding-bottom: 0;
+          //   border-bottom: 0;
+          // }
           .img {
             width: 1.8rem;
             height: 2rem;
@@ -574,7 +574,7 @@ export default {
   },
   mounted () {
     this.getData()
-    if (!localStorage.getItem('tlpTips')) {
+    if (!localStorage.getItem('tlpTips') && this.$route.path == '/tlyjy') {
       this.tipStatus = true
       localStorage.setItem('tlpTips', 1)
     }
