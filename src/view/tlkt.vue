@@ -392,8 +392,8 @@
           <!-- <i class="tips"></i> -->
         </div>
         <div class="video" v-if="totalData.allcourses">
-          <video v-if="totalData.type == '2'" ref="video" :poster="totalData.pic" webkit-playsinline playsinline x5-playsinline controls :src="totalData.allcourses[currentIndex].video"></video>
-          <audio v-else ref="video" preload="true" :style="{'background-image': `url(${totalData.pic})`}" webkit-playsinline playsinline x5-playsinline controls :src="totalData.allcourses[currentIndex].video"></audio>
+          <video v-if="totalData.type == '2'" ref="video" :poster="totalData.pic" webkit-playsinline playsinline x5-playsinline controls controlsList="nodownload" :src="totalData.allcourses[currentIndex].video"></video>
+          <audio v-else ref="video" preload="true" :style="{'background-image': `url(${totalData.pic})`}" webkit-playsinline playsinline x5-playsinline controls controlsList="nodownload" :src="totalData.allcourses[currentIndex].video"></audio>
         </div>
         <ul class="nav bor-b">
           <li v-for="(item, index) in navList" :key="index" :class="{'active': index == navIndex}" @click="changeNav(index)">{{ item }}</li>
