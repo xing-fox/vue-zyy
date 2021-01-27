@@ -124,6 +124,13 @@ export default [
       title: '反馈意见'
     }
   }, {
+    path: '/love',
+    name: 'xnlove',
+    component: resolve => require(['@/view/love'], resolve),
+    meta: {
+      title: '虚拟恋人'
+    }
+  }, {
     path: '*',
     redirect: '/bmxp'
   }

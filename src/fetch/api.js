@@ -38,3 +38,10 @@ export const payOrder = (param) => {
 export const getTarot = (param) => {
   return Post(`index.php?main_page=tarotuniv_handler`, param)
 }
+
+/**
+ * @param 百科
+ */
+export const getBaike = (param) => {
+  return Post(`/?main_page=baike_handler`, param)
+}
