@@ -11,7 +11,7 @@ export const getData_XP = (param) => {
   }))
 }
 
-/**
+/** 
  * @param 占星师
  */
 export const getDiviner = (param) => {
