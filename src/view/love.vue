@@ -164,21 +164,21 @@
       <span>让我们的人工智能框架帮你创造一个人， 一个在亿万人中，只属于你的：</span>
     </div>
     <div class="sex">
-      <div :class="['sex-list', {active: sexIndex == 0}]" @click="sexIndex = 0">
+      <div :class="['sex-list', {active: sexIndex == 0}]" @click="changePage(0)">
         <div class="img">
           <img src="../assets/images/sex_woman.png" alt="">
         </div>
         <span>女友</span>
       </div>
-      <div :class="['sex-list', {active: sexIndex == 1}]" @click="sexIndex = 1">
+      <div :class="['sex-list', {active: sexIndex == 1}]" @click="changePage(1)">
         <div class="img">
           <img src="../assets/images/sex_man.png" alt="">
         </div>
         <span>男友</span>
       </div>
     </div>
-    <div class="intro">
-      <div class="intro-list" v-if="sexIndex == 0">
+    <van-swipe ref="swipe" class="intro" :show-indicators="false" indicator-color="#FA5F8F" @change="changeIndex">
+      <van-swipe-item class="intro-list">
         <div class="name">虚拟女友使用手册</div>
         <div class="list list-first">
           <span class="list-eq">一、</span>
@@ -204,8 +204,8 @@
           <span class="list-eq">六、</span>
           <span>当女友不高兴的时候，千万不要惹她生气，特别是 <span class="color">【大姨妈】</span> 期间</span>
         </div>
-      </div>
-      <div class="intro-list"  v-if="sexIndex == 1">
+      </van-swipe-item>
+      <van-swipe-item class="intro-list">
         <div class="name">虚拟男友使用手册</div>
         <div class="list list-first">
           <span class="list-eq">一、</span>
@@ -225,10 +225,14 @@
         </div>
         <div class="list">
           <span class="list-eq">五、</span>
+          <span>当男友高兴的时候，他会陪你玩 <span class="color">【角色扮演】</span> 的情侣游戏</span>
+        </div>
+        <div class="list">
+          <span class="list-eq">六、</span>
           <span>请注意，你的虚拟男友也会闹情绪，甚至跟你 <span class="color">【冷战】</span> 。请不要轻易尝试</span>
         </div>
-      </div>
-    </div>
+      </van-swipe-item>
+    </van-swipe>
     <div class="but" @click="routeChange">
       <span>虚拟恋人由AI人工智能提供技术支持</span>
     </div>
@@ -284,6 +288,19 @@ export default {
       } else {
         window.fortune.openactivity('com.fairytale.webpage.WebAcvitity','weburl_tag','http://newos.glassmarket.cn/webapps/jumper/index.php','extra_info_tag', `jumpertype=2&jumperact=11&isneedunlock=${this.isneedunlock}`, '0', '0')
       }
+    },
+    /**
+     * 切换性别
+     */
+    changePage (sex) {
+      this.sexIndex = sex
+      this.$refs.swipe.swipeTo(sex, {})
+    },
+    /**
+     * 切换swiper
+     */
+    changeIndex (eq) {
+      this.sexIndex = eq
     }
   }
 }
