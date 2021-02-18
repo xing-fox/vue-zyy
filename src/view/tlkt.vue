@@ -398,7 +398,7 @@
         <ul class="nav bor-b">
           <li v-for="(item, index) in navList" :key="index" :class="{'active': index == navIndex}" @click="changeNav(index)">{{ item }}</li>
         </ul>
-        <div class="main" :class="{'active': totalData.allcourses && totalData.allcourses[0].pinfos.isbuy}">
+        <div class="main" :class="{'active': totalData.allcourses && totalData.eduisbuy}">
           <div class="item-info" v-if="navIndex == 0">
             <div class="class-info">
               <div class="title-c">
@@ -447,13 +447,13 @@
             </div>
           </div>
         </div>
-        <div :class="['buy']" v-if="totalData.allcourses &&  !totalData.allcourses[0].pinfos.isbuy">
+        <div :class="['buy']" v-if="totalData.allcourses">
           <div class="hear" @click="playVideo(currentIndex)">
             <img v-if="totalData.type == '2'" src="../assets/images/icon-see.png">
             <img v-else src="../assets/images/icon-hear.png">
-            <span>{{ totalData.type == '2' ? '试看' : '试听' }}</span>
+            <span>{{ totalData.viewtip }}</span>
           </div>
-          <div class="buy-button" @click="goPay">立即参加：<span>{{ totalData.price }}</span>元</div>
+          <div class="buy-button" @click="goPay">{{ totalData.buytip }}</div>
         </div>
         <!-- 订单状态 -->
         <van-popup v-model="orderStatus" :style="{ 'border-radius': '4px' }">
@@ -541,7 +541,7 @@ export default {
         userid: self.$userId
       }).then(res => {
         self.totalData = res.infos
-        window.document.title = document.title = self.$route.meta.title = self.totalData.allcourses[self.currentIndex].name
+        window.title = document.title = self.$route.meta.title = self.totalData.namebuy
         self.$nextTick(() => {
           self.videoDom = self.$refs.video
           self.payOrderData = self.totalData.allcourses[0].pinfos
@@ -555,7 +555,7 @@ export default {
           // 实时监听播放
           self.videoDom.addEventListener('timeupdate', function() {
             self.totalData.allcourses.map((item, index) => {
-              if (index == self.currentIndex && item.pinfos.isbuy == 0 && (self.videoDom.currentTime > item.pinfos.freeduration)) {
+              if (index == self.currentIndex && self.totalData.eduisbuy == 0 && (self.videoDom.currentTime > item.pinfos.freeduration)) {
                 // const ele = Document || Window.document
                 self.videoDom.pause()
                 self.unOrderStatus = true
@@ -601,25 +601,29 @@ export default {
      * 前去支付
      */
     goPay () {
-      this.unOrderStatus = false
-      payOrder({
-        expertuserid: this.payOrderData.expertuserid,
-        userid: this.$userId,
-        actiontype: 3,
-        ordername: this.payOrderData.ordername,
-        price: this.payOrderData.price,
-        ordertype: this.payOrderData.ordertype,
-        orderpid: this.payOrderData.orderpid
-      }).then(res => {
-        if (res.result == 0) {
-          this.$Toast('你还未登录，请先登录')
-        }
-        if (res.result == 1) {
-          this.orderStatus = true
-          this.payOrderId = res.infos.orderid
-          window.fortune.openactivity('com.fairytale.fortunetarot.controller.ExpertOrderDetailActivity', '0', '', `orderid#${res.infos.orderid}`)
-        }
-      })
+      if (Number(this.totalData.eduisbuy === 1) && String(this.totalData.kind) === '1') {
+        window.fortune.openactivity('startprivatechat', '1', '0', `userid#${this.totalData.expertuserid}@username#${this.totalData.expertusername}`)
+      } else {
+        this.unOrderStatus = false
+        payOrder({
+          expertuserid: this.payOrderData.expertuserid,
+          userid: this.$userId,
+          actiontype: 3,
+          ordername: this.payOrderData.ordername,
+          price: this.payOrderData.price,
+          ordertype: this.payOrderData.ordertype,
+          orderpid: this.payOrderData.orderpid
+        }).then(res => {
+          if (res.result == 0) {
+            this.$Toast('你还未登录，请先登录')
+          }
+          if (res.result == 1) {
+            this.orderStatus = true
+            this.payOrderId = res.infos.orderid
+            window.fortune.openactivity('com.fairytale.fortunetarot.controller.ExpertOrderDetailActivity', '0', '', `orderid#${res.infos.orderid}`)
+          }
+        })
+      }
     },
     /**
      * 未支付
@@ -638,10 +642,12 @@ export default {
       }).then(res => {
         self.orderStatus = false
         if (res.result == 1) {
-          self.totalData.allcourses.map((item, index) => {
-            item.pinfos.isbuy = 1
-          })
+          self.totalData.eduisbuy = 1
+          self.totalData.buytip = '进入教学'
           self.totalData = JSON.parse(JSON.stringify(self.totalData))
+          if (self.totalData.kind === '1') {
+            window.fortune.openactivity('startprivatechat', '1', '0', `userid#${self.totalData.expertuserid}@username#${self.totalData.expertusername}`)
+          }
         } else {
           self.unOrderStatus = true
         }
@@ -662,12 +668,12 @@ export default {
       return window.fortune.closepage()
     }
   },
-  created () {
+  mounted () {
     this.getData('')
   },
   watch: {
     'currentIndex' () {
-      window.document.title = document.title = this.$route.meta.title = this.totalData.allcourses[this.currentIndex].name
+      window.title = document.title = this.$route.meta.title = this.totalData.namebuy
     }
   }
 }
